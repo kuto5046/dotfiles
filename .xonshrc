@@ -31,7 +31,7 @@ $SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
 # キー入力即評価（サイコー）
 $UPDATE_COMPLETIONS_ON_KEYPRESS = True
 # プロンプトの表記
-$PROMPT = "\n{INTENSE_RED}{user}{INTENSE_GREEN}@{INTENSE_BLUE}{hostname}{INTENSE_YELLOW} [ {cwd} ]{branch_color}{curr_branch: ({})} \n{env_name}{GREEN}$ "
+$PROMPT = "\n{INTENSE_RED}{user}{INTENSE_GREEN}@{INTENSE_BLUE}{hostname}{INTENSE_YELLOW} [ {cwd} ]{branch_color}{curr_branch: ({})} \n{WHITE}{env_name}{GREEN}$ "
 # lsコマンドの結果の見た目
 $LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30"
 
@@ -46,19 +46,11 @@ else:
     aliases['wf'] = 'watch free -h'
     aliases['tm'] = 'tmux'
 
-# aliases['ls'] = "ls --color=auto"
-# aliases["l"] = "ls -l"
-# aliases["lf"] = "ls -f"
-# aliases["ld"] = "ls -d"
-# aliases["la"] = "ls -la"
-# aliases["ll"] = "ls -l"
-# aliases["v"] = "vim"
-# aliases["vi"] = "vim"
-# aliases["vx"] = "vim ~/.xonshrc"
-# aliases["vz"] = "vim ~/.zshrc"
-# aliases["vv"] = "vim ~/.vimrc"
-# aliases["vs"] = "vim ~/.ssh/config"
+# 汎用的に使うvenv環境
+aliases['kenv'] = 'source-bash ~/kenv/bin/activate'
 
+# 各フォルダ内で使うvenv環境
+aliases['venv'] = 'source-bash ./venv/bin/activate'
 
 # 履歴をpecoに流す
 # https://qiita.com/riktor/items/4a90b4e125cd091a9d07
