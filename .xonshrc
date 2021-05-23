@@ -3,7 +3,7 @@
 # 参照
 # https://vaaaaaanquish.hatenablog.com/entry/2018/06/22/194227
 
-$XDG_CONFIG_HOME="$HOME/.config"
+# $XDG_CONFIG_HOME="$HOME/.config"
 
 # エディタ
 $EDITOR = '/usr/local/bin/vim'
