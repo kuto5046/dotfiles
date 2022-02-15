@@ -1,3 +1,5 @@
 [user]
 	name = Kyohei Uto
 	email = h27.kubb@gmail.com
+[include]
+	path = ~/.gitconfig_shared

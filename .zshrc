@@ -21,6 +21,36 @@ PROMPT="%(?.%{${fg[red]}%}.%{${fg[red]}%})%n${reset_color}@${fg[blue]}%m${reset_
 # vim
 export VISUAL='/usr/local/bin/vim'
 
+# poetry
+source $HOME/.poetry/env
+
 # xonsh起動
 alias x='xonsh'
+# x
+
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kyohei.uto/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kyohei.uto/google-cloud-sdk/completion.zsh.inc'; fi
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
+# export PATH="$HOME/.poetry/bin:$PATH"
+
+export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
+# 初回シェル時のみ tmux実行
+if [ $SHLVL = 1 ]; then
+  tmux
+fi
+
 x
