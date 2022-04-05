@@ -47,10 +47,3 @@ export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
 export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
 
 export PATH="$HOME/.poetry/bin:$PATH"
-
-# 初回シェル時のみ tmux実行
-if [ $SHLVL = 1 ]; then
-  tmux
-fi
-
-x
