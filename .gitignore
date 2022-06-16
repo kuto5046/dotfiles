@@ -57,8 +57,7 @@
 !/.xinitrc
 !/.xprofile
 !/.xsessionrc
-!/.config/
-!/.config/**
+!/.config/nvim
 !/.gitignore_global
 !/.gitconfig_shared
 
