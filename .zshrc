@@ -28,8 +28,6 @@ source $HOME/.poetry/env
 alias x='xonsh'
 # x
 
-
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc'; fi
 
@@ -38,19 +36,13 @@ if [ -f '/Users/kyohei.uto/google-cloud-sdk/completion.zsh.inc' ]; then . '/User
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$PYENV_ROOT/shims:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
-# export PATH="$HOME/.poetry/bin:$PATH"
-
-export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
+export LDFLAGS="-L/usr/local/opt/bzip2/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
+export CFLAGS="-I/usr/local/opt/bzip2/include -I/usr/local/opt/zlib/include -I/usr/local/opt/openssl@1.1/include -I$(xcrun --show-sdk-path)/usr/include -Wno-implicit-function-declaration" 
 
 export PATH="$HOME/.poetry/bin:$PATH"
-
-# 初回シェル時のみ tmux実行
-if [ $SHLVL = 1 ]; then
-  tmux
-fi
-
-x
