@@ -1,6 +1,11 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+source = 'release'
+build = 'coc#util#install()'
+
 [[plugins]] # カーソル位置のコンテキストに合わせてftを切り替える
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
@@ -30,3 +35,6 @@ repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]  # nerdtree
 repo = 'preservim/nerdtree'
+
+[[plugins]]
+repo = 'rust-lang/rust.vim'

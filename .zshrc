@@ -37,6 +37,7 @@ if [ -f '/Users/kyohei.uto/google-cloud-sdk/completion.zsh.inc' ]; then . '/User
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PYENV_ROOT/shims:$PATH"
+
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
@@ -46,3 +47,11 @@ export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
 export CFLAGS="-I/usr/local/opt/bzip2/include -I/usr/local/opt/zlib/include -I/usr/local/opt/openssl@1.1/include -I$(xcrun --show-sdk-path)/usr/include -Wno-implicit-function-declaration" 
 
 export PATH="$HOME/.poetry/bin:$PATH"
+
+# gcp
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+# rust
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+
