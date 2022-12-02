@@ -3,10 +3,8 @@
 
 ## Install
 
-1. xonsh, zsh, neovim, git, tmuxはあらかじめインストールしておく 
-細かい点が違うかも
-neovimは以下の方法だと古いversionしかインストールできなかった気がする
-また環境設定する際に追記する
+1. 事前インストール
+xonsh, zsh, neovim, git, tmuxをインストールする
 
 Macの場合
 ```
@@ -19,22 +17,34 @@ sudo apt update
 sudo apt install xonsh zsh git tmux neovim
 ```
 
-ここも自動化できるのならしたいところ
-
 2. レポジトリをcloneする
 ```
 $ git clone <this repository>
 ```
 
-3. 各種設定をインストール
+3. 各種インストール
+
+- ターミナル上にcolorschemeを反映
+
+ubuntuの場合
+https://github.com/arcticicestudio/nord-gnome-terminal
+
+Macの場合
+https://github.com/arcticicestudio/nord-terminal-app
+https://github.com/arcticicestudio/nord-iterm2
+
+- neovim用のiconを反映させるためのpatch fontのインストール
+Macの場合
+```
+brew tap homebrew/cask-fonts
+brew install --cask font-hack-nerd-font
+cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+```
+iterm2でprofiles->text-> Non-ASCII FontでDroid Sans ..を指定
+
+
+4. dotfilesを反映
 ```
 $ bash dotfiles/.bin/install.sh
 ```
 これで完了。
-
-ターミナル上にcolorschemeを反映させるためには別途必要かも
-ubuntuには勝手にnordが反映された。
-MacのTerminalやiterms2を使う場合はnordをgitからcloneして設定する。
-
-https://github.com/arcticicestudio/nord-terminal-app  
-https://github.com/arcticicestudio/nord-iterm2 
