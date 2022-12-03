@@ -47,8 +47,6 @@ return packer.startup(function(use)
 
 	-- Colorschemes
 	use({ "EdenEast/nightfox.nvim" })
-	use({ "EdenEast/dayfox.nvim" })
-	use({ "EdenEast/nordfox.nvim" })
 
 	use {
 		'nvim-lualine/lualine.nvim',
@@ -59,20 +57,24 @@ return packer.startup(function(use)
 	-- use({ "akinsho/bufferline.nvim" })
 
 	-- cmp plugins
-	-- use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
-    -- use({ "hrsh7th/cmp-nvim-lsp" }) -- lsp 用の補完ソース。
-	-- use({ "hrsh7th/cmp-buffer" }) -- buffer completions
-	-- use({ "hrsh7th/cmp-path" }) -- path completions
-	-- use({ "hrsh7th/cmp-cmdline" }) -- cmdline completions
+    use({ "hrsh7th/cmp-nvim-lsp" }) -- lsp 用の補完ソース。
+	use({ "hrsh7th/cmp-buffer" }) -- buffer completions
+	use({ "hrsh7th/cmp-path" }) -- path completions
+	use({ "hrsh7th/cmp-cmdline" }) -- cmdline completions
+	use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
 	-- use({ "hrsh7th/cmp-nvim-lua" }) -- lua用の補完ソース
-	
-	-- snippets
-	-- use({ "L3MON4D3/LuaSnip" }) --snippet engine
 
-	-- LSP
-	-- use({ "neovim/nvim-lspconfig" }) -- enable LSP (neovimのネイティブlsp
-	-- use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
-	-- use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
+  	-- snippets (luasnip)
+	use({ "L3MON4D3/LuaSnip" })
+	use({ "saadparwaiz1/cmp_luasnip"})
+
+	-- LSP(メジャーな言語のLSPはこれで対応可能)
+  use({ "williamboman/mason.nvim" })
+  use({ "williamboman/mason-lspconfig.nvim" })
+  use({ "neovim/nvim-lspconfig" })
+
+  use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
+
 	-- use({ "glepnir/lspsaga.nvim" }) -- LSP UIs
 
 	-- Formatter
@@ -91,3 +93,4 @@ return packer.startup(function(use)
 		require("packer").sync()
 	end
 end)
+
