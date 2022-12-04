@@ -42,6 +42,15 @@ cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complet
 ```
 iterm2でprofiles->text-> Non-ASCII FontでDroid Sans ..を指定
 
+- neovimのtelescopeでtext検索するためにripgrepをインストール
+
+```
+# for mac
+brew install ripgrep
+
+# for ubuntu
+sudo apt install ripgrep
+```
 
 4. dotfilesを反映
 ```

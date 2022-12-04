@@ -68,3 +68,7 @@
 !.gitignore
 !.gitkeep
 !/.github/workflows/check.yaml
+
+# 個別で除く
+package.json
+packer_compiled.lua
