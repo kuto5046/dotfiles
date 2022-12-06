@@ -20,3 +20,19 @@ autocmd({ "BufReadPost" }, {
 		vim.api.nvim_exec('silent! normal! g`"zv', false)
 	end,
 })
+
+-- ターミナルは常にinsertモード
+autocmd("TermOpen", {
+  pattern = "*",
+  command = ":startinsert",
+})
+
+-- ターミナル上では行番号を表示しない
+autocmd("TermOpen", {
+  pattern = "*",
+  command = "setlocal norelativenumber"
+})
+autocmd("TermOpen", {
+  pattern = "*",
+  command = "setlocal nonumber"
+})

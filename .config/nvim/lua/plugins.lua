@@ -99,12 +99,14 @@ return packer.startup(function(use)
       end,
   }
 
+  -- terminal
+  use({ "akinsho/toggleterm.nvim" })
+
   -- markdown preview
   use({
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
   })
-  -- use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
   -- 見た目
 	use {
@@ -112,9 +114,11 @@ return packer.startup(function(use)
 		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
 	  }
 	use({ "kyazdani42/nvim-web-devicons" }) -- File icons
-  use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
-  use({ 'mvllow/modes.nvim', tag = 'v0.2.0' }) -- 行の色でモードが分かる
+  use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
+  use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
   use({ "petertriho/nvim-scrollbar"} ) -- スクロールバーを表示
+  use({ "j-hui/fidget.nvim" }) -- LSP progress UI
+
   -- 検索したワードの場所がわかりやすくなる
   -- use {
   --   "kevinhwang91/nvim-hlslens",

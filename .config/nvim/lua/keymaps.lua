@@ -7,3 +7,25 @@ local keymap = vim.api.nvim_set_keymap
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- Modes
+--   normal_mode = 'n',
+--   insert_mode = 'i',
+--   visual_mode = 'v',
+--   visual_block_mode = 'x',
+--   term_mode = 't',
+--   command_mode = 'c',
+
+-- window
+keymap('n', '<C-W>+', ':<C-u>resize +5<CR>', { silent = true })
+keymap('n', '<C-W>-', ':<C-u>resize -5<CR>', { silent = true })
+keymap('n', '<C-W>>', ':<C-u>vertical resize +10<CR>', { silent = true })
+keymap('n', '<C-W><', ':<C-u>vertical resize -10<CR>', { silent = true })
+
+-- tab
+keymap("n", "tn", ":tabnew<Return>", opts)
+keymap("n", "th", "gT", opts)
+keymap("n", "tl", "gt", opts)
+
+-- terminalからescで出るようにする
+keymap("t", "<esc>", [[<C-\><C-n>]], opts)

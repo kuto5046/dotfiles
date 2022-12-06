@@ -21,12 +21,12 @@ local options = {
 	undofile = true,
 	updatetime = 300,
 	writebackup = false,
-	shell = "fish",
+	shell = "zsh",
 	backupskip = { "/tmp/*", "/private/tmp/*" },
 	expandtab = true,
 	shiftwidth = 2,
 	tabstop = 2,
-	cursorline = true,
+	cursorline = false,
 	number = true,
 	relativenumber = false,
 	numberwidth = 4,
@@ -39,10 +39,10 @@ local options = {
 	scrolloff = 8,
 	sidescrolloff = 8,
 	guifont = "monospace:h17",
-	splitbelow = false, -- オンのとき、ウィンドウを横分割すると新しいウィンドウはカレントウィンドウの下に開かれる
-	splitright = false, -- オンのとき、ウィンドウを縦分割すると新しいウィンドウはカレントウィンドウの右に開かれる
+	splitbelow = true, -- オンのとき、ウィンドウを横分割すると新しいウィンドウはカレントウィンドウの下に開かれる
+	splitright = true, -- オンのとき、ウィンドウを縦分割すると新しいウィンドウはカレントウィンドウの右に開かれる
 	termguicolors = true,
-	sh = "zsh"
+  	laststatus = 3,
 }
 
 vim.opt.shortmess:append("c")
@@ -54,3 +54,4 @@ end
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
+-- vim.api.nvim_create_user_command("T split | wincmd j | resize 20 | terminal ")

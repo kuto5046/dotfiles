@@ -1,14 +1,14 @@
 -- default config
 require('modes').setup({
 	colors = {
-		-- copy = "#f5c359",
-		-- delete = "#c75c6a",
-		-- insert = "#78ccc5",
-		-- visual = "#9745be",
+		copy = "#f5c359",
+		delete = "#c75c6a",
+		insert = "#78ccc5",
+		visual = "#9745be",
 	},
 
 	-- Set opacity for cursorline and number background
-	line_opacity = 0.15,
+	line_opacity = 0.3,
 
 	-- Enable cursor highlights
 	set_cursor = true,
