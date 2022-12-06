@@ -3,6 +3,6 @@ require("toggleterm").setup{
   direction = 'float',
   float_opts = {
     border = 'double',
-    height = 40,
+    height = 30,
   }
 }
