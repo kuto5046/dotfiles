@@ -66,7 +66,8 @@ return packer.startup(function(use)
 	use({ "hrsh7th/cmp-path" }) -- path completions
 	use({ "hrsh7th/cmp-cmdline" }) -- cmdline completions
 	use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
-	-- use({ "hrsh7th/cmp-nvim-lua" }) -- lua用の補完ソース
+	use({ "hrsh7th/cmp-nvim-lua" }) -- lua用の補完ソース
+
 
  -- snippets (luasnip)
 	-- use({ "L3MON4D3/LuaSnip" })
@@ -108,6 +109,14 @@ return packer.startup(function(use)
     run = function() vim.fn["mkdp#util#install"]() end,
   })
 
+  -- git
+  use ({ 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' })
+  use ({
+    'sindrets/diffview.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+    after='plenary.nvim'
+  })
+
   -- 見た目
 	use {
 		'nvim-lualine/lualine.nvim',
@@ -116,25 +125,25 @@ return packer.startup(function(use)
 	use({ "kyazdani42/nvim-web-devicons" }) -- File icons
   use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
   use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
-  use({ "petertriho/nvim-scrollbar"} ) -- スクロールバーを表示
   use({ "j-hui/fidget.nvim" }) -- LSP progress UI
 
+  use({ "petertriho/nvim-scrollbar"} ) -- スクロールバーを表示
   -- 検索したワードの場所がわかりやすくなる
-  -- use {
-  --   "kevinhwang91/nvim-hlslens",
-  --   config = function()
-  --     require("scrollbar.handlers.search").setup({
-  --     })
-  --   end,
-  -- }
+  use {
+    "kevinhwang91/nvim-hlslens",
+    config = function()
+      require("scrollbar.handlers.search").setup({
+      })
+    end,
+  }
   -- gitのsignが出る
-  -- use {
-  --   "lewis6991/gitsigns.nvim",
-  --   config = function()
-  --     require('gitsigns').setup()
-  --     require("scrollbar.handlers.gitsigns").setup()
-  --   end
-  -- }
+  use {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require('gitsigns').setup()
+      require("scrollbar.handlers.gitsigns").setup()
+    end
+  }
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
