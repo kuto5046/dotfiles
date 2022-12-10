@@ -46,6 +46,8 @@ return packer.startup(function(use)
 
 	-- Colorschemes
 	use({ "EdenEast/nightfox.nvim" })
+  use({ "catppuccin/nvim", as = "catppuccin" })
+  use({ "cocopon/iceberg.vim" })
 
   -- 括弧
   use {

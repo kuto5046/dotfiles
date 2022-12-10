@@ -13,8 +13,15 @@ brew install xonsh zsh git tmux neovim
 
 Ubuntuの場合
 ```
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
-sudo apt install xonsh zsh git tmux neovim
+sudo apt install xonsh zsh git tmux
+
+# for nvim v0.8.1
+sudo apt upgrade libc6
+sudo apt --fix-broken install
+wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
+sudo apt install ./nvim-linux64.deb
 ```
 
 2. レポジトリをcloneする
@@ -49,19 +56,8 @@ iterm2でprofiles->text-> Non-ASCII FontでDroid Sans ..を指定
 # telescopeでtext検索するためのripgrep
 $ brew install ripgrep
 
-# gitのUI
-$ brew install jesseduffield/lazygit/lazygit
-$ brew install lazygit
-
-```
-
-```
 # for ubuntu
 $ sudo apt install ripgrep
-
-LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep '"tag_name":' |  sed -E 's/.*"v*([^"]+)".*/\1/')
-curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
 ```
 
 4. dotfilesを反映
