@@ -41,8 +41,8 @@ https://github.com/arcticicestudio/nord-terminal-app
 https://github.com/arcticicestudio/nord-iterm2
 
 - neovim用のiconを反映させるためのpatch fontのインストール
-Macの場合
 ```
+# for mac
 brew tap homebrew/cask-fonts
 brew install --cask font-hack-nerd-font
 cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
@@ -51,9 +51,9 @@ iterm2でprofiles->text-> Non-ASCII FontでDroid Sans ..を指定
 
 - neovim関連のインストール
 
+telescopeでtext検索するためのripgrep
 ```
 # for mac
-# telescopeでtext検索するためのripgrep
 $ brew install ripgrep
 
 # for ubuntu
@@ -64,4 +64,19 @@ $ sudo apt install ripgrep
 ```
 $ bash dotfiles/.bin/install.sh
 ```
+
+5. nvimのpluginのcompile
+```
+nvim dotfiles/.config/nvim/lua/plugins.lua
+
+# 設定の読み込み(自動でpackerがinstallされる)
+:so
+# packerが自動installされない場合
+git clone --depth 1 https://github.com/wbthomason/packer.nvim　~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+# plugin install
+:PackerInstall
+```
+
 これで完了。
+
