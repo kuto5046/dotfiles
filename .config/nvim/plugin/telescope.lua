@@ -48,10 +48,13 @@ end)
 
 -- telescope media files
 require("telescope").load_extension("media_files")
-telescope.extensions.media_files({
-  -- filetypes whitelist
-  -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-  filetypes = {"png", "jpg", "jpeg", "mp4", "pdf"},
-  find_cmd = "<leader>m" -- find command (defaults to `fd`)
-})
-
+require'telescope'.setup {
+  extensions = {
+    media_files = {
+      -- filetypes whitelist
+      -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
+      filetypes = {"png", "jpg", "jpeg", "mp4", "pdf"},
+      find_cmd = "<leader>m" -- find command (defaults to `fd`)
+    }
+  },
+}
