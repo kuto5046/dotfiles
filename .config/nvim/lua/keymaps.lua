@@ -23,9 +23,12 @@ keymap('n', '<C-W>>', ':<C-u>vertical resize +10<CR>', { silent = true })
 keymap('n', '<C-W><', ':<C-u>vertical resize -10<CR>', { silent = true })
 
 -- tab
-keymap("n", "tn", ":tabnew<Return>", opts)
-keymap("n", "th", "gT", opts)
-keymap("n", "tl", "gt", opts)
+-- keymap("n", "tn", ":tabnew<Return>", opts)
+-- keymap("n", "th", "gT", opts)
+-- keymap("n", "tl", "gt", opts)
 
 -- terminalからescで出るようにする
 keymap("t", "<esc>", [[<C-\><C-n>]], opts)
+
+-- esc2回でハイライト解除
+keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)

@@ -43,6 +43,7 @@ return packer.startup(function(use)
 	-- My plugins here
 	use({ "wbthomason/packer.nvim" })
 	use({ "nvim-lua/plenary.nvim" }) -- Common utilities
+  use({ "nvim-lua/popup.nvim" })
 
 	-- Colorschemes
 	use({ "EdenEast/nightfox.nvim" })
@@ -85,6 +86,7 @@ return packer.startup(function(use)
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" })
   use({ "nvim-telescope/telescope-file-browser.nvim" })
+  use({ "nvim-telescope/telescope-media-files.nvim" })
   -- use({
   --   "nvim-telescope/telescope-frecency.nvim",
   --   config = function()
