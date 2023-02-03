@@ -1,12 +1,12 @@
 # 人類最低限zshrc
-# autoload -U compinit; compinit
-# setopt auto_cd
-# setopt auto_pushd
-# setopt pushd_ignore_dups
-# setopt histignorealldups
-# setopt always_last_prompt
-# setopt complete_in_word
-# setopt IGNOREEOF
+autoload -U compinit; compinit
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt histignorealldups
+setopt always_last_prompt
+setopt complete_in_word
+setopt IGNOREEOF
 
 export LANG=ja_JP.UTF-8
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -22,7 +22,7 @@ PROMPT="%(?.%{${fg[red]}%}.%{${fg[red]}%})%n${reset_color}@${fg[blue]}%m${reset_
 export VISUAL='/usr/local/bin/vim'
 
 # poetry
-source $HOME/.poetry/env
+export PATH="$HOME/.local/bin:$PATH"
 
 # xonsh起動
 alias x='xonsh'
@@ -41,12 +41,6 @@ export PATH="$PYENV_ROOT/shims:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
-export LDFLAGS="-L/usr/local/opt/bzip2/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
-export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
-export CFLAGS="-I/usr/local/opt/bzip2/include -I/usr/local/opt/zlib/include -I/usr/local/opt/openssl@1.1/include -I$(xcrun --show-sdk-path)/usr/include -Wno-implicit-function-declaration" 
-
-export PATH="$HOME/.poetry/bin:$PATH"
 
 # gcp
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
