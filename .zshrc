@@ -9,6 +9,8 @@ setopt complete_in_word
 setopt IGNOREEOF
 
 export LANG=ja_JP.UTF-8
+export LC_CTYPE=ja_JP.UTF-8
+
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 autoload -Uz colors
 
@@ -49,3 +51,5 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# mot
+export PYTHONPATH=~/mot/abashiri
