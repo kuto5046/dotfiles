@@ -42,7 +42,7 @@ local options = {
 	splitbelow = true, -- オンのとき、ウィンドウを横分割すると新しいウィンドウはカレントウィンドウの下に開かれる
 	splitright = true, -- オンのとき、ウィンドウを縦分割すると新しいウィンドウはカレントウィンドウの右に開かれる
 	termguicolors = true,
-  	laststatus = 3,
+    laststatus = 3,
 }
 
 vim.opt.shortmess:append("c")

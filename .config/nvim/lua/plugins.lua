@@ -83,8 +83,8 @@ return packer.startup(function(use)
 
   use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
 
-	-- Telescope
-	use({ "nvim-telescope/telescope.nvim" })
+  -- Telescope
+  use({ "nvim-telescope/telescope.nvim" })
   use({ "nvim-telescope/telescope-file-browser.nvim" })
   use({ "nvim-telescope/telescope-media-files.nvim" })
   -- use({
@@ -103,9 +103,6 @@ return packer.startup(function(use)
           ts_update()
       end,
   }
-
-  -- terminal
-  use({ "akinsho/toggleterm.nvim" })
 
   -- markdown preview
   use({
@@ -130,16 +127,9 @@ return packer.startup(function(use)
   use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
   use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
   use({ "j-hui/fidget.nvim" }) -- LSP progress UI
-
   use({ "petertriho/nvim-scrollbar"} ) -- スクロールバーを表示
   -- 検索したワードの場所がわかりやすくなる
-  use {
-    "kevinhwang91/nvim-hlslens",
-    config = function()
-      require("scrollbar.handlers.search").setup({
-      })
-    end,
-  }
+  use({ "kevinhwang91/nvim-hlslens" })
   -- gitのsignが出る
   use {
     "lewis6991/gitsigns.nvim",
