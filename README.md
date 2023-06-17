@@ -71,11 +71,24 @@ nvim dotfiles/.config/nvim/lua/plugins.lua
 
 # 設定の読み込み(自動でpackerがinstallされる)
 :so
+
 # packerが自動installされない場合
 git clone --depth 1 https://github.com/wbthomason/packer.nvim　~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 # plugin install
 :PackerInstall
+
+# pluginの変更反映
+:PackerSync
+```
+
+
+
+6. linter, formatterのインストール  
+masonを使って必要なものをインストールする  
+以下をvim上で実行するとインストール可能な一覧が確認できる
+```
+:Mason
 ```
 
 これで完了。
