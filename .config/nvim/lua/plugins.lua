@@ -121,9 +121,9 @@ return packer.startup(function(use)
   -- 見た目
 	use {
 		'nvim-lualine/lualine.nvim',
-		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+		requires = { 'nvim-tree/nvim-web-devicons', opt = true }
 	  }
-	use({ "kyazdani42/nvim-web-devicons" }) -- File icons
+	use({ "nvim-tree/nvim-web-devicons" }) -- File icons
   use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
   use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
   use({ "j-hui/fidget.nvim" }) -- LSP progress UI
