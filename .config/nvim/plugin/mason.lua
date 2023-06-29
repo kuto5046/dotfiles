@@ -31,14 +31,10 @@ require('mason-lspconfig').setup_handlers({ function(server)
       augroup END
       ]]
     end,
-    capabilities = require('cmp_nvim_lsp').default_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
+    capabilities = require('cmp_nvim_lsp').default_capabilities()
   }
   require('lspconfig')[server].setup(opt)
 end })
-
-
 
 -- After setting up mason-lspconfig you may set up servers via lspconfig
 require("lspconfig")["rust_analyzer"].setup {

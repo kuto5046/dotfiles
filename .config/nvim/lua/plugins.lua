@@ -51,36 +51,37 @@ return packer.startup(function(use)
   use({ "cocopon/iceberg.vim" })
 
   -- 括弧
-  use {
+  use ({
     "windwp/nvim-autopairs",
       config = function() require("nvim-autopairs").setup {} end
-  }
-  use {
+  })
+  use ({
     'andymass/vim-matchup',
     setup = function()
       -- may set any options here
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end
-  }
+  })
 
-	-- 補完
-  use({ "hrsh7th/cmp-nvim-lsp" }) -- lsp 用の補完ソース。
-	use({ "hrsh7th/cmp-buffer" }) -- buffer completions
-	use({ "hrsh7th/cmp-path" }) -- path completions
-	use({ "hrsh7th/cmp-cmdline" }) -- cmdline completions
-	use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
-	use({ "hrsh7th/cmp-nvim-lua" }) -- lua用の補完ソース
-  use({ "github/copilot.vim" })  -- copilot
-
- -- snippets (luasnip)
-	-- use({ "L3MON4D3/LuaSnip" })
-	-- use({ "saadparwaiz1/cmp_luasnip"})
 
 	-- LSP(メジャーな言語のLSPはこれで対応可能)
   use({ "williamboman/mason.nvim" })
   use({ "williamboman/mason-lspconfig.nvim" })
   use({ "neovim/nvim-lspconfig" })
 
+	-- 補完(LSPだけだと候補が出ない)
+  use({ "hrsh7th/cmp-nvim-lsp" }) -- lsp completions
+	use({ "hrsh7th/cmp-buffer" }) -- buffer completions
+	use({ "hrsh7th/cmp-path" }) -- path completions
+	use({ "hrsh7th/cmp-cmdline" }) -- cmdline completions
+	use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
+	use({ "hrsh7th/cmp-nvim-lua" }) -- lua completions
+  use({ "github/copilot.vim" })  -- copilot
+  use({ "hrsh7th/vim-vsnip" }) -- vsnip snippets
+  use({ "hrsh7th/cmp-vsnip" }) -- vsnip completions
+  use({ "onsails/lspkind-nvim" }) -- pictograms for lsp completion items
+
+  -- formatter/liner
   use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
 
   -- Telescope
@@ -96,33 +97,20 @@ return packer.startup(function(use)
   -- })
 
 	-- Treesitter
-  use {
+  use ({
       'nvim-treesitter/nvim-treesitter',
       run = function()
           local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
           ts_update()
       end,
-  }
-
-  -- markdown preview
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
   })
 
   -- git
   use ({ 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' })
-  use ({
-    'sindrets/diffview.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-    after='plenary.nvim'
-  })
+  use ({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim', after='plenary.nvim' })
 
   -- 見た目
-	use {
-		'nvim-lualine/lualine.nvim',
-		requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-	  }
+	use ({'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons', opt = true }})
 	use({ "nvim-tree/nvim-web-devicons" }) -- File icons
   use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
   use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
@@ -138,6 +126,14 @@ return packer.startup(function(use)
       require("scrollbar.handlers.gitsigns").setup()
     end
   }
+  use( { "romgrk/barbar.nvim" })  --tabline(tabの見た目を変える)
+
+  --  other
+  -- markdown preview
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
