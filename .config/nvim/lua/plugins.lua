@@ -70,7 +70,7 @@ return packer.startup(function(use)
 	use({ "hrsh7th/cmp-cmdline" }) -- cmdline completions
 	use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
 	use({ "hrsh7th/cmp-nvim-lua" }) -- lua用の補完ソース
-
+  use({ "github/copilot.vim" })  -- copilot
 
  -- snippets (luasnip)
 	-- use({ "L3MON4D3/LuaSnip" })
