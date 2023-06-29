@@ -126,7 +126,7 @@ return packer.startup(function(use)
 	use({ "nvim-tree/nvim-web-devicons" }) -- File icons
   use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
   use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
-  use({ "j-hui/fidget.nvim" }) -- LSP progress UI
+  use({ "j-hui/fidget.nvim", tag='legacy' }) -- LSP progress UI
   use({ "petertriho/nvim-scrollbar"} ) -- スクロールバーを表示
   -- 検索したワードの場所がわかりやすくなる
   use({ "kevinhwang91/nvim-hlslens" })
