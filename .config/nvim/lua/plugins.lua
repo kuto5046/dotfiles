@@ -95,7 +95,7 @@ return packer.startup(function(use)
   --   end,
   --   requires = {"kkharji/sqlite.lua"}
   -- })
-
+  use({ "lambdalisue/fern.vim" })
 	-- Treesitter
   use ({
       'nvim-treesitter/nvim-treesitter',
@@ -112,7 +112,7 @@ return packer.startup(function(use)
   -- 見た目
 	use ({'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons', opt = true }})
 	use({ "nvim-tree/nvim-web-devicons" }) -- File icons
-  use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
+  -- use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
   use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
   use({ "j-hui/fidget.nvim", tag='legacy' }) -- LSP progress UI
   use({ "petertriho/nvim-scrollbar"} ) -- スクロールバーを表示
