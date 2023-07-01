@@ -51,5 +51,6 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# mot
-export PYTHONPATH=~/mot/abashiri
+# cuda
+export PATH = /usr/local/cuda-11.8/bin
+export LD_LIBRARY_PATH = /usr/local/cuda-11.8/lib64
