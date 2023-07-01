@@ -88,13 +88,13 @@ return packer.startup(function(use)
   use({ "nvim-telescope/telescope.nvim", tag='0.1.1' })
   use({ "nvim-telescope/telescope-file-browser.nvim" })
   use({ "nvim-telescope/telescope-media-files.nvim" })
-  -- use({
-  --   "nvim-telescope/telescope-frecency.nvim",
-  --   config = function()
-  --     require"telescope".load_extension("frecency")
-  --   end,
-  --   requires = {"kkharji/sqlite.lua"}
-  -- })
+  use({
+    "nvim-telescope/telescope-frecency.nvim",
+    config = function()
+      require"telescope".load_extension("frecency")
+    end,
+    requires = {"kkharji/sqlite.lua"}
+  })
   use({ "lambdalisue/fern.vim" })
 	-- Treesitter
   use ({
