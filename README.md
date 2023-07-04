@@ -17,17 +17,8 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
 sudo apt install xonsh zsh git tmux
 
-# for nvim v0.8.1
-sudo apt upgrade libc6
-sudo apt --fix-broken install
-wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
-sudo apt install ./nvim-linux64.deb
-
-# 上のはやり方が変わっていてできないかも
-# for nvim v0.9.1
-wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-tar xzvf nvim-linux64.tar.gz
-sudo mv nvim-linux64/bin/nvim /usr/local/bin
+# 以下のappimageを利用した方法でできる
+# https://github.com/neovim/neovim/wiki/Installing-Neovim#appimage-universal-linux-package
 ```
 
 2. レポジトリをcloneする
