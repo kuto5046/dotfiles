@@ -25,9 +25,9 @@ sudo apt install ./nvim-linux64.deb
 
 # 上のはやり方が変わっていてできないかも
 # for nvim v0.9.1
-RUN wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-RUN tar xzvf nvim-linux64.tar.gz
-RUN mv nvim-linux64/bin/nvim /usr/local/bi
+wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
+tar xzvf nvim-linux64.tar.gz
+sudo mv nvim-linux64/bin/nvim /usr/local/bin
 ```
 
 2. レポジトリをcloneする
