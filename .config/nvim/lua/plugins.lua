@@ -95,7 +95,8 @@ return packer.startup(function(use)
     end,
     requires = {"kkharji/sqlite.lua"}
   })
-  use({ "lambdalisue/fern.vim" })
+  use({ "nvim-tree/nvim-tree.lua" })
+
 	-- Treesitter
   use ({
       'nvim-treesitter/nvim-treesitter',
@@ -106,7 +107,7 @@ return packer.startup(function(use)
   })
 
   -- git
-  use ({ 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' })
+  use ({ 'NeogitOrg/neogit', requires = 'nvim-lua/plenary.nvim' })
   use ({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim', after='plenary.nvim' })
 
   -- 見た目
