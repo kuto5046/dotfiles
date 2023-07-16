@@ -45,24 +45,14 @@ return packer.startup(function(use)
 	use({ "nvim-lua/plenary.nvim" }) -- Common utilities
   use({ "nvim-lua/popup.nvim" })
 
-	-- Colorschemes
+	-- Colorschems
 	use({ "EdenEast/nightfox.nvim" })
   use({ "catppuccin/nvim", as = "catppuccin" })
   use({ "cocopon/iceberg.vim" })
 
   -- 括弧
-  use ({
-    "windwp/nvim-autopairs",
-      config = function() require("nvim-autopairs").setup {} end
-  })
-  use ({
-    'andymass/vim-matchup',
-    setup = function()
-      -- may set any options here
-      vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    end
-  })
-
+  use({ "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end })
+  use({ 'andymass/vim-matchup', setup = function() vim.g.matchup_matchparen_offscreen = { method = "popup" } end })
 
 	-- LSP(メジャーな言語のLSPはこれで対応可能)
   use({ "williamboman/mason.nvim" })
@@ -88,23 +78,13 @@ return packer.startup(function(use)
   use({ "nvim-telescope/telescope.nvim", tag='0.1.1' })
   use({ "nvim-telescope/telescope-file-browser.nvim" })
   use({ "nvim-telescope/telescope-media-files.nvim" })
-  use({
-    "nvim-telescope/telescope-frecency.nvim",
-    config = function()
-      require"telescope".load_extension("frecency")
-    end,
-    requires = {"kkharji/sqlite.lua"}
-  })
-  use({ "nvim-tree/nvim-tree.lua" })
+  use({ "nvim-telescope/telescope-frecency.nvim", requires = {"kkharji/sqlite.lua"} })
+
+  -- filer
+  use ({ "nvim-neo-tree/neo-tree.nvim", branch = "v3.x", requires = {"nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim"} })
 
 	-- Treesitter
-  use ({
-      'nvim-treesitter/nvim-treesitter',
-      run = function()
-          local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-          ts_update()
-      end,
-  })
+  use ({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' })
 
   -- git
   use ({ 'NeogitOrg/neogit', requires = 'nvim-lua/plenary.nvim' })
@@ -113,28 +93,21 @@ return packer.startup(function(use)
   -- 見た目
 	use ({'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons', opt = true }})
 	use({ "nvim-tree/nvim-web-devicons" }) -- File icons
-  -- use { "akinsho/bufferline.nvim", tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
   use({ "mvllow/modes.nvim", tag = 'v0.2.0' }) -- 行の色でモードが分かる
   use({ "j-hui/fidget.nvim", tag='legacy' }) -- LSP progress UI
   use({ "petertriho/nvim-scrollbar"} ) -- スクロールバーを表示
   -- 検索したワードの場所がわかりやすくなる
-  use({ "kevinhwang91/nvim-hlslens" })
+  use ({ "kevinhwang91/nvim-hlslens" })
   -- gitのsignが出る
-  use {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      require('gitsigns').setup()
-      require("scrollbar.handlers.gitsigns").setup()
-    end
-  }
-  use( { "romgrk/barbar.nvim" })  --tabline(tabの見た目を変える)
+  use ({"lewis6991/gitsigns.nvim" })
+  use ({ "romgrk/barbar.nvim" })  --tabline(tabの見た目を変える)
+
+  -- popup window
+  use ({ "folke/noice.nvim", requires = {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} })
 
   --  other
   -- markdown preview
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  })
+  use ({ "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

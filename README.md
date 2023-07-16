@@ -81,8 +81,8 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim　~/.local/share/n
 
 
 
-6. linter, formatterのインストール  
-masonを使って必要なものをインストールする  
+6. linter, formatterのインストール
+masonを使って必要なものをインストールする
 以下をvim上で実行するとインストール可能な一覧が確認できる
 ```
 :Mason
