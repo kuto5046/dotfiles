@@ -17,10 +17,10 @@ vim.g.maplocalleader = " "
 --   command_mode = 'c',
 
 -- window
-keymap('n', '<C-W>+', ':<C-u>resize +5<CR>', { silent = true })
-keymap('n', '<C-W>-', ':<C-u>resize -5<CR>', { silent = true })
-keymap('n', '<C-W>>', ':<C-u>vertical resize +10<CR>', { silent = true })
-keymap('n', '<C-W><', ':<C-u>vertical resize -10<CR>', { silent = true })
+keymap("n", "<C-W>+", ":<C-u>resize +5<CR>", { silent = true })
+keymap("n", "<C-W>-", ":<C-u>resize -5<CR>", { silent = true })
+keymap("n", "<C-W>>", ":<C-u>vertical resize +10<CR>", { silent = true })
+keymap("n", "<C-W><", ":<C-u>vertical resize -10<CR>", { silent = true })
 
 -- tab
 -- keymap("n", "tn", ":tabnew<Return>", opts)
@@ -28,8 +28,8 @@ keymap('n', '<C-W><', ':<C-u>vertical resize -10<CR>', { silent = true })
 -- keymap("n", "tl", "gt", opts)
 
 -- buffer
-vim.api.nvim_set_keymap('n', 'J', ':bprev<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', 'K', ':bnext<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "J", ":bprev<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "K", ":bnext<CR>", { noremap = true, silent = true })
 
 -- terminalからescで出るようにする
 keymap("t", "<esc>", [[<C-\><C-n>]], opts)
