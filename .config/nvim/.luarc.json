@@ -1,0 +1,11 @@
+// https://qiita.com/mnishiguchi/items/03863db76e1ed1431c50
+// luaでvimモジュールは定義せずとも呼び出し可能なので警告を出さないようにする
+{
+  "diagnostics": {
+    // 明示的に定義されていない vim モジュールをよしとする場合
+    "globals": ["vim"],
+    // 細かい助言がいらない場合
+    "hint.enable": false
+  }
+}
+
