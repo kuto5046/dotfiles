@@ -1,6 +1,4 @@
 local opts = { noremap = true, silent = true }
-local term_opts = { silent = true }
-
 local keymap = vim.api.nvim_set_keymap
 
 --Spaceキーをleaderに設定
@@ -30,9 +28,11 @@ keymap("n", "<C-W><", ":<C-u>vertical resize -10<CR>", { silent = true })
 -- buffer
 vim.api.nvim_set_keymap("n", "J", ":bprev<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "K", ":bnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "X", ":bdelete<CR>", { noremap = true, silent = true })
 
 -- terminalからescで出るようにする
 keymap("t", "<esc>", [[<C-\><C-n>]], opts)
 
 -- esc2回でハイライト解除
 keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
+

@@ -36,3 +36,11 @@ autocmd("TermOpen", {
   pattern = "*",
   command = "setlocal nonumber"
 })
+
+-- 自動保存
+-- vim.cmd([[
+--   augroup autosave
+--     autocmd!
+--     autocmd TextChanged,TextChangedI <buffer> silent write
+--   augroup END
+-- ]])

@@ -81,6 +81,9 @@ return packer.startup(function(use)
 	use({ "hrsh7th/cmp-vsnip" }) -- vsnip completions
 	use({ "onsails/lspkind-nvim" }) -- pictograms for lsp completion items
 
+  -- diagnostics
+  -- use({ "folke/trouble.nvim" , opts={}})
+
 	-- formatter/liner
 	use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
 
