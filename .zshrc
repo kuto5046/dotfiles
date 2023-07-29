@@ -52,5 +52,5 @@ export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # cuda
-export PATH = /usr/local/cuda-11.8/bin
-export LD_LIBRARY_PATH = /usr/local/cuda-11.8/lib64
+# export PATH = /usr/local/cuda-11.8/bin
+# export LD_LIBRARY_PATH = /usr/local/cuda-11.8/lib64
