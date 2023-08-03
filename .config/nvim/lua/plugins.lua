@@ -81,8 +81,8 @@ return packer.startup(function(use)
 	use({ "hrsh7th/cmp-vsnip" }) -- vsnip completions
 	use({ "onsails/lspkind-nvim" }) -- pictograms for lsp completion items
 
-  -- diagnostics
-  -- use({ "folke/trouble.nvim" , opts={}})
+	-- diagnostics
+	-- use({ "folke/trouble.nvim" , opts={}})
 
 	-- formatter/liner
 	use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
@@ -106,6 +106,9 @@ return packer.startup(function(use)
 	-- git
 	use({ "NeogitOrg/neogit", requires = "nvim-lua/plenary.nvim" })
 	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim", after = "plenary.nvim" })
+
+	-- terminal
+	use({ "akinsho/toggleterm.nvim", tag = "*" })
 
 	-- 見た目
 	use({ "nvim-lualine/lualine.nvim", requires = { "nvim-tree/nvim-web-devicons", opt = true } })
