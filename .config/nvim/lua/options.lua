@@ -64,8 +64,8 @@ if vim.env.TMUX then
             ["*"] = {'tmux', 'load-buffer', '-w', '-'},
         },
         paste = {
-            ["+"] = {'tmux', 'save-buffer', '-'},
-            ["*"] = {'tmux', 'save-buffer', '-'},
+            ["+"] = {'bash', '-c', 'tmux refresh-client -l && sleep 0.2 && tmux save-buffer -'},
+            ["*"] = {'bash', '-c', 'tmux refresh-client -l && sleep 0.2 && tmux save-buffer -'},
         },
         cache_enabled = false,
     }
