@@ -7,12 +7,12 @@
 xonsh, zsh, neovim, git, tmuxをインストールする
 
 Macの場合
-```
+```sh
 brew install xonsh zsh git tmux neovim
 ```
 
 Ubuntuの場合
-```
+```sh
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
 sudo apt install xonsh zsh git tmux
@@ -22,8 +22,8 @@ sudo apt install xonsh zsh git tmux
 ```
 
 2. レポジトリをcloneする
-```
-$ git clone <this repository>
+```sh
+git clone <this repository>
 ```
 
 3. 各種インストール
@@ -38,7 +38,7 @@ https://github.com/arcticicestudio/nord-terminal-app
 https://github.com/arcticicestudio/nord-iterm2
 
 - neovim用のiconを反映させるためのpatch fontのインストール
-```
+```sh
 # for mac
 brew tap homebrew/cask-fonts
 brew install --cask font-hack-nerd-font
@@ -49,28 +49,27 @@ iterm2でprofiles->text-> Non-ASCII FontでDroid Sans ..を指定
 - neovim関連のインストール
 
 telescopeでtext検索するためのripgrep
-```
+```sh
 # for mac
-$ brew install ripgrep
+brew install ripgrep
 
 # for ubuntu
-$ sudo apt install ripgrep
+sudo apt install ripgrep
 ```
 
 4. dotfilesを反映
-```
-$ bash dotfiles/.bin/install.sh
+```sh
+bash dotfiles/.bin/install.sh
 ```
 
 5. nvimのpluginのcompile
-```
+```sh
 nvim dotfiles/.config/nvim/lua/plugins.lua
+```
 
+```vim
 # 設定の読み込み(自動でpackerがinstallされる)
 :so
-
-# packerが自動installされない場合
-git clone --depth 1 https://github.com/wbthomason/packer.nvim　~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 # plugin install
 :PackerInstall
@@ -84,7 +83,7 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim　~/.local/share/n
 6. linter, formatterのインストール
 masonを使って必要なものをインストールする
 以下をvim上で実行するとインストール可能な一覧が確認できる
-```
+```vim
 :Mason
 ```
 
