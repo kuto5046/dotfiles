@@ -11,7 +11,7 @@ vim.keymap.set("n", "<leader>h", builtin.help_tags, {})
 local telescope = require("telescope")
 telescope.setup({
 	defaults = {
-		winblend = 5,
+		winblend = 10,
 	},
 	pickers = {
 		find_files = {
