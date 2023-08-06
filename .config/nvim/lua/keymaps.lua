@@ -15,10 +15,10 @@ vim.g.maplocalleader = " "
 --   command_mode = 'c',
 
 -- window
-keymap("n", "<C-W>+", ":<C-u>resize +5<CR>", { silent = true })
-keymap("n", "<C-W>-", ":<C-u>resize -5<CR>", { silent = true })
-keymap("n", "<C-W>>", ":<C-u>vertical resize +10<CR>", { silent = true })
-keymap("n", "<C-W><", ":<C-u>vertical resize -10<CR>", { silent = true })
+-- keymap("n", "<C-W>+", ":<C-u>resize +5<CR>", { silent = true })
+-- keymap("n", "<C-W>-", ":<C-u>resize -5<CR>", { silent = true })
+-- keymap("n", "<C-W>>", ":<C-u>vertical resize +10<CR>", { silent = true })
+-- keymap("n", "<C-W><", ":<C-u>vertical resize -10<CR>", { silent = true })
 
 -- tab
 -- keymap("n", "tn", ":tabnew<Return>", opts)
