@@ -5,6 +5,7 @@ local builtin = require("telescope.builtin")
 -- find系
 vim.keymap.set("n", "<leader>f", builtin.find_files, {})
 vim.keymap.set("n", "<leader>gg", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>d", builtin.diagnostics, {})
 vim.keymap.set("n", "<leader>h", builtin.help_tags, {})
 vim.keymap.set("n", "<leader>k", builtin.keymaps, {})
 -- git系
