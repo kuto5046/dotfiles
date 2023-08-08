@@ -44,6 +44,8 @@ local options = {
   laststatus = 3,
 }
 
+vim.scriptencoding = "utf-8"
+vim.wo.number = true
 vim.opt.shortmess:append("c")
 
 for k, v in pairs(options) do
