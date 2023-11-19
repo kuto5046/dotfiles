@@ -125,6 +125,11 @@ return packer.startup(function(use)
 	-- popup window
 	use({ "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" } })
 
+	-- debugger
+	use({ "mfussenegger/nvim-dap" })
+	use({ "rcarriga/nvim-dap-ui" })
+	use({ "https://github.com/mfussenegger/nvim-dap-python" })
+
 	--  other
 	-- markdown preview
 	use({
