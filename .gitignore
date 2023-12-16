@@ -57,6 +57,7 @@
 # !/.xinitrc
 # !/.xprofile
 # !/.xsessionrc
+!/.config/karabiner/assets/**
 !/.config/nvim/*
 !/.config/nvim/**
 # !/.gitignore_global
