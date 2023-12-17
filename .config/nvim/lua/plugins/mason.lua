@@ -16,15 +16,16 @@ return {
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
+		event = { "BufNewFile", "BufRead" },
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					-- LSP
-					"pyright",
+					-- "pyright",
 					"rust_analyzer",
 					"lua_ls",
 					-- linter
-					"ruff",
+					-- "ruff",
 					-- formatter
 					"stylua",
 				},
@@ -74,6 +75,7 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
+		event = { "BufNewFile", "BufRead" },
 		config = function()
 			-- After setting up mason-lspconfig you may set up servers via lspconfig
 			require("lspconfig")["lua_ls"].setup({})
