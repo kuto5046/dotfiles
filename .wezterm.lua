@@ -31,4 +31,17 @@ config.font = wezterm.font_with_fallback({
 -- フォントサイズの設定
 config.font_size = 13
 
+-- ssh時の設定
+config.ssh_domains = {
+	{
+		-- This name identifies the domain
+		name = "kubuntu",
+		-- The hostname or address to connect to. Will be used to match settings
+		-- from your ssh config file
+		remote_address = "100.124.177.19:50022",
+		-- The username to use on the remote host
+		username = "kuto",
+	},
+}
+
 return config
