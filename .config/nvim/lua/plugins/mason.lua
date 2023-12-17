@@ -25,6 +25,8 @@ return {
 					"lua_ls",
 					-- linter
 					"ruff",
+					-- formatter
+					"stylua",
 				},
 			})
 			-- reference: https://github.com/neovim/nvim-lspconfig#suggested-configuration
