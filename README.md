@@ -1,9 +1,13 @@
 # dotfiles
-現在はgit, xonsh, zsh, neovim, tmuxのdotfilesを管理
+現在はxonsh, zsh, neovim, tmux, weztermのdotfilesを管理
 
 ## Install
 
 1. 事前インストール
+
+weztermのインストール
+https://wezfurlong.org/wezterm/installation.html
+
 xonsh, zsh, neovim, git, tmuxをインストールする
 
 Macの場合
@@ -35,15 +39,6 @@ git clone <this repository>
 
 3. 各種インストール
 
-- ターミナル上にcolorschemeを反映
-
-ubuntuの場合
-https://github.com/arcticicestudio/nord-gnome-terminal
-
-Macの場合
-https://github.com/arcticicestudio/nord-terminal-app
-https://github.com/arcticicestudio/nord-iterm2
-
 - neovim用のiconを反映させるためのpatch fontのインストール
 ```sh
 # for mac
@@ -69,20 +64,19 @@ sudo apt install ripgrep
 bash dotfiles/.bin/install.sh
 ```
 
-5. nvimのpluginのcompile
+5. nvimのpluginのinstall
+
+パッケージマネージャはlazy.nvimを使用
 ```sh
-nvim dotfiles/.config/nvim/lua/plugins.lua
+nvim dotfiles/.config/nvim/lua/lazynvim.lua
 ```
 
 ```vim
-# 設定の読み込み(自動でpackerがinstallされる)
+# 設定の読み込み(自動でlazy.nvimがinstallされる)
 :so
 
-# plugin install
-:PackerInstall
-
-# pluginの変更反映
-:PackerSync
+# install画面に移動
+:Lazy
 ```
 
 
