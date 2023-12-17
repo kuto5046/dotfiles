@@ -41,12 +41,13 @@ local options = {
 	splitbelow = true, -- オンのとき、ウィンドウを横分割すると新しいウィンドウはカレントウィンドウの下に開かれる
 	splitright = true, -- オンのとき、ウィンドウを縦分割すると新しいウィンドウはカレントウィンドウの右に開かれる
 	termguicolors = true,
-  laststatus = 3,
+	laststatus = 3,
 }
 
 vim.scriptencoding = "utf-8"
 vim.wo.number = true
 vim.opt.shortmess:append("c")
+vim.g.mkdp_theme = "light" -- markdownの色
 
 for k, v in pairs(options) do
 	vim.opt[k] = v
@@ -59,17 +60,16 @@ vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 
 -- clipboard settings for ssh
 if vim.env.TMUX then
-    vim.g.clipboard = {
-        name = 'tmux',
-        copy = {
-            ["+"] = {'tmux', 'load-buffer', '-w', '-'},
-            ["*"] = {'tmux', 'load-buffer', '-w', '-'},
-        },
-        paste = {
-            ["+"] = {'bash', '-c', 'tmux refresh-client -l && sleep 0.2 && tmux save-buffer -'},
-            ["*"] = {'bash', '-c', 'tmux refresh-client -l && sleep 0.2 && tmux save-buffer -'},
-        },
-        cache_enabled = false,
-    }
+	vim.g.clipboard = {
+		name = "tmux",
+		copy = {
+			["+"] = { "tmux", "load-buffer", "-w", "-" },
+			["*"] = { "tmux", "load-buffer", "-w", "-" },
+		},
+		paste = {
+			["+"] = { "bash", "-c", "tmux refresh-client -l && sleep 0.2 && tmux save-buffer -" },
+			["*"] = { "bash", "-c", "tmux refresh-client -l && sleep 0.2 && tmux save-buffer -" },
+		},
+		cache_enabled = false,
+	}
 end
-
