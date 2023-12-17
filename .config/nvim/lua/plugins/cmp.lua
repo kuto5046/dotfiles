@@ -24,6 +24,8 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
+					-- Copilot Source
+					{ name = "copilot" },
 					{ name = "nvim_lsp" },
 					{ name = "vsnip" },
 				}, {
@@ -73,6 +75,15 @@ return {
 			-- Set up lspkind.
 			local cmp = require("cmp")
 			local lspkind = require("lspkind")
+
+			-- for copilot
+			lspkind.init({
+				symbol_map = {
+					Copilot = "",
+				},
+			})
+			vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+
 			cmp.setup({
 				formatting = {
 					format = lspkind.cmp_format({

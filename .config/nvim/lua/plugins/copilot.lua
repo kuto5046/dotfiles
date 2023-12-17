@@ -4,12 +4,15 @@ return {
 		cmd = "Copilot",
 		event = "InsertEnter",
 		config = function()
-			require("copilot").setup({})
+			require("copilot").setup({
+				-- copilot-cmpと衝突するためfalseとする
+				suggestion = { enabled = false },
+				panel = { enabled = false },
+			})
 		end,
 	},
 	{
 		"zbirenbaum/copilot-cmp",
-		event = "InsertEnter",
 		config = function()
 			require("copilot_cmp").setup({})
 		end,
