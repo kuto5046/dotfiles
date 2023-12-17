@@ -3,7 +3,8 @@ if vim.g.vscode then
 else
 	return {
 		"nvim-treesitter/nvim-treesitter",
-		event = "BufRead",
+		event = "VeryLazy",
+    build = ':TSUpdate',
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				-- A list of parser names, or "all"
@@ -16,7 +17,6 @@ else
 					"python",
 					"rust",
 					"sql",
-					"query",
 					"toml",
 					"yaml",
 					"vim",
