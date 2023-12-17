@@ -67,13 +67,6 @@ return {
 	{ "hrsh7th/vim-vsnip", event = "InsertEnter" }, -- vsnip snippets
 	{ "hrsh7th/cmp-vsnip", event = "InsertEnter" }, -- vsnip completions
 	{
-		"zbirenbaum/copilot-cmp",
-		event = "InsertEnter",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	}, -- copilot completions
-	{
 		"onsails/lspkind-nvim",
 		event = "InsertEnter",
 		config = function()

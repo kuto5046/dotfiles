@@ -1,8 +1,17 @@
 return {
-	"github/copilot.vim",
-	event = { "BufReadPre", "BufNewFile" },
-	filetypes = {
-		markdown = true,
-		help = true,
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({})
+		end,
 	},
+	{
+		"zbirenbaum/copilot-cmp",
+		event = "InsertEnter",
+		config = function()
+			require("copilot_cmp").setup({})
+		end,
+	}, -- copilot completions
 }
