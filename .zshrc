@@ -57,3 +57,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # wezterm
 export PATH="/Applications/WezTerm.app/Contents/MacOS:$PATH"
+
+# rye
+source "$HOME/.rye/env"
+
+# nodebrew
+export PATH="$HOME/.nodebrew/current/bin:$PATH"
+

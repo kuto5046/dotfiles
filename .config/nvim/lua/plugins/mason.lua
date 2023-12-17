@@ -21,13 +21,13 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					-- LSP
-					-- "pyright",
+					"pyright",
 					"rust_analyzer",
 					"lua_ls",
 					-- linter
 					-- "ruff",
 					-- formatter
-					"stylua",
+					-- "stylua",
 				},
 			})
 			-- reference: https://github.com/neovim/nvim-lspconfig#suggested-configuration
