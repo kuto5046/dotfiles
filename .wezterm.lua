@@ -23,8 +23,11 @@ wezterm.on("gui-startup", function(cmd)
 end)
 
 -- フォントの設定
-config.font = wezterm.font("Menlo", { weight = "Medium", stretch = "Normal", style = "Normal" })
-
+config.font = wezterm.font_with_fallback({
+	"JetBrains Mono",
+	"Menlo",
+	"DroidSansMono Nerd Font Mono",
+})
 -- フォントサイズの設定
 config.font_size = 13
 

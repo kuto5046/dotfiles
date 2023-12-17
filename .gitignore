@@ -9,6 +9,7 @@
 # ### not ignore ###
 !/.zshrc
 !/.pre-commit-config.yaml
+!/.wezterm.lua
 # !/.zshenv
 # !/.zfunc/
 # /.zfunc/**  # ディレクトリは管理したいけど中身はいらないときはこんな感じ
