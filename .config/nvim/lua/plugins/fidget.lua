@@ -3,5 +3,10 @@ return {
 	event = { "BufNewFile", "BufRead" },
 	opts = {
 		-- options
+		-- notifications = {
+		--   window  = {
+		--     winblend = 0,
+		--   },
+		-- },
 	},
 }
