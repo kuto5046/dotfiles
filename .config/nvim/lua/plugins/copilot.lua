@@ -30,7 +30,7 @@ return {
 				debug = false,
 			})
 		end,
-		-- lazy = true,
-		-- event = "BufReadPost",
+		lazy = true,
+		event = "BufReadPost",
 	}, -- copilot status
 }
