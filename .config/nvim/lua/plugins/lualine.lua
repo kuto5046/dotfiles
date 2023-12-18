@@ -1,6 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "kyazdani42/nvim-web-devicons", lazy = true },
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	event = { "BufNewFile", "BufRead" },
 	config = 'require("lualine").setup()',
 }
