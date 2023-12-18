@@ -1,7 +1,6 @@
 return {
 	{
 		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
 		config = function()
 			require("copilot").setup({
 				-- copilot-cmpと衝突するためfalseとする
