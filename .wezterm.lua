@@ -10,17 +10,17 @@ end
 config.color_scheme = "nightfox"
 
 -- 背景透過
-config.window_background_opacity = 0.8
+config.window_background_opacity = 0.7
 
 -- 背景をぼかす
-config.macos_window_background_blur = 25
+config.macos_window_background_blur = 50
 
 -- 最初からフルスクリーンで起動
-local mux = wezterm.mux
-wezterm.on("gui-startup", function(cmd)
-	local tab, pane, window = mux.spawn_window(cmd or {})
-	window:gui_window():toggle_fullscreen()
-end)
+-- local mux = wezterm.mux
+-- wezterm.on("gui-startup", function(cmd)
+-- 	local tab, pane, window = mux.spawn_window(cmd or {})
+-- 	window:gui_window():toggle_fullscreen()
+-- end)
 
 -- フォントの設定
 config.font = wezterm.font_with_fallback({
