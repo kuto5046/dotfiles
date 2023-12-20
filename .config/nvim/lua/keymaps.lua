@@ -1,8 +1,7 @@
 local opts = { noremap = true, silent = true }
-local keymap = vim.api.nvim_set_keymap
 
 --Spaceキーをleaderに設定
-keymap("", "<Space>", "<Nop>", opts)
+vim.keymap.set("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -26,15 +25,15 @@ vim.g.maplocalleader = " "
 -- keymap("n", "tl", "gt", opts)
 
 -- buffer
-vim.api.nvim_set_keymap("n", "J", ":bprev<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "K", ":bnext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "X", ":bdelete<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "J", ":bprev<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "K", ":bnext<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "X", ":bdelete<CR>", { noremap = true, silent = true })
 
 -- terminalからescで出るようにする
-keymap("t", "<esc>", [[<C-\><C-n>]], opts)
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
 
 -- esc2回でハイライト解除
-keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
+vim.keymap.set("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 
 -- telescope
 local builtin = require("telescope.builtin")
@@ -62,7 +61,7 @@ vim.keymap.set("n", "<leader>b", function()
 	})
 end)
 
-vim.api.nvim_set_keymap(
+vim.keymap.set(
 	"n",
 	"<leader>r",
 	"<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",

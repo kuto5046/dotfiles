@@ -1,20 +1,36 @@
 return {
+
 	{
 		"zbirenbaum/copilot.lua",
+		lazy = true,
+		event = "InsertEnter",
 		config = function()
 			require("copilot").setup({
-				-- copilot-cmpと衝突するためfalseとする
-				suggestion = { enabled = false },
+
+				-- こちらはvscodeのようにコード上に直接提案する
+				suggestion = {
+					enabled = true,
+					auto_trigger = true,
+					keymap = {
+						accept = "<Tab>",
+					},
+				},
+				-- こっちはpopupで提案するがsuggestのみで良いためfalseとする
 				panel = { enabled = false },
+				filetypes = {
+					markdown = true,
+					gitcommit = true,
+				},
 			})
 		end,
 	},
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup({})
-		end,
-	}, -- copilot completions
+	-- vscodeのようにsuggestのみで良いためcmpは不要
+	-- {
+	-- 	"zbirenbaum/copilot-cmp",
+	-- 	config = function()
+	-- 		require("copilot_cmp").setup({})
+	-- 	end,
+	-- }, -- copilot completions
 	{
 		"jonahgoldwastaken/copilot-status.nvim",
 		dependencies = { "zbirenbaum/copilot.lua" },
