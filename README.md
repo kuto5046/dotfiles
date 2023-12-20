@@ -88,5 +88,13 @@ masonを使って必要なものをインストールする
 :Mason
 ```
 
-これで完了。
+これで完了
 
+
+## neovimの覚えておきたいkeymapやcommand
+
+command
+```
+// TODOの一覧をtelescopeで表示する
+: TodoTelescope
+```
