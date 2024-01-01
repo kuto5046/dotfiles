@@ -96,5 +96,8 @@ masonを使って必要なものをインストールする
 command
 ```
 // TODOの一覧をtelescopeで表示する
-: TodoTelescope
+:TodoTelescope
+
+// noiceで表示した通知履歴をtelescopeで表示する
+:Telescope notify
 ```
