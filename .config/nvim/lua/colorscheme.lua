@@ -10,7 +10,7 @@ end
 -- vim.cmd[[highlight Normal guibg=NONE ctermbg=NONE]]
 -- vim.cmd[[highlight NonText guibg=NONE ctermbg=NONE]]  -- 特殊な文字
 -- vim.cmd[[highlight LineNr guibg=NONE ctermbg=NONE]]  -- 行番号
--- vim.cmd[[highlight Folded guibg=NONE ctermbg=NONE]]  -- 折りたたみ
+vim.cmd([[highlight Folded guibg=NONE ctermbg=NONE]]) -- 折りたたみ
 -- vim.cmd[[highlight EndOfBuffer guibg=NONE ctermbg=NONE]]  -- ~で埋められている空白部分
 -- vim.cmd[[highlight VertSplit guibg=NONE ctermbg=NONE]]  -- windowの境界線
 -- git signs(反映されたように思えたが反映されていない？)
