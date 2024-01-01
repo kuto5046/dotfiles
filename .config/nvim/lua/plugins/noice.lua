@@ -30,13 +30,13 @@ return {
 				lsp_doc_border = false, -- add a border to hover docs and signature help
 			},
 			-- fidgetなどの透過設定
-			-- views = {
-			--     mini = {
-			--       win_options = {
-			--         winblend = 0
-			--       }
-			--     },
-			-- }
+			views = {
+				mini = {
+					win_options = {
+						winblend = 0,
+					},
+				},
+			},
 		})
 	end,
 }

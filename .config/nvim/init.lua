@@ -1,5 +1,5 @@
 require("autocmds")
 require("options")
 require("lazynvim")
-require("colorscheme")
 require("keymaps")
+require("colorscheme")
