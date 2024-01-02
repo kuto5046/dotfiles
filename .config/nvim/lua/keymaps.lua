@@ -47,7 +47,13 @@ vim.keymap.set("n", "<leader>k", builtin.keymaps, {})
 vim.keymap.set("n", "<leader>gc", builtin.git_commits, {})
 vim.keymap.set("n", "<leader>gb", builtin.git_branches, {})
 vim.keymap.set("n", "<leader>gs", builtin.git_status, {})
-
+-- notify
+vim.keymap.set("n", "<leader>n", function()
+	require("telescope").extensions.notify.notify({
+		initial_mode = "normal",
+	})
+end)
+-- browser
 vim.keymap.set("n", "<leader>b", function()
 	require("telescope").extensions.file_browser.file_browser({
 		path = "%:p:h",
