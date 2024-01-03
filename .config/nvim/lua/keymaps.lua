@@ -40,7 +40,7 @@ local builtin = require("telescope.builtin")
 -- find系
 vim.keymap.set("n", "<leader>f", builtin.find_files, {})
 vim.keymap.set("n", "<leader>gg", builtin.live_grep, {})
-vim.keymap.set("n", "<leader>d", builtin.diagnostics, {})
+vim.keymap.set("n", "<leader>e", builtin.diagnostics, {})
 vim.keymap.set("n", "<leader>h", builtin.help_tags, {})
 vim.keymap.set("n", "<leader>k", builtin.keymaps, {})
 -- git系
@@ -73,3 +73,26 @@ vim.keymap.set(
 	"<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
 	{ noremap = true, silent = true }
 )
+
+-- debuggers(like vscode)
+-- <leader>dをprefixにする
+vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true })
+vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true })
+vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true })
+vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true })
+vim.keymap.set("n", "<leader>dt", ":DapToggleBreakpoint<CR>", { silent = true })
+vim.keymap.set(
+	"n",
+	"<leader>dc",
+	':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Breakpoint condition: "))<CR>',
+	{ silent = true }
+)
+vim.keymap.set(
+	"n",
+	"<leader>dm",
+	':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>',
+	{ silent = true }
+)
+-- vim.keymap.set('n', '<leader>dr', ':lua require("dap").repl.open()<CR>', { silent = true })
+-- vim.keymap.set('n', '<leader>dl', ':lua require("dap").run_last()<CR>', { silent = true })
+vim.keymap.set("n", "<leader>dd", ':lua require("dapui").toggle()<CR>', {}) -- dapuiの起動
