@@ -80,11 +80,12 @@ vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true })
 vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true })
 vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true })
 vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true })
-vim.keymap.set("n", "<leader>dt", ":DapToggleBreakpoint<CR>", { silent = true })
+vim.keymap.set("n", "<leader>dt", ":DapToggleBreakpoint<CR>", { silent = true }) -- breakpointの設置/解除
+-- breakpointのconditionとlog pointの設定(TODO: 正しく設定できていない)
 vim.keymap.set(
 	"n",
 	"<leader>dc",
-	':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Breakpoint condition: "))<CR>',
+	':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>',
 	{ silent = true }
 )
 vim.keymap.set(
@@ -93,6 +94,5 @@ vim.keymap.set(
 	':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>',
 	{ silent = true }
 )
--- vim.keymap.set('n', '<leader>dr', ':lua require("dap").repl.open()<CR>', { silent = true })
--- vim.keymap.set('n', '<leader>dl', ':lua require("dap").run_last()<CR>', { silent = true })
 vim.keymap.set("n", "<leader>dd", ':lua require("dapui").toggle()<CR>', {}) -- dapuiの起動
+vim.keymap.set("n", "<leader>df", ":lua require('dapui').eval()<CR>", { silent = true }) -- floating windowで変数の値を表示
