@@ -37,15 +37,6 @@ return {
 			vim.cmd("hi DapStopped guibg=" .. bg)
 		end,
 	},
-	-- dap-uiで型チェックを有効にするために推奨されている
-	{
-		"folke/neodev.nvim",
-		config = function()
-			require("neodev").setup({
-				library = { plugins = { "nvim-dap-ui" }, types = true },
-			})
-		end,
-	},
 	-- debug時に変数の値やdebug情報を表示する
 	{
 		"theHamsta/nvim-dap-virtual-text",
