@@ -13,17 +13,6 @@ vim.g.maplocalleader = " "
 --   term_mode = 't',
 --   command_mode = 'c',
 
--- window
--- keymap("n", "<C-W>+", ":<C-u>resize +5<CR>", { silent = true })
--- keymap("n", "<C-W>-", ":<C-u>resize -5<CR>", { silent = true })
--- keymap("n", "<C-W>>", ":<C-u>vertical resize +10<CR>", { silent = true })
--- keymap("n", "<C-W><", ":<C-u>vertical resize -10<CR>", { silent = true })
-
--- tab
--- keymap("n", "tn", ":tabnew<Return>", opts)
--- keymap("n", "th", "gT", opts)
--- keymap("n", "tl", "gt", opts)
-
 -- buffer
 vim.keymap.set("n", "J", ":bprev<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "K", ":bnext<CR>", { noremap = true, silent = true })
@@ -37,6 +26,7 @@ vim.keymap.set("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 
 -- telescope
 local builtin = require("telescope.builtin")
+
 -- find系
 vim.keymap.set("n", "<leader>f", builtin.find_files, {})
 vim.keymap.set("n", "<leader>gg", builtin.live_grep, {})
@@ -96,3 +86,21 @@ vim.keymap.set(
 )
 vim.keymap.set("n", "<leader>dd", ':lua require("dapui").toggle()<CR>', {}) -- dapuiの起動
 vim.keymap.set("n", "<leader>df", ":lua require('dapui').eval()<CR>", { silent = true }) -- floating windowで変数の値を表示
+
+-- neotest(<leader>tをprefixにする)
+-- nearestのtestを実行(冒頭で実行するとファイル内の全てのtestが実行される)
+vim.keymap.set("n", "<leader>tt", ":lua require('neotest').run.run()<CR>", { silent = true })
+-- nearestのtestをdebuggerで実行(冒頭で実行するとファイル内の全てのtestが実行される)
+vim.keymap.set("n", "<leader>td", ":lua require('neotest').run.run({strategy='dap'})<CR>", { silent = true })
+
+-- testをwatchしコードを変更した場合自動でtestを実行
+vim.keymap.set("n", "<leader>tw", ":lua require('neotest').watch.toggle()<CR>", { silent = true })
+
+-- testのsummaryを表示
+vim.keymap.set("n", "<leader>ts", ":lua require('neotest').summary.toggle()<CR>", { silent = true })
+
+-- testのoutputを表示
+vim.keymap.set("n", "<leader>to", ":lua require('neotest').output.open({auto_close=true})<CR>", { silent = true })
+
+-- testのoutputをpanelで表示
+vim.keymap.set("n", "<leader>tp", ":lua require('neotest').output_panel.toggle()<CR>", { silent = true })
