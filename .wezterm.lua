@@ -10,10 +10,10 @@ end
 config.color_scheme = "nightfox"
 
 -- 背景透過
-config.window_background_opacity = 0.8
+config.window_background_opacity = 0.9
 
 -- 背景をぼかす
-config.macos_window_background_blur = 20
+config.macos_window_background_blur = 30
 
 -- 最初からフルスクリーンで起動
 -- local mux = wezterm.mux
