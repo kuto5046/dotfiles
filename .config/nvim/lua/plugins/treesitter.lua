@@ -22,7 +22,7 @@ else
 					"bash",
 					"dockerfile",
 					"gitignore",
-					"query",
+					-- "query",
 				},
 
 				-- Install parsers synchronously (only applied to `ensure_installed`)

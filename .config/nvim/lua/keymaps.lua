@@ -67,9 +67,9 @@ if not vim.g.vscode then
 	-- #################
 	-- Global mappings.
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
-	vim.keymap.set("n", "<C-d>", vim.diagnostic.open_float)
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+	-- vim.keymap.set("n", "<C-d>", vim.diagnostic.open_float)
+	-- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+	-- vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 	-- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 	-- Use LspAttach autocommand to only map the following keys
@@ -82,24 +82,29 @@ if not vim.g.vscode then
 
 			-- Buffer local mappings.
 			-- See `:help vim.lsp.*` for documentation on any of the below functions
-			local opts = { buffer = ev.buf }
-			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-			vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go to definition" })
+			vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Show hover" })
+			vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Go to references" }) -- TODO: 毎回windowが開くので手動で消す必要があり面倒
+			vim.keymap.set(
+				"n",
+				"gi",
+				vim.lsp.buf.implementation,
+				opts,
+				{ buffer = ev.buf, desc = "Go to implementation" }
+			)
 			-- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 			-- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
 			-- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
 			-- vim.keymap.set('n', '<space>wl', function()
 			--   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 			-- end, opts)
-			vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, opts)
-			vim.keymap.set("n", "<snace>lr", vim.lsp.buf.rename, opts)
-			vim.keymap.set({ "n", "v" }, "<space>la", vim.lsp.buf.code_action, opts)
+			-- vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, opts)
+			-- vim.keymap.set("n", "<leader>jr", vim.lsp.buf.rename, opts)
+			-- vim.keymap.set({ "n", "v" }, "<space>la", vim.lsp.buf.code_action, opts)
 			vim.keymap.set("n", "ff", function()
 				vim.lsp.buf.format({ async = true })
-			end, opts)
+			end, { buffer = ev.buf, desc = "Format" })
 		end,
 	})
 
@@ -107,44 +112,74 @@ if not vim.g.vscode then
 	-- debuggers
 	-- #################
 	-- <leader>dをprefixにする(TODO: dap起動時のみ以下のkeymapを有効にする)
-	vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true })
-	vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true })
-	vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true })
-	vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true })
-	vim.keymap.set("n", "<leader>dt", ":DapToggleBreakpoint<CR>", { silent = true }) -- breakpointの設置/解除
+	vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true, desc = "Debug Continue" })
+	vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true, desc = "Debug Step over" })
+	vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true, desc = "Debug Step into" })
+	vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true, desc = "Debug Step out" })
+	vim.keymap.set("n", "<leader>dt", ":DapToggleBreakpoint<CR>", { silent = true, desc = "Debug Toggle Breakpoint" }) -- breakpointの設置/解除
 	vim.keymap.set(
 		"n",
 		"<leader>dc",
 		':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>',
-		{ silent = true }
+		{ silent = true, desc = "Debug Set Breakpoint with condition" }
 	)
 	vim.keymap.set(
 		"n",
 		"<leader>dm",
 		':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>',
-		{ silent = true }
+		{ silent = true, desc = "Debug Set Log point" }
 	)
-	vim.keymap.set("n", "<leader>dd", ':lua require("dapui").toggle()<CR>', {}) -- dapuiの起動
-	vim.keymap.set("n", "<leader>df", ":lua require('dapui').eval()<CR>", { silent = true }) -- floating windowで変数の値を表示
+	vim.keymap.set("n", "<leader>dd", ':lua require("dapui").toggle()<CR>', { desc = "Start Debug UI" }) -- dapuiの起動
+	vim.keymap.set("n", "<leader>df", ":lua require('dapui').eval()<CR>", { silent = true, desc = "Show variable" }) -- floating windowで変数の値を表示
 
 	-- #################
 	-- neotest
 	-- #################
 	-- (<leader>tをprefixにする)
 	-- nearestのtestを実行(冒頭で実行するとファイル内の全てのtestが実行される)
-	vim.keymap.set("n", "<leader>tt", ":lua require('neotest').run.run()<CR>", { silent = true })
+	vim.keymap.set(
+		"n",
+		"<leader>tt",
+		":lua require('neotest').run.run()<CR>",
+		{ silent = true, desc = "Run nearest test" }
+	)
 	-- nearestのtestをdebuggerで実行(冒頭で実行するとファイル内の全てのtestが実行される)
-	vim.keymap.set("n", "<leader>td", ":lua require('neotest').run.run({strategy='dap'})<CR>", { silent = true })
+	vim.keymap.set(
+		"n",
+		"<leader>td",
+		":lua require('neotest').run.run({strategy='dap'})<CR>",
+		{ silent = true, desc = "Debug nearest test" }
+	)
 
 	-- testをwatchしコードを変更した場合自動でtestを実行
-	vim.keymap.set("n", "<leader>tw", ":lua require('neotest').watch.toggle()<CR>", { silent = true })
+	vim.keymap.set(
+		"n",
+		"<leader>tw",
+		":lua require('neotest').watch.toggle()<CR>",
+		{ silent = true, desc = "Toggle test watch" }
+	)
 
 	-- testのsummaryを表示
-	vim.keymap.set("n", "<leader>ts", ":lua require('neotest').summary.toggle()<CR>", { silent = true })
+	vim.keymap.set(
+		"n",
+		"<leader>ts",
+		":lua require('neotest').summary.toggle()<CR>",
+		{ silent = true, desc = "Toggle test summary" }
+	)
 
 	-- testのoutputを表示
-	vim.keymap.set("n", "<leader>to", ":lua require('neotest').output.open({auto_close=true})<CR>", { silent = true })
+	vim.keymap.set(
+		"n",
+		"<leader>to",
+		":lua require('neotest').output.open({auto_close=true})<CR>",
+		{ silent = true, desc = "Open test output" }
+	)
 
 	-- testのoutputをpanelで表示
-	vim.keymap.set("n", "<leader>tp", ":lua require('neotest').output_panel.toggle()<CR>", { silent = true })
+	vim.keymap.set(
+		"n",
+		"<leader>tp",
+		":lua require('neotest').output_panel.toggle()<CR>",
+		{ silent = true, desc = "Toggle test output panel" }
+	)
 end

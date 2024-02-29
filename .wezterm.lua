@@ -15,12 +15,8 @@ config.window_background_opacity = 0.9
 -- 背景をぼかす
 config.macos_window_background_blur = 30
 
--- 最初からフルスクリーンで起動
--- local mux = wezterm.mux
--- wezterm.on("gui-startup", function(cmd)
--- 	local tab, pane, window = mux.spawn_window(cmd or {})
--- 	window:gui_window():toggle_fullscreen()
--- end)
+-- title barを非表示
+config.window_decorations = "RESIZE"
 
 -- フォントの設定
 config.font = wezterm.font_with_fallback({
@@ -29,7 +25,7 @@ config.font = wezterm.font_with_fallback({
 	"DroidSansMono Nerd Font Mono",
 })
 -- フォントサイズの設定
-config.font_size = 13
+config.font_size = 12
 
 -- ssh時の設定
 config.ssh_domains = {
