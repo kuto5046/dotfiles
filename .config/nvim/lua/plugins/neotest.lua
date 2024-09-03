@@ -6,6 +6,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-neotest/neotest-python",
 		"nvim-neotest/neotest-plenary",
+		"nvim-neotest/nvim-nio",
 	},
 	config = function()
 		-- 仮想環境を自動で認識する
