@@ -10,14 +10,19 @@ vim.g.maplocalleader = " "
 -- terminalからescで出るようにする
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
 -- esc2回でハイライト解除
-vim.keymap.set("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
+vim.keymap.set(
+	"n",
+	"<Esc><Esc>",
+	":<C-u>set nohlsearch<Return>",
+	{ noremap = true, silent = true, desc = "Clear search highlight" }
+)
 
 -- #################
 -- tab
 -- #################
-vim.keymap.set("n", "J", ":bprev<CR>", opts)
-vim.keymap.set("n", "K", ":bnext<CR>", opts)
-vim.keymap.set("n", "X", ":bdelete<CR>", opts)
+vim.keymap.set("n", "J", ":bprev<CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "K", ":bnext<CR>", { noremap = true, silent = true, desc = "Next buffer" })
+vim.keymap.set("n", "X", ":bdelete<CR>", { noremap = true, silent = true, desc = "Close buffer" })
 
 if not vim.g.vscode then
 	-- #################
@@ -26,21 +31,22 @@ if not vim.g.vscode then
 	local builtin = require("telescope.builtin")
 
 	-- find系
-	vim.keymap.set("n", "<leader>f", builtin.find_files, {})
-	vim.keymap.set("n", "<leader>gg", builtin.live_grep, {})
-	vim.keymap.set("n", "<leader>e", builtin.diagnostics, {})
-	vim.keymap.set("n", "<leader>h", builtin.help_tags, {})
-	vim.keymap.set("n", "<leader>k", builtin.keymaps, {})
+	vim.keymap.set("n", "<leader>f", builtin.find_files, { desc = "Find files" })
+	vim.keymap.set("n", "<leader>gg", builtin.live_grep, { desc = "Live grep" })
+	vim.keymap.set("n", "<leader>e", builtin.diagnostics, { desc = "Diagnostics" })
+	vim.keymap.set("n", "<leader>h", builtin.help_tags, { desc = "Help tags" })
+	vim.keymap.set("n", "<leader>k", builtin.keymaps, { desc = "Keymaps" })
 	-- git系
-	vim.keymap.set("n", "<leader>gc", builtin.git_commits, {})
-	vim.keymap.set("n", "<leader>gb", builtin.git_branches, {})
-	vim.keymap.set("n", "<leader>gs", builtin.git_status, {})
+	vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Git commits" })
+	vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "Git branches" })
+	vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Git status" })
 	-- notify
 	vim.keymap.set("n", "<leader>n", function()
 		require("telescope").extensions.notify.notify({
 			initial_mode = "normal",
 		})
-	end)
+	end, { desc = "Notify" })
+
 	-- browser
 	vim.keymap.set("n", "<leader>b", function()
 		require("telescope").extensions.file_browser.file_browser({
@@ -53,13 +59,13 @@ if not vim.g.vscode then
 			initial_mode = "normal",
 			-- layout_config = { height = 40 }
 		})
-	end)
+	end, { desc = "File browser" })
 	-- frecency
 	vim.keymap.set(
 		"n",
 		"<leader>r",
 		"<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
-		{ noremap = true, silent = true }
+		{ noremap = true, silent = true, desc = "Telescope Frecency" }
 	)
 
 	-- #################
