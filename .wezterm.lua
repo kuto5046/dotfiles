@@ -40,4 +40,7 @@ config.ssh_domains = {
 	},
 }
 
+-- デフォルトのキーバインドを無効化
+config.disable_default_key_bindings = true
+
 return config

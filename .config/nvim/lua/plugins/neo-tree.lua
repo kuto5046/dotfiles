@@ -4,6 +4,7 @@ else
 	return {
 
 		"nvim-neo-tree/neo-tree.nvim",
+		event = { "BufNewFile", "BufRead" },
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",

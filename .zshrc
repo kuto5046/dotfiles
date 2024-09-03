@@ -67,3 +67,5 @@ export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+. "$HOME/.cargo/env"
