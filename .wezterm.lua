@@ -10,7 +10,7 @@ end
 config.color_scheme = "nightfox"
 
 -- 背景透過
-config.window_background_opacity = 0.9
+config.window_background_opacity = 0.85
 
 -- 背景をぼかす
 config.macos_window_background_blur = 30
@@ -26,6 +26,9 @@ config.font = wezterm.font_with_fallback({
 })
 -- フォントサイズの設定
 config.font_size = 12
+
+-- IMEで日本語入力を有効化
+config.use_ime = true
 
 -- ssh時の設定
 config.ssh_domains = {
