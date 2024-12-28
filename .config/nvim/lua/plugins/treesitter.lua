@@ -9,7 +9,6 @@ else
 			require("nvim-treesitter.configs").setup({
 				-- A list of parser names, or "all"
 				ensure_installed = {
-					"go",
 					"json",
 					"lua",
 					"markdown",
@@ -22,7 +21,6 @@ else
 					"bash",
 					"dockerfile",
 					"gitignore",
-					-- "query",
 				},
 
 				-- Install parsers synchronously (only applied to `ensure_installed`)
