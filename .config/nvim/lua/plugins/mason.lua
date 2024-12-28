@@ -20,14 +20,11 @@ return {
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					-- LSP
-					"pyright",
 					"rust_analyzer",
 					"lua_ls",
-					-- linter
+					-- 仮想環境のライブラリを使用するため、pyrightとruffはコメントアウト
+					-- "pyright",
 					-- "ruff",
-					-- formatter
-					-- "stylua",
 				},
 			})
 		end,
@@ -39,20 +36,24 @@ return {
 			-- After setting up mason-lspconfig you may set up servers via lspconfig
 			require("lspconfig")["lua_ls"].setup({})
 			require("lspconfig")["rust_analyzer"].setup({})
-
-			-- poetryに対応
 			require("lspconfig")["pyright"].setup({
-				on_atatch = on_attach,
 				settings = {
+					pyright = {
+						-- importはruff側で管理する(機能していない)
+						disableOrganizeImports = true,
+					},
 					python = {
 						venvPath = ".",
 						pythonPath = "./.venv/bin/python",
+						-- 機能していない
 						analysis = {
-							extraPaths = { "." },
+							-- Ignore all files for analysis to exclusively use Ruff for linting
+							ignore = { "*" },
 						},
 					},
 				},
 			})
+			require("lspconfig")["ruff"].setup({})
 		end,
 	},
 }
