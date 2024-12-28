@@ -23,8 +23,8 @@ return {
 					"rust_analyzer",
 					"lua_ls",
 					-- 仮想環境のライブラリを使用するため、pyrightとruffはコメントアウト
-					-- "pyright",
-					-- "ruff",
+					"pyright",
+					"ruff",
 				},
 			})
 		end,
@@ -43,8 +43,9 @@ return {
 						disableOrganizeImports = true,
 					},
 					python = {
-						venvPath = ".",
-						pythonPath = "./.venv/bin/python",
+						-- venv-selector側で仮想環境を有効化するため、コメントアウト
+						-- venvPath = ".",
+						-- pythonPath = "./.venv/bin/python",
 						-- 機能していない
 						analysis = {
 							-- Ignore all files for analysis to exclusively use Ruff for linting
