@@ -23,6 +23,12 @@ return {
 			sections = {
 				lualine_b = { "branch", "diff", "diagnostics" },
 				lualine_x = {
+					-- pythonの仮想環境を表示
+					{
+						function()
+							return " " .. require("venv-selector").python()
+						end,
+					},
 					lsp_names,
 				},
 				lualine_y = {
