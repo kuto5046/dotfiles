@@ -55,6 +55,21 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 -- vim.api.nvim_create_user_command("T split | wincmd j | resize 20 | terminal ")
+
+-- dockerコンテナ内でのclipboard共有
+-- https://qiita.com/awaha/items/e4393316b6912f462d0c
+vim.g.clipboard = {
+	name = "OSC 52",
+	copy = {
+		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+	},
+	paste = {
+		["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+		["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+	},
+}
+
 -- clipboard settings for ssh
 if vim.env.TMUX then
 	vim.g.clipboard = {
