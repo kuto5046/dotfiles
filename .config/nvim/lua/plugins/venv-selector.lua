@@ -1,5 +1,5 @@
 -- venv-selectorで仮想環境を選択するためにpythonのLSP(pyright)を有効にしておかないといけないのでmason側で設定する
--- 仮想環境を選択した時点で仮想環境のpyrightやruffが有効になる想定
+-- TODO: 本当は仮想環境内のpyrightやruffを使いたい
 return {
 	"linux-cultist/venv-selector.nvim",
 	-- dependencies = {
