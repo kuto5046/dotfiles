@@ -4,7 +4,8 @@ else
 	return {
 
 		"nvim-neo-tree/neo-tree.nvim",
-		event = { "BufNewFile", "BufRead" },
+		-- 起動時にtreeを開きたいのでVimEnter
+		event = { "VimEnter" },
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
