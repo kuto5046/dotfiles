@@ -3,7 +3,7 @@ if vim.g.vscode then
 else
 	return {
 		"mvllow/modes.nvim",
-		tag = "v0.2.0",
+		tag = "v0.2.1",
 		event = "BufRead",
 		config = function()
 			require("modes").setup({
@@ -14,7 +14,7 @@ else
 					visual = "#9745be",
 				},
 				-- Set opacity for cursorline and number background
-				line_opacity = 0.2,
+				line_opacity = 0.3,
 
 				-- Enable cursor highlights
 				set_cursor = true,
