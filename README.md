@@ -5,7 +5,7 @@
 
 1. 事前インストール
 
-weztermのインストール
+weztermのインストール  
 https://wezfurlong.org/wezterm/installation.html
 
 xonsh, zsh, neovim, git, tmuxをインストールする
@@ -67,19 +67,10 @@ bash dotfiles/.bin/install.sh
 5. nvimのpluginのinstall
 
 パッケージマネージャはlazy.nvimを使用
-```sh
-nvim dotfiles/.config/nvim/lua/lazynvim.lua
-```
-
 ```vim
-# 設定の読み込み(自動でlazy.nvimがinstallされる)
-:so
-
-# install画面に移動
+# neovimを起動して以下のコマンドを入力
 :Lazy
 ```
-
-
 
 6. linter, formatterのインストール
 masonを使って必要なものをインストールする
@@ -88,8 +79,13 @@ masonを使って必要なものをインストールする
 :Mason
 ```
 
-これで完了
-
+7. .envの読み込み
+.envにAPI KEYを管理している。以下を実行することで環境変数にAPI_KEYを読み込む。neovimのavante.nvimでclaudeやchat-gptを使う場合に必要。
+```bash
+set -a
+source .env
+set +a
+```
 
 ## neovimの覚えておきたいkeymapやcommand
 
@@ -97,7 +93,4 @@ command
 ```
 // TODOの一覧をtelescopeで表示する
 :TodoTelescope
-
-// noiceで表示した通知履歴をtelescopeで表示する
-:Telescope notify
 ```
