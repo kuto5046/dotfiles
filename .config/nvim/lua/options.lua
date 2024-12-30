@@ -51,6 +51,12 @@ vim.g.mkdp_theme = "light" -- markdownの色
 for k, v in pairs(options) do
 	vim.opt[k] = v
 end
+
+--Spaceキーをleaderに設定
+vim.keymap.set("", "<Space>", "<Nop>", { noremap = true, silent = true })
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work

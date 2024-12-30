@@ -3,10 +3,6 @@ local opts = { noremap = true, silent = true }
 -- #################
 -- general
 -- #################
---Spaceキーをleaderに設定
-vim.keymap.set("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 -- terminalからescで出るようにする
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
 -- esc2回でハイライト解除
