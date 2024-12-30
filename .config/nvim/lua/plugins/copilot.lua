@@ -15,8 +15,7 @@ return {
 						accept = false,
 					},
 				},
-				-- こっちはpopupで提案するがsuggestのみで良いためfalseとする
-				panel = { enabled = false },
+				panel = { enabled = true },
 				filetypes = {
 					markdown = true,
 					gitcommit = true,
@@ -36,13 +35,12 @@ return {
 			silent = true,
 		}),
 	},
-	-- vscodeのようにsuggestのみで良いためcmpは不要
-	-- {
-	-- 	"zbirenbaum/copilot-cmp",
-	-- 	config = function()
-	-- 		require("copilot_cmp").setup({})
-	-- 	end,
-	-- }, -- copilot completions
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup({})
+		end,
+	}, -- copilot completions
 	{
 		"jonahgoldwastaken/copilot-status.nvim",
 		dependencies = { "zbirenbaum/copilot.lua" },
