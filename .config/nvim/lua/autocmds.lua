@@ -37,11 +37,6 @@ autocmd("TermOpen", {
 	command = "setlocal nonumber",
 })
 
--- .envファイルを読み込む
-vim.cmd([[silent !set -a]])
-vim.cmd([[silent !source ~/.env]])
-vim.cmd([[silent !set +a]])
-
 -- 自動保存
 -- vim.cmd([[
 --   augroup autosave

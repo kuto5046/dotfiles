@@ -28,7 +28,9 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # xonsh起動
 alias x='xonsh'
-# x
+
+# .envの仮想環境を読み込む
+alias dotenv="set -a && source ~/.env && set +a"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc'; fi
