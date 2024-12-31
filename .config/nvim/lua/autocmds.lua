@@ -23,19 +23,24 @@ autocmd({ "BufReadPost" }, {
 
 -- ターミナルは常にinsertモード
 autocmd("TermOpen", {
-  pattern = "*",
-  command = ":startinsert",
+	pattern = "*",
+	command = ":startinsert",
 })
 
 -- ターミナル上では行番号を表示しない
 autocmd("TermOpen", {
-  pattern = "*",
-  command = "setlocal norelativenumber"
+	pattern = "*",
+	command = "setlocal norelativenumber",
 })
 autocmd("TermOpen", {
-  pattern = "*",
-  command = "setlocal nonumber"
+	pattern = "*",
+	command = "setlocal nonumber",
 })
+
+-- .envファイルを読み込む
+vim.cmd([[silent !set -a]])
+vim.cmd([[silent !source ~/.env]])
+vim.cmd([[silent !set +a]])
 
 -- 自動保存
 -- vim.cmd([[
