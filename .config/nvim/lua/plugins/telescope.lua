@@ -1,5 +1,5 @@
 return {
-	{ "nvim-telescope/telescope.nvim", version = "0.1.5", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "nvim-telescope/telescope.nvim", version = "0.1.8", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-telescope/telescope-file-browser.nvim" },
 	{ "nvim-telescope/telescope-frecency.nvim", dependencies = { "kkharji/sqlite.lua" } },
 	config = function()
