@@ -1,8 +1,6 @@
-if not vim.g.vscode then
-	vim.cmd("colorscheme nightfox")
-	-- vim.cmd("colorscheme iceberg")
-	-- vim.cmd("colorscheme catppuccin-mocha") --catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-end
+vim.cmd("colorscheme nightfox")
+-- vim.cmd("colorscheme iceberg")
+-- vim.cmd("colorscheme catppuccin-mocha") --catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 
 -- 背景を透過可能にする(for iceberg)
 -- highlight設定可能な種別: https://vim-jp.org/vimdoc-ja/syntax.html
