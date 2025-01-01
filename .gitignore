@@ -76,3 +76,4 @@
 # 個別で除く
 package.json
 packer_compiled.lua
+lazy-lock.json
