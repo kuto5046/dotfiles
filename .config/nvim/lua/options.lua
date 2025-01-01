@@ -64,6 +64,15 @@ vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 
 -- dockerコンテナ内でのclipboard共有
 -- https://qiita.com/awaha/items/e4393316b6912f462d0c
+-- pasteが重くなるので以下のような設定にしている
+-- https://zenn.dev/goropikari/articles/506e08e7ad52af
+local function paste()
+	return {
+		vim.fn.split(vim.fn.getreg(""), "\n"),
+		vim.fn.getregtype(""),
+	}
+end
+
 vim.g.clipboard = {
 	name = "OSC 52",
 	copy = {
@@ -71,8 +80,8 @@ vim.g.clipboard = {
 		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
 	},
 	paste = {
-		["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-		["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+		["+"] = paste,
+		["*"] = paste,
 	},
 }
 
