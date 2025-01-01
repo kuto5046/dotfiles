@@ -12,6 +12,10 @@ return {
 						table.insert(sources, source.name)
 					end
 					table.insert(clients, "null-ls(" .. table.concat(sources, ", ") .. ")")
+
+				-- copilotのclientを表示しない
+				elseif client.name == "copilot" then
+					-- do nothing
 				else
 					table.insert(clients, client.name)
 				end
