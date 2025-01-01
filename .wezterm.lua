@@ -25,7 +25,7 @@ config.font = wezterm.font_with_fallback({
 	"DroidSansMono Nerd Font Mono",
 })
 -- フォントサイズの設定
-config.font_size = 12
+config.font_size = 13
 
 -- IMEで日本語入力を有効化
 config.use_ime = true
