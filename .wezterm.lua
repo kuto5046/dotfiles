@@ -30,19 +30,6 @@ config.font_size = 12
 -- IMEで日本語入力を有効化
 config.use_ime = true
 
--- ssh時の設定
-config.ssh_domains = {
-	{
-		-- This name identifies the domain
-		name = "kubuntu",
-		-- The hostname or address to connect to. Will be used to match settings
-		-- from your ssh config file
-		remote_address = "100.124.177.19:50022",
-		-- The username to use on the remote host
-		username = "kuto",
-	},
-}
-
 -- デフォルトのキーバインドを無効化
 -- config.disable_default_key_bindings = true
 
