@@ -42,7 +42,13 @@ local options = {
 	splitright = true, -- オンのとき、ウィンドウを縦分割すると新しいウィンドウはカレントウィンドウの右に開かれる
 	termguicolors = true,
 	laststatus = 3,
-	fillchars = { diff = " " }, -- diffの削除部分に記号を入れない
+	fillchars = {
+		diff = " ", -- diffの削除部分に記号を入れない
+		-- vscode風のfoldの記号
+		foldopen = "",
+		foldclose = "",
+		foldsep = " ",
+	},
 }
 vim.scriptencoding = "utf-8"
 vim.wo.number = true
