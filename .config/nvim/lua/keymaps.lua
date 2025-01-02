@@ -35,6 +35,18 @@ vim.keymap.set("n", "<leader>k", builtin.keymaps, { desc = "Keymaps" })
 vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Git commits" })
 vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "Git branches" })
 vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Git status" })
+-- diff
+vim.keymap.set("n", "<leader>vd", "<cmd>DiffviewOpen <CR>", { noremap = true, silent = true, desc = "Diffview" })
+-- 開いているファイルのhistoryを表示
+vim.keymap.set(
+	"n",
+	"<leader>vh",
+	"<cmd>DiffviewFileHistory %<CR>",
+	{ noremap = true, silent = true, desc = "Diffview file history" }
+)
+
+-- venv
+vim.keymap.set("n", "<leader>p", "<cmd>VenvSelect<CR>", { noremap = true, silent = true, desc = "Python Venv select" })
 -- notify
 vim.keymap.set("n", "<leader>n", function()
 	require("telescope").extensions.notify.notify({
