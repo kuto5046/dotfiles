@@ -13,6 +13,11 @@ return {
 		"rcarriga/nvim-notify",
 	},
 	config = function()
+		-- なんかエラーが出るので書いている
+		require("notify").setup({
+			background_colour = "#000000",
+		})
+
 		require("noice").setup({
 			lsp = {
 				override = {
