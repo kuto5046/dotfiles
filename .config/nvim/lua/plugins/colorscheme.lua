@@ -6,7 +6,7 @@ return {
 		name = "catppuccin",
 		priority = 1000,
 		config = function()
-			-- tODO: dockerコンテナで利用するとなぜか背景色が一部強調されてしまう
+			-- TODO: dockerコンテナで利用するとなぜか背景色が一部強調されてしまう
 			require("catppuccin").setup({
 				transparent_background = true,
 				integrations = {
