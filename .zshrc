@@ -73,4 +73,4 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # tmux内でitalicに謎のhighlightがかかる問題の対処
 # https://gist.github.com/gyribeiro/4192af1aced7a1b555df06bd3781a722
-export TERM="screen-256color"
+alias tmux="env TERM=screen-256color tmux"
