@@ -1,16 +1,5 @@
 return {
-	{
-		"EdenEast/nightfox.nvim",
-		config = function()
-			require("nightfox").setup({
-				options = {
-					-- 透明度の設定(trueにすると透明にできるがfidgetの表示が目立つようになるのが気になる)
-					-- transparent = true,
-				},
-			})
-		end,
-	},
-	{
-		"cocopon/iceberg.vim",
-	},
+	{ "EdenEast/nightfox.nvim" },
+	{ "cocopon/iceberg.vim" },
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 }
