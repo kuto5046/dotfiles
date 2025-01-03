@@ -70,7 +70,3 @@ export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 . "$HOME/.cargo/env"
-
-# tmux内でitalicに謎のhighlightがかかる問題の対処
-# https://gist.github.com/gyribeiro/4192af1aced7a1b555df06bd3781a722
-alias tmux="env TERM=screen-256color tmux"

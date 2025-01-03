@@ -106,3 +106,6 @@ if vim.env.TMUX then
 		cache_enabled = false,
 	}
 end
+
+vim.cmd("set t_ZH=^[[3m")
+vim.cmd("set t_ZR=^[[23m")
