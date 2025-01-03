@@ -24,4 +24,21 @@ return {
 			})
 		end,
 	},
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+	},
+	{
+		"rose-pine/neovim",
+		-- name = "rose-pine",
+		config = function()
+			require("rose-pine").setup({
+				styles = {
+					italic = false,
+				},
+			})
+		end,
+	},
 }
