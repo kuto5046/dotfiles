@@ -8,7 +8,9 @@ return {
 		config = function()
 			-- TODO: dockerコンテナで利用するとなぜか背景色が一部強調されてしまう
 			require("catppuccin").setup({
-				transparent_background = true,
+				-- transparent_background = true,
+				-- italicが強調されてhighlightされるので、無効にする
+				no_italic = true,
 				integrations = {
 					cmp = true,
 					gitsigns = true,
