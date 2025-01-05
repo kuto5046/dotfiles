@@ -7,9 +7,10 @@ return {
 		config = function()
 			-- 仮想環境を自動で認識する
 			-- vimに入る前に仮想環境をactivateしておく必要がある
-			local venv = os.getenv("VIRTUAL_ENV")
-			local command = string.format("%s/bin/python", venv)
-			require("dap-python").setup(command)
+			-- local venv = os.getenv("VIRTUAL_ENV")
+			-- local command = string.format("%s/bin/python", venv)
+			require("dap-python").setup('uv')
+      require('dap-python').test_runner = 'pytest'
 		end,
 	},
 	-- vscodeのようなUIを提供する
