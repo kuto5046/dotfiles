@@ -13,6 +13,7 @@
 !/.config/raycast/*
 !/.config/sheldon/*
 !/.p10k.zsh
+!/.script/*
 # !/.zshenv
 # !/.zfunc/
 # /.zfunc/**  # ディレクトリは管理したいけど中身はいらないときはこんな感じ
