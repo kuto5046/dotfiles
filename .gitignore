@@ -11,6 +11,8 @@
 !/.pre-commit-config.yaml
 !/.wezterm.lua
 !/.config/raycast/*
+!/.config/sheldon/*
+!/.p10k.zsh
 # !/.zshenv
 # !/.zfunc/
 # /.zfunc/**  # ディレクトリは管理したいけど中身はいらないときはこんな感じ
