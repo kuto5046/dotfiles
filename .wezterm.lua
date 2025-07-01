@@ -32,5 +32,13 @@ config.use_ime = true
 
 -- デフォルトのキーバインドを無効化
 -- config.disable_default_key_bindings = true
+config.keys = {
+	-- cmd+t を無効化（何も実行しない）
+	{
+		key = "t",
+		mods = "CMD",
+		action = wezterm.action.DisableDefaultAssignment,
+	},
+}
 
 return config
