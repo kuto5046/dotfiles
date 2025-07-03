@@ -10,7 +10,7 @@
 !/.zshrc
 !/.pre-commit-config.yaml
 !/.wezterm.lua
-# !/.config/raycast/*
+# !/.config/raycast/*.
 !/.config/sheldon/*
 !/.p10k.zsh
 !/.script/*
