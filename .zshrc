@@ -20,12 +20,13 @@ HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-setopt share_history           # 履歴を他のシェルとリアルタイム共有する
+# setopt share_history           # 履歴を他のシェルとリアルタイム共有する
 setopt hist_ignore_all_dups    # 同じコマンドをhistoryに残さない
 setopt hist_ignore_space       # historyに保存するときに余分なスペースを削除する
 setopt hist_reduce_blanks      # historyに保存するときに余分なスペースを削除する
 setopt hist_save_no_dups       # 重複するコマンドが保存されるとき、古い方を削除する
 setopt inc_append_history      # 実行時に履歴をファイルにに追加していく
+setopt auto_cd                 # cdコマンドを省略してディレクトリに移動できるようにする
 
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -72,9 +73,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/Applications/WezTerm.app/Contents/MacOS:$PATH"
 # nodebrew
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
-# なんだっけ？
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 ####################
 # エイリアス
@@ -92,8 +90,6 @@ alias ide="bash ~/.script/ide.sh"
 # pyenv
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
-# rye
-source "$HOME/.rye/env"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -105,4 +101,6 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 eval "$(direnv hook zsh)"
-eval "$(/opt/homebrew/bin/mise activate zsh)"
+
+# mise
+eval "$(~/.local/bin/mise activate zsh)"
