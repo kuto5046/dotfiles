@@ -1,0 +1,6 @@
+[tools]
+neovim = "latest"
+node = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@google/gemini-cli" = "latest"
+uv = "latest"
