@@ -76,6 +76,11 @@ export PATH="$HOME/.nodebrew/current/bin:$PATH"
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
+# claude codeをbedrockで使う
+export CLAUDE_CODE_USE_BEDROCK=1
+export ANTHROPIC_MODEL="us.anthropic.claude-sonnet-4-20250514-v1:0"
+export ANTHROPIC_SMALL_FAST_MODEL="us.anthropic.claude-3-5-haiku-2024102"
+
 ####################
 # エイリアス
 ####################
@@ -92,8 +97,6 @@ alias ide="bash ~/.script/ide.sh"
 # pyenv
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
-# rye
-source "$HOME/.rye/env"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -104,3 +107,7 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# direnvを有効化するためにhookする
+eval "$(direnv hook zsh)"
+export PYTHONPATH="${PYTHONPATH}:/Users/kyohei.uto/project/fresno"
