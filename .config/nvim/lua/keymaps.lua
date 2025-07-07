@@ -95,19 +95,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go to definition" })
+		-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })  -- 定義ジャンプと同じ
+		-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go to definition" })
+		vim.keymap.set(
+			"n",
+			"gd",
+			":vsplit | lua vim.lsp.buf.definition()<CR>",
+			{ buffer = ev.buf, desc = "Go to definition" }
+		)
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Show hover" })
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Go to references" }) -- TODO: 毎回windowが開くので手動で消す必要があり面倒
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts, { buffer = ev.buf, desc = "Go to implementation" })
+		-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts, { buffer = ev.buf, desc = "Go to implementation" })  -- pythonでは不要
 		-- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 		-- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
 		-- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
 		-- vim.keymap.set('n', '<space>wl', function()
 		--   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		-- end, opts)
-		-- vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, opts)
-		-- vim.keymap.set("n", "<leader>jr", vim.lsp.buf.rename, opts)
+		-- vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, opts)  -- pythonだと定義ジャンプと同じっぽい
+		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename" })
 		-- vim.keymap.set({ "n", "v" }, "<space>la", vim.lsp.buf.code_action, opts)
 		vim.keymap.set("n", "ff", function()
 			vim.lsp.buf.format({ async = true })

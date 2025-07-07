@@ -1,0 +1,9 @@
+[tools]
+direnv = "latest"
+neovim = "latest"
+node = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@google/gemini-cli" = "latest"
+poetry = "latest"
+tmux = "latest"
+uv = "latest"

@@ -66,6 +66,7 @@ vim.g.maplocalleader = " "
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
+vim.cmd("syntax enable") -- Enable syntax highlighting
 -- vim.api.nvim_create_user_command("T split | wincmd j | resize 20 | terminal ")
 
 -- dockerコンテナ内でのclipboard共有
