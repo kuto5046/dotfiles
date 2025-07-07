@@ -74,11 +74,6 @@ export PATH="/Applications/WezTerm.app/Contents/MacOS:$PATH"
 # nodebrew
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
-# claude codeをbedrockで使う
-export CLAUDE_CODE_USE_BEDROCK=1
-export ANTHROPIC_MODEL="us.anthropic.claude-sonnet-4-20250514-v1:0"
-export ANTHROPIC_SMALL_FAST_MODEL="us.anthropic.claude-3-5-haiku-2024102"
-
 ####################
 # エイリアス
 ####################
