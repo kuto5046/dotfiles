@@ -13,13 +13,23 @@ else
 			"MunifTanjim/nui.nvim",
 			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
 		},
-		keys = {
-			{ "<C-b>", ":Neotree toggle<Return>", desc = "toggle neo-tree" },
-		},
 		config = function()
+			-- グローバルなキーマッピングを設定（どこからでもtoggleできる）
+			vim.keymap.set(
+				"n",
+				"<C-b>",
+				":Neotree toggle<CR>",
+				{ desc = "toggle neo-tree", noremap = true, silent = true }
+			)
+
 			require("neo-tree").setup({
 				enable_git_status = true,
 				enable_diagnostics = false,
+				window = {
+					mappings = {
+						["<C-b>"] = "close_window",
+					},
+				},
 				filesystem = {
 					filtered_items = {
 						hide_dotfiles = false,

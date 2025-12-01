@@ -1,3 +1,4 @@
+local toggle_key = "<C-c>" -- Control + c to toggle Claude terminal
 return {
 	"coder/claudecode.nvim",
 	dependencies = { "folke/snacks.nvim" },
@@ -6,6 +7,7 @@ return {
 		{ "<leader>a", nil, desc = "AI/Claude Code" },
 		{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
 		{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+		{ toggle_key, "<cmd>ClaudeCodeFocus<cr>", desc = "Claude Code", mode = { "n", "x" } },
 		{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
 		{ "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
 		{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
@@ -29,14 +31,24 @@ return {
 				width = 0.8,
 				height = 0.8,
 				border = "rounded",
+				keys = {
+					claude_hide = {
+						toggle_key,
+						function(self)
+							self:hide()
+						end,
+						mode = "t",
+						desc = "Hide",
+					},
+				},
 			},
-			-- Diff Integration
-			diff_opts = {
-				auto_close_on_accept = true,
-				vertical_split = true,
-				open_in_current_tab = true,
-				keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
-			},
+		},
+		-- Diff Integration
+		diff_opts = {
+			auto_close_on_accept = true,
+			vertical_split = true,
+			open_in_current_tab = true,
+			keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
 		},
 	},
 }
