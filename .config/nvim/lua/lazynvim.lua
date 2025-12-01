@@ -20,6 +20,9 @@ local opts = {
 			enabled = true,
 		},
 	},
+	rocks = {
+		enabled = false,
+	},
 }
 
 if not vim.g.vscode then

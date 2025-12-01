@@ -33,10 +33,14 @@ return {
 		"neovim/nvim-lspconfig",
 		event = { "BufNewFile", "BufRead" },
 		config = function()
-			-- After setting up mason-lspconfig you may set up servers via lspconfig
-			require("lspconfig")["lua_ls"].setup({})
-			require("lspconfig")["rust_analyzer"].setup({})
-			require("lspconfig")["pyright"].setup({
+			-- After setting up mason-lspconfig you may set up servers via vim.lsp.config
+			vim.lsp.config["lua_ls"] = {}
+			vim.lsp.enable("lua_ls")
+
+			vim.lsp.config["rust_analyzer"] = {}
+			vim.lsp.enable("rust_analyzer")
+
+			vim.lsp.config["pyright"] = {
 				settings = {
 					pyright = {
 						-- importはruff側で管理する(機能していない)
@@ -53,8 +57,11 @@ return {
 						},
 					},
 				},
-			})
-			require("lspconfig")["ruff"].setup({})
+			}
+			vim.lsp.enable("pyright")
+
+			vim.lsp.config["ruff"] = {}
+			vim.lsp.enable("ruff")
 		end,
 	},
 }

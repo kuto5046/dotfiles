@@ -30,7 +30,7 @@ return {
 				height = 0.9,
 				keys = {
 					claude_hide = {
-						toggle_key,
+						"<C-x>",
 						function(self)
 							self:hide()
 						end,

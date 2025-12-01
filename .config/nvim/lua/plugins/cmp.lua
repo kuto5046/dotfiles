@@ -1,10 +1,28 @@
 -- Set up nvim-cmp.
 return {
+	{ "hrsh7th/nvim-cmp" }, -- The completion plugin (must be loaded first)
+	{ "hrsh7th/cmp-buffer" }, -- buffer completions
+	{ "hrsh7th/cmp-path" }, -- path completions
+	{ "hrsh7th/cmp-cmdline" }, -- cmdline completions
+	{ "hrsh7th/cmp-nvim-lua" }, -- lua completions
+	{ "hrsh7th/vim-vsnip" }, -- vsnip snippets
+	{ "hrsh7th/cmp-vsnip" }, -- vsnip completions
 	-- 補完(LSPだけだと候補が出ない)
 	{
 		"hrsh7th/cmp-nvim-lsp",
+		dependencies = { "hrsh7th/nvim-cmp", "onsails/lspkind-nvim" },
 		config = function()
 			local cmp = require("cmp")
+			local lspkind = require("lspkind")
+
+			-- for copilot
+			lspkind.init({
+				symbol_map = {
+					Copilot = " ",
+				},
+			})
+			vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+
 			cmp.setup({
 				snippet = {
 					expand = function(args)
@@ -30,6 +48,16 @@ return {
 				}, {
 					{ name = "buffer" },
 				}),
+				formatting = {
+					format = lspkind.cmp_format({
+						mode = "symbol_text",
+						maxwidth = 50,
+						ellipsis_char = "...",
+						before = function(entry, vim_item)
+							return vim_item
+						end,
+					}),
+				},
 			})
 
 			-- Set configuration for specific filetype.
@@ -60,40 +88,8 @@ return {
 			})
 		end,
 	}, -- lsp completions
-	{ "hrsh7th/cmp-buffer" }, -- buffer completions
-	{ "hrsh7th/cmp-path" }, -- path completions
-	{ "hrsh7th/cmp-cmdline" }, -- cmdline completions
-	{ "hrsh7th/nvim-cmp" }, -- The completion plugin
-	{ "hrsh7th/cmp-nvim-lua" }, -- lua completions
-	{ "hrsh7th/vim-vsnip" }, -- vsnip snippets
-	{ "hrsh7th/cmp-vsnip" }, -- vsnip completions
 	{
 		"onsails/lspkind-nvim",
-		config = function()
-			-- Set up lspkind.
-			local cmp = require("cmp")
-			local lspkind = require("lspkind")
-
-			-- for copilot
-			lspkind.init({
-				symbol_map = {
-					Copilot = " ",
-				},
-			})
-			vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
-
-			cmp.setup({
-				formatting = {
-					format = lspkind.cmp_format({
-						mode = "symbol_text",
-						maxwidth = 50,
-						ellipsis_char = "...",
-						before = function(entry, vim_item)
-							return vim_item
-						end,
-					}),
-				},
-			})
-		end,
+		dependencies = { "hrsh7th/nvim-cmp" },
 	}, -- pictograms for lsp completion items
 }
