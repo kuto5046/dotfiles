@@ -4,5 +4,7 @@ neovim = "latest"
 node = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@google/gemini-cli" = "latest"
-poetry = "latest"
 uv = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["python"]

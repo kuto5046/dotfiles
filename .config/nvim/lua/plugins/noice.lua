@@ -42,6 +42,9 @@ return {
 					},
 				},
 			},
+			messages = {
+				enabled = false,
+			},
 		})
 	end,
 }

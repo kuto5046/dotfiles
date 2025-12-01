@@ -6,7 +6,7 @@ return {
 			open_mapping = [[<C-t>]],
 			start_in_insert = true,
 			insert_mappings = false, -- insert時はmapping適用しない(文字入力時にスペースの入力が遅くなるので)
-			direction = "float",
+			direction = "horizontal",
 			shade_terminals = false,
 		})
 	end,

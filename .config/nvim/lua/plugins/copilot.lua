@@ -41,13 +41,4 @@ return {
 			require("copilot_cmp").setup({})
 		end,
 	}, -- copilot completions
-	{
-		"jonahgoldwastaken/copilot-status.nvim",
-		dependencies = { "zbirenbaum/copilot.lua" },
-		config = function()
-			require("copilot_status").setup({})
-		end,
-		lazy = true,
-		event = "BufReadPost",
-	}, -- copilot status
 }
