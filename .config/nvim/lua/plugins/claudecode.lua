@@ -26,18 +26,16 @@ return {
 			---@type snacks.win.Config|{}
 			snacks_win_opts = {
 				position = "float",
-				width = 0.9,
-				height = 0.9,
-				keys = {
-					claude_hide = {
-						"<C-x>",
-						function(self)
-							self:hide()
-						end,
-						mode = "t",
-						desc = "Hide",
-					},
-				},
+				width = 0.8,
+				height = 0.8,
+				border = "rounded",
+			},
+			-- Diff Integration
+			diff_opts = {
+				auto_close_on_accept = true,
+				vertical_split = true,
+				open_in_current_tab = true,
+				keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
 			},
 		},
 	},
