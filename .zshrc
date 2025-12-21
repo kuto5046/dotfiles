@@ -16,6 +16,12 @@ zstyle ':completion:*' ignore-parents parent pwd ..    # ../ の後は今いる�
 zstyle ':completion:*:default' menu select=1           # 補間候補一覧上で移動できるように
 zstyle ':completion:*:cd:*' ignore-parents parent pwd  # 補間候補にカレントディレクトリは含めない
 
+# 補完候補が多い場合の制御
+LISTMAX=30                                              # 30個以上候補がある場合は確認を求める
+zstyle ':completion:*' list-max-items 100               # 最大100個まで候補を表示
+zstyle ':completion:*' use-cache true                   # 補完をキャッシュして高速化
+zstyle ':completion:*' cache-path ~/.zsh/cache          # キャッシュファイルの保存先
+
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
