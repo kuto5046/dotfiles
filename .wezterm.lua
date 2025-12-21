@@ -10,10 +10,10 @@ end
 config.color_scheme = "nightfox"
 
 -- 背景透過
-config.window_background_opacity = 0.7
+config.window_background_opacity = 0.8
 
 -- 背景をぼかす
-config.macos_window_background_blur = 30
+config.macos_window_background_blur = 50
 
 -- title barを非表示
 config.window_decorations = "RESIZE"
@@ -32,13 +32,13 @@ config.use_ime = true
 
 -- デフォルトのキーバインドを無効化
 -- config.disable_default_key_bindings = true
-config.keys = {
-	-- cmd+t を無効化（何も実行しない）
-	{
-		key = "t",
-		mods = "CMD",
-		action = wezterm.action.DisableDefaultAssignment,
-	},
-}
+-- config.keys = {
+-- 	-- cmd+t を無効化（何も実行しない）
+-- 	{
+-- 		key = "t",
+-- 		mods = "CMD",
+-- 		action = wezterm.action.DisableDefaultAssignment,
+-- 	},
+-- }
 
 return config
