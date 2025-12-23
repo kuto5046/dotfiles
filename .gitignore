@@ -78,7 +78,8 @@
 !/.github/workflows/check.yaml
 
 # claude code 
-!.claude/**
+!.claude/commands
+!.claude/**.md
 
 # 個別で除く
 package.json
