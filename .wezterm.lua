@@ -10,7 +10,7 @@ end
 config.color_scheme = "nightfox"
 
 -- 背景透過
-config.window_background_opacity = 0.7
+config.window_background_opacity = 0.9
 
 -- 背景をぼかす
 config.macos_window_background_blur = 50
