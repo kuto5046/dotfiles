@@ -65,6 +65,8 @@
 # !/.xprofile
 # !/.xsessionrc
 !/.config/karabiner/assets/**
+!/.config/lazygit/*
+!/.config/lazygit/**
 !/.config/nvim/*
 !/.config/nvim/**
 # !/.gitignore_global
