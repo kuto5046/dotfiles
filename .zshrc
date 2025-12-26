@@ -93,9 +93,6 @@ alias ide="bash ~/.script/ide.sh"
 ####################
 # 勝手に追加されるもの
 ####################
-# pyenv
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
