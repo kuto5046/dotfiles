@@ -71,6 +71,7 @@
 !/.config/lazygit/**
 !/.config/nvim/*
 !/.config/nvim/**
+!/.config/ghostty/config
 # !/.gitignore_global
 # !/.gitconfig_shared
 !package.json
