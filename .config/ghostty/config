@@ -31,4 +31,4 @@ macos-titlebar-style = tabs
 macos-option-as-alt = true
 
 # ssh用
-shell-integration-features = true
+shell-integration-features = ssh-terminfo,ssh-env
