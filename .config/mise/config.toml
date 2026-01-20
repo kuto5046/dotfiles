@@ -1,9 +1,10 @@
 [tools]
 direnv = "latest"
+fzf = "latest"
+gh = "latest"
+ghq = "latest"
 neovim = "latest"
 node = "latest"
-"npm:@anthropic-ai/claude-code" = "latest"
-"npm:@google/gemini-cli" = "latest"
 uv = "latest"
 
 [settings]
