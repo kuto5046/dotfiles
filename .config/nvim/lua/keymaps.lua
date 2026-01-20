@@ -100,12 +100,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })  -- 定義ジャンプと同じ
 		-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go to definition" })
-		vim.keymap.set(
-			"n",
-			"gd",
-			":vsplit | lua vim.lsp.buf.definition()<CR>",
-			{ buffer = ev.buf, desc = "Go to definition" }
-		)
+		-- overlookでピーク表示（ポップアップ内でジャンプも可能）
+		vim.keymap.set("n", "gd", function()
+			require("overlook.api").peek_definition()
+		end, { buffer = ev.buf, desc = "Peek definition" })
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Show hover" })
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Go to references" }) -- TODO: 毎回windowが開くので手動で消す必要があり面倒
 		-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts, { buffer = ev.buf, desc = "Go to implementation" })  -- pythonでは不要
