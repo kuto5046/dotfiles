@@ -115,3 +115,6 @@ eval "$(direnv hook zsh)"
 
 # mise
 eval "$(~/.local/bin/mise activate zsh)"
+
+# opencode
+export PATH=~/.opencode/bin:$PATH
