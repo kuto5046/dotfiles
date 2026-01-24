@@ -6,7 +6,7 @@ return {
 			cli = {
 				mux = {
 					backend = "tmux",
-					enabled = true,
+					enabled = false,
 				},
 			},
 		},
@@ -23,7 +23,7 @@ return {
 				desc = "Goto/Apply Next Edit Suggestion",
 			},
 			{
-				"<c-.>",
+				"<D-l>",
 				function()
 					require("sidekick.cli").toggle()
 				end,
