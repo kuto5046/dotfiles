@@ -35,9 +35,7 @@ vim.keymap.set("n", "<leader>k", builtin.keymaps, { desc = "Keymaps" })
 vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Git commits" })
 vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "Git branches" })
 vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Git status" })
-vim.keymap.set("n", "<leader>gl", function()
-	require("snacks").lazygit()
-end, { desc = "Lazygit" })
+
 -- diff
 vim.keymap.set("n", "<leader>vd", "<cmd>DiffviewOpen <CR>", { noremap = true, silent = true, desc = "Diffview" })
 -- 開いているファイルのhistoryを表示
