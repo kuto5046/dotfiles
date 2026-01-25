@@ -83,6 +83,14 @@ alias dotenv="set -a && source ~/.env && set +a"
 # tmuxでよく使うペイン構成を作成
 alias ide="bash ~/.script/ide.sh"
 
+# ghqリポジトリをfzfで選択して移動
+function gcd() {
+  local repo=$(ghq list | fzf)
+  if [[ -n "$repo" ]]; then
+    cd "$(ghq root)/$repo"
+  fi
+}
+
 
 ####################
 # 勝手に追加されるもの
@@ -107,3 +115,5 @@ if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc'; fi
+# opencode
+export PATH=~/.opencode/bin:$PATH

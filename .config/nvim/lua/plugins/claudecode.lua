@@ -1,6 +1,7 @@
 local toggle_key = "<C-c>" -- Control + c to toggle Claude terminal
 return {
 	"coder/claudecode.nvim",
+	enabled = false, -- プラグインを無効化
 	dependencies = { "folke/snacks.nvim" },
 	config = true,
 	keys = {

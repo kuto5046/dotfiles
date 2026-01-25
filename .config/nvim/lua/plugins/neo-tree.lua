@@ -17,7 +17,7 @@ else
 			-- グローバルなキーマッピングを設定（どこからでもtoggleできる）
 			vim.keymap.set(
 				"n",
-				"<C-b>",
+				"<leader>b",
 				":Neotree toggle<CR>",
 				{ desc = "toggle neo-tree", noremap = true, silent = true }
 			)
@@ -27,7 +27,7 @@ else
 				enable_diagnostics = false,
 				window = {
 					mappings = {
-						["<C-b>"] = "close_window",
+						["<leader>b"] = "close_window",
 					},
 				},
 				filesystem = {

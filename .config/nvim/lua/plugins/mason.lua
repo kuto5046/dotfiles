@@ -62,6 +62,29 @@ return {
 
 			vim.lsp.config["ruff"] = {}
 			vim.lsp.enable("ruff")
+
+			-- LSP Keymaps
+			-- Use LspAttach autocommand to only map the following keys
+			-- after the language server attaches to the current buffer
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+					-- overlookでピーク表示（ポップアップ内でジャンプも可能）
+					vim.keymap.set("n", "gd", function()
+						require("overlook.api").peek_definition()
+					end, { buffer = ev.buf, desc = "Peek definition" })
+
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Show hover" })
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Go to references" })
+					vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename" })
+					vim.keymap.set("n", "ff", function()
+						vim.lsp.buf.format({ async = true })
+					end, { buffer = ev.buf, desc = "Format" })
+				end,
+			})
 		end,
 	},
 }

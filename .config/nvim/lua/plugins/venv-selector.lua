@@ -4,8 +4,8 @@ return {
 	"linux-cultist/venv-selector.nvim",
 	dependencies = {
 		"neovim/nvim-lspconfig",
-		"mfussenegger/nvim-dap",
-		"mfussenegger/nvim-dap-python", --optional
+		-- "mfussenegger/nvim-dap",
+		-- "mfussenegger/nvim-dap-python", --optional
 	},
 	event = "BufReadPre",
 	branch = "main", -- This is the regexp branch, use this for the new version
@@ -14,11 +14,22 @@ return {
 			options = {
 				activate_venv_in_terminal = true,
 				cached_venv_automatic_activation = true,
-				debug = true,
-				dap_enabled = true,
+				debug = false,
+				dap_enabled = false,
 				enable_cached_venvs = true,
 				notify_user_on_venv_activation = true,
 			},
 		},
 	},
+	config = function(_, opts)
+		require("venv-selector").setup(opts)
+
+		-- Keymaps
+		vim.keymap.set(
+			"n",
+			"<leader>p",
+			"<cmd>VenvSelect<CR>",
+			{ noremap = true, silent = true, desc = "Python Venv select" }
+		)
+	end,
 }
