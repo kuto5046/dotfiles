@@ -26,7 +26,7 @@ return {
 	},
 	keys = {
 		{
-			"<leader>lg",
+			"<leader>gl",
 			mode = "n",
 			noremap = true,
 			desc = "Git: Open Lazygit",
