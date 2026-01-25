@@ -21,4 +21,15 @@ return {
 			},
 		},
 	},
+	config = function(_, opts)
+		require("venv-selector").setup(opts)
+
+		-- Keymaps
+		vim.keymap.set(
+			"n",
+			"<leader>p",
+			"<cmd>VenvSelect<CR>",
+			{ noremap = true, silent = true, desc = "Python Venv select" }
+		)
+	end,
 }
