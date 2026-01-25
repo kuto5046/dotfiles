@@ -1,7 +1,12 @@
 return {
-	{ "nvim-telescope/telescope.nvim", version = "v0.2.0", dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "nvim-telescope/telescope-file-browser.nvim" },
-	{ "nvim-telescope/telescope-frecency.nvim", dependencies = { "kkharji/sqlite.lua" } },
+	"nvim-telescope/telescope.nvim",
+	version = "v0.2.0",
+	lazy = false,
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		"nvim-telescope/telescope-file-browser.nvim",
+		{ "nvim-telescope/telescope-frecency.nvim", dependencies = { "kkharji/sqlite.lua" } },
+	},
 	config = function()
 		-- TODO: initial modeがinsertになってしまう
 		require("telescope").setup({
