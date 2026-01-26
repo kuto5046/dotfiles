@@ -108,7 +108,7 @@ fi
 eval "$(direnv hook zsh)"
 
 # mise
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc'; fi
