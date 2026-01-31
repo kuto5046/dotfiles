@@ -20,8 +20,13 @@ return {
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
 		lazygit = {
-			-- your lazygit configuration comes here
-			-- or leave it empty to use the default settings
+			configure = true,
+			win = {
+				style = "lazygit",
+				width = 0.99, -- ウィンドウ幅を画面の99%に設定
+				height = 0.99, -- ウィンドウ高さを画面の99%に設定
+				border = "none", -- シンプルなボーダー
+			},
 		},
 	},
 	keys = {
