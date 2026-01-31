@@ -4,6 +4,7 @@ else
 	return {
 
 		"nvim-neo-tree/neo-tree.nvim",
+		enabled = false,
 		-- 起動時にtreeを開きたいのでVimEnter
 		event = { "VimEnter" },
 		branch = "v3.x",
