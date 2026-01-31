@@ -57,12 +57,6 @@ export LC_CTYPE=ja_JP.UTF-8
 export PATH="$HOME/.local/bin:$PATH"
 
 # gcloud
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kyohei.uto/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kyohei.uto/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kyohei.uto/google-cloud-sdk/completion.zsh.inc'; fi
-
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -114,7 +108,12 @@ fi
 eval "$(direnv hook zsh)"
 
 # mise
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc'; fi
 # opencode
 export PATH=~/.opencode/bin:$PATH
