@@ -83,11 +83,35 @@ alias dotenv="set -a && source ~/.env && set +a"
 # tmuxでよく使うペイン構成を作成
 alias ide="bash ~/.script/ide.sh"
 
-# ghqリポジトリをfzfで選択して移動
+# ghqリポジトリをfzfで選択してtmuxセッションを起動
 function gcd() {
   local repo=$(ghq list | fzf)
   if [[ -n "$repo" ]]; then
-    cd "$(ghq root)/$repo"
+    local repo_path="$(ghq root)/$repo"
+    local session_name=$(basename "$repo")
+    # セッション名のドットをアンダースコアに置換（tmuxはドットを含むセッション名を扱いにくい）
+    session_name=${session_name//./_}
+
+    if tmux has-session -t "$session_name" 2>/dev/null; then
+      # セッションが存在する場合
+      if [[ -n "$TMUX" ]]; then
+        # tmux内から実行された場合はswitch
+        tmux switch-client -t "$session_name"
+      else
+        # tmux外から実行された場合はattach
+        tmux attach-session -t "$session_name"
+      fi
+    else
+      # セッションが存在しない場合は新規作成
+      if [[ -n "$TMUX" ]]; then
+        # tmux内から実行された場合は新規セッション作成してswitch
+        tmux new-session -d -s "$session_name" -c "$repo_path"
+        tmux switch-client -t "$session_name"
+      else
+        # tmux外から実行された場合は新規セッション作成してattach
+        tmux new-session -s "$session_name" -c "$repo_path"
+      fi
+    fi
   fi
 }
 
