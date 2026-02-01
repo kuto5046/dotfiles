@@ -83,13 +83,8 @@ alias dotenv="set -a && source ~/.env && set +a"
 # tmuxでよく使うペイン構成を作成
 alias ide="bash ~/.script/ide.sh"
 
-# ghqリポジトリをfzfで選択して移動
-function gcd() {
-  local repo=$(ghq list | fzf)
-  if [[ -n "$repo" ]]; then
-    cd "$(ghq root)/$repo"
-  fi
-}
+# ghqリポジトリをfzfで選択してtmuxセッションを開く
+export PATH="$HOME/ghq/github.com/kuto5046/dotfiles/.bin:$PATH"
 
 
 ####################

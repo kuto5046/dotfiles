@@ -1,0 +1,38 @@
+#!/bin/bash
+
+changeSession() {
+  local change
+  [[ -n "${TMUX:-""}" ]] && change="switch-client" || change="attach-session"
+  tmux $change -t "$1"
+}
+
+createSessionIfNeeded() {
+  local name=$1
+  local dir=$2
+  tmux list-sessions -F "#{session_name}" 2>/dev/null |
+  grep -q -E "^${name}$" ||
+  tmux new-session -d -c "${dir}" -s "${name}"
+}
+
+selectRepo() {
+  local repo=$(ghq list | fzf)
+  if [[ -n "$repo" ]]; then
+    echo "$(ghq root)/$repo"
+  fi
+}
+
+main() {
+  local repo_path=$(selectRepo)
+
+  if [[ -z "$repo_path" ]]; then
+    return 1
+  fi
+
+  # リポジトリ名（最後の部分）をセッション名として使用
+  local session_name=$(basename "$repo_path")
+
+  createSessionIfNeeded "$session_name" "$repo_path"
+  changeSession "$session_name"
+}
+
+main "$@"
