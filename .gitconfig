@@ -31,7 +31,7 @@
   blame-format = "{author:<18} ({commit:>7}) ┊{timestamp:^16}┊ "
   blame-palette = "purple darkmagenta darkviolet darkslateblue blueviolet rebeccapurple slateblue mediumpurple mediumslateblue"
   commit-decoration-style = none
-  commit-style = bold white olive
+  # commit-style = bold white
   # -- grep
   grep-file-style = olive
   grep-line-number-style = orange
