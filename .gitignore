@@ -86,6 +86,9 @@
 !/.claude/
 !/.claude/commands/
 !/.claude/commands/*.md
+!/.claude/skills/
+!/.claude/skills/*/
+!/.claude/skills/*/**
 !/.claude/*.md
 
 # 個別で除く

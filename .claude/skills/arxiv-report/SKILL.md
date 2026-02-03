@@ -1,24 +1,34 @@
 ---
-allowed-tools: Task
+name: arxiv-report
 description: arxiv論文を詳細に分析し、日本語でレポートを生成する（バックグラウンド実行）
+allowed-tools: Task, WebFetch, WebSearch, Read, Write, Bash
 model: sonnet
+disable-model-invocation: true
+argument-hint: <arxiv-id or URL>
 ---
 
-## このスキルについて
+# arxiv論文詳細レポート生成
 
-arxiv論文のURLを入力すると、以下を含む詳細な日本語レポートをMarkdown形式で生成します：
+arxiv論文のURLまたはIDを入力すると、以下を含む詳細な日本語レポートをMarkdown形式で生成します：
 
-1. **詳細な論文解説**（関連研究のarxiv URL付き、論文中の図表をすべて含む）
+1. **詳細な論文解説**（関連研究のarxiv URL付き、論文中の図表を含む）
 2. **落合フォーマット**でのまとめ
 3. **GitHub実装の解析**（コード抜粋付き）
 
 処理には約15分程度かかるため、バックグラウンドで実行されます。
 
+## 使用方法
+
+```
+/arxiv-report https://arxiv.org/abs/2501.12345
+/arxiv-report 2501.12345
+```
+
 ## タスク
 
 ### 手順1: 初期確認
 
-1. ユーザーから提供されたarxiv URLを確認
+1. ユーザーから提供されたarxiv URLまたはIDを確認
 2. URLからarxiv IDを抽出（例: `https://arxiv.org/abs/2501.12345` → `2501.12345`）
 3. ユーザーに開始を通知
 
