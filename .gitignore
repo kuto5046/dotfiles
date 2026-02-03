@@ -82,9 +82,11 @@
 !.gitkeep
 !/.github/workflows/check.yaml
 
-# claude code 
-!.claude/commands
-!.claude/**.md
+# claude code
+!/.claude/
+!/.claude/commands/
+!/.claude/commands/*.md
+!/.claude/*.md
 
 # 個別で除く
 package.json
