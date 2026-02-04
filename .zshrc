@@ -112,3 +112,11 @@ if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc'; fi
 # opencode
 export PATH=~/.opencode/bin:$PATH
+
+export AQUA_GLOBAL_CONFIG="/Users/kyohei.uto.002/.config/aquaproj-aqua/aqua.yaml"
+
+export PATH="$(aqua root-dir)/bin:$PATH"
+
+export NPM_CONFIG_PREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/npm-global"
+
+export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
