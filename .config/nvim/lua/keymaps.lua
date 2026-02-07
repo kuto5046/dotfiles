@@ -4,7 +4,7 @@ local opts = { noremap = true, silent = true }
 -- general
 -- #################
 -- terminalからescで出るようにする
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+-- vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
 -- esc2回でハイライト解除
 vim.keymap.set(
 	"n",
