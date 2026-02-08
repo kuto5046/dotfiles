@@ -1,8 +1,9 @@
-# https://github.com/izumin5210/dotfiles/blob/aa17b272068491d24e7e52bd9fb58903c6947e4f/config/.config/lazygit/config.yml#L39-L49
+# git-graphコマンドを使用
+# https://github.com/git-bahn/git-graph
 git:
-  # branchLogCmd: "git log --graph --color=always --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' {{branchName}} --"
-  # allBranchesLogCmds:
-  #   - git log --graph --color=always --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all
+  branchLogCmd: "git-graph"
+  allBranchesLogCmds:
+    - git-graph
   pagers:
     - colorArg: always
       pager: delta --dark --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"

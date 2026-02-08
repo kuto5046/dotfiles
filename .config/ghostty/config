@@ -32,3 +32,6 @@ macos-option-as-alt = true
 
 # ssh用
 shell-integration-features = ssh-terminfo,ssh-env
+
+# デスクトップ通知
+desktop-notifications = true

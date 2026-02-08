@@ -3,8 +3,8 @@ local opts = { noremap = true, silent = true }
 -- #################
 -- general
 -- #################
--- terminalからjkで出るようにする（escはClaude Codeの生成停止用に残す）
-vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
+-- terminalからescで出るようにする
+-- vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
 -- esc2回でハイライト解除
 vim.keymap.set(
 	"n",

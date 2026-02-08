@@ -1,4 +1,6 @@
 [tools]
+bun = "latest"
+delta = "latest"
 direnv = "latest"
 fzf = "latest"
 gh = "latest"
