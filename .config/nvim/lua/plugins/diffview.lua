@@ -16,12 +16,14 @@ return {
 			{ noremap = true, silent = true, desc = "Diffview file history" }
 		)
 		vim.keymap.set("n", "<leader>vp", function()
-			local base = vim.fn.system("git merge-base HEAD main 2>/dev/null || git merge-base HEAD master"):gsub("%s+", "")
-			if base == "" then
-				vim.notify("Could not determine base branch", vim.log.levels.ERROR)
+			local branch = vim.fn.system("git rev-parse --abbrev-ref HEAD"):gsub("%s+", "")
+			local reflog = vim.fn.systemlist("git reflog show --format=%H " .. branch)
+			local fork_point = reflog[#reflog]
+			if not fork_point or fork_point == "" then
+				vim.notify("Could not determine branch fork point", vim.log.levels.ERROR)
 				return
 			end
-			vim.cmd("DiffviewOpen " .. base .. "..HEAD")
-		end, { noremap = true, silent = true, desc = "Diffview PR diff (vs main)" })
+			vim.cmd("DiffviewOpen " .. fork_point .. "..HEAD")
+		end, { noremap = true, silent = true, desc = "Diffview PR diff (from branch fork point)" })
 	end,
 }
