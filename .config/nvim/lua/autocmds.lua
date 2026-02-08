@@ -37,8 +37,8 @@ autocmd("TermOpen", {
 	command = "setlocal nonumber",
 })
 
--- 自動保存（インサートモードを抜けた時、バッファを移動する時）
-autocmd({ "InsertLeave", "BufLeave" }, {
+-- 自動保存（インサートモードを抜けた時、ノーマルモードで編集した時、バッファを移動する時）
+autocmd({ "InsertLeave", "TextChanged", "BufLeave" }, {
 	pattern = "*",
 	callback = function()
 		-- バッファが変更されていて、ファイル名がある場合のみ保存
