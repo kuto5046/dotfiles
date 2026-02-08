@@ -37,10 +37,13 @@ autocmd("TermOpen", {
 	command = "setlocal nonumber",
 })
 
--- 自動保存
--- vim.cmd([[
---   augroup autosave
---     autocmd!
---     autocmd TextChanged,TextChangedI <buffer> silent write
---   augroup END
--- ]])
+-- 自動保存（インサートモードを抜けた時、バッファを移動する時）
+autocmd({ "InsertLeave", "BufLeave" }, {
+	pattern = "*",
+	callback = function()
+		-- バッファが変更されていて、ファイル名がある場合のみ保存
+		if vim.bo.modified and vim.fn.expand("%") ~= "" and not vim.bo.readonly then
+			pcall(vim.cmd, "silent! write")
+		end
+	end,
+})
