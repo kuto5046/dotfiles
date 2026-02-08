@@ -127,5 +127,10 @@
     "context7-plugin@context7-marketplace": true,
     "code-review@claude-code-plugins": true,
     "example-skills@anthropic-agent-skills": true
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bun x ccusage statusline",
+    "padding": 0
   }
 }
