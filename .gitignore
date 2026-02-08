@@ -91,6 +91,12 @@
 !/.claude/skills/*/**
 !/.claude/*.md
 
+# claude code - 明示的に除外
+/.claude/marketplaces/
+/.claude/cache/
+/.claude/plugins/marketplaces/
+/.claude/plugins/cache/
+
 # 個別で除く
 package.json
 packer_compiled.lua
