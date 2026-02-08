@@ -90,6 +90,7 @@
 !/.claude/skills/*/
 !/.claude/skills/*/**
 !/.claude/*.md
+!/.claude/hooks/
 
 # claude code - 明示的に除外
 /.claude/marketplaces/
