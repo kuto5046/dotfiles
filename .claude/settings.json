@@ -122,18 +122,6 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "bun x ccusage statusline",
-    "padding": 0
-  },
-  "enabledPlugins": {
-    "pr-review-toolkit@claude-code-plugins": true,
-    "context7-plugin@context7-marketplace": true,
-    "code-review@claude-code-plugins": true,
-    "example-skills@anthropic-agent-skills": true
-  },
-  "autoUpdatesChannel": "latest",
   "hooks": {
     "Notification": [
       {
@@ -157,5 +145,18 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bun x ccusage statusline",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "pr-review-toolkit@claude-code-plugins": true,
+    "context7-plugin@context7-marketplace": true,
+    "code-review@claude-code-plugins": true,
+    "example-skills@anthropic-agent-skills": true
+  },
+  "autoUpdatesChannel": "latest",
+  "language": "Japanese"
 }
