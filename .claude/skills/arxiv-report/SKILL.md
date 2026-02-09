@@ -375,8 +375,41 @@ Writeツールで `arxiv_[arxiv_id]_phase3.json` に結果を保存：
 
 Notion Remote MCPは既にセットアップ済みです（HTTP接続）。
 
-追加設定が必要な場合：
-- Notionワークスペースでデータベースを作成
-- 必要なプロパティ（Authors, ArXiv ID, Date, Category, GitHub）を追加
+### 保存先データベース設定
+
+**データベースURL**: https://www.notion.so/35dd7cb2129c41feac4722d1aa9eab4b
+**data_source_id**: `2153175b-5aa8-4ade-9ba4-ebcecc6ab7ae`
+
+### データベースプロパティ
+
+- **Title** (title型): 論文タイトル（日本語訳）
+- **userDefined:URL** (url型): arXiv URL
+- **Status** (status型): "In progress" または "ToDo"
+- **AI 要約** (text型): 論文の簡潔な要約
+- **Tag** (relation型): 論文カテゴリタグ
+- **Created time** (created_time型): 作成日時（自動）
+
+### Paperタグの設定
+
+論文レポートには必ず **Paper** タグを紐づけてください：
+- **TagプロパティURL**: `https://www.notion.so/42ba32a0679c4e839e89d66d86a6b157`
+
+### Notionページ作成時の設定例
+
+```json
+{
+  "parent": {"type": "data_source_id", "data_source_id": "2153175b-5aa8-4ade-9ba4-ebcecc6ab7ae"},
+  "pages": [{
+    "properties": {
+      "Title": "[論文タイトル日本語訳]",
+      "userDefined:URL": "https://arxiv.org/abs/[arxiv_id]",
+      "Status": "In progress",
+      "AI 要約": "[簡潔な要約]",
+      "Tag": "https://www.notion.so/42ba32a0679c4e839e89d66d86a6b157"
+    },
+    "content": "[Markdownレポート全文]"
+  }]
+}
+```
 
 それでは、上記の手順でarxiv論文の詳細レポートを生成してください。
