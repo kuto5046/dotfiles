@@ -157,6 +157,7 @@
     "code-review@claude-code-plugins": true,
     "example-skills@anthropic-agent-skills": true
   },
+  "language": "Japanese",
   "autoUpdatesChannel": "latest",
-  "language": "Japanese"
+  "model": "opus"
 }

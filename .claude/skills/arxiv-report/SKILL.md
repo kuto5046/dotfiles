@@ -329,7 +329,7 @@ Writeツールで `arxiv_[arxiv_id]_phase3.json` に結果を保存：
 **Notion MCPツール（mcp__notion__*）を使用してNotionにレポートを投稿：**
 
 1. **ページ作成**: Notion MCPの `create_page` ツールを使用
-   - タイトル: 論文タイトル（日本語訳）
+   - タイトル: 論文タイトル（英語原題をそのまま使用）
    - プロパティ:
      - Authors: 著者名
      - ArXiv ID: arxiv ID
@@ -382,7 +382,7 @@ Notion Remote MCPは既にセットアップ済みです（HTTP接続）。
 
 ### データベースプロパティ
 
-- **Title** (title型): 論文タイトル（日本語訳）
+- **Title** (title型): 論文タイトル（英語原題）
 - **userDefined:URL** (url型): arXiv URL
 - **Status** (status型): "In progress" または "ToDo"
 - **AI 要約** (text型): 論文の簡潔な要約
@@ -401,7 +401,7 @@ Notion Remote MCPは既にセットアップ済みです（HTTP接続）。
   "parent": {"type": "data_source_id", "data_source_id": "2153175b-5aa8-4ade-9ba4-ebcecc6ab7ae"},
   "pages": [{
     "properties": {
-      "Title": "[論文タイトル日本語訳]",
+      "Title": "[論文の英語原題]",
       "userDefined:URL": "https://arxiv.org/abs/[arxiv_id]",
       "Status": "In progress",
       "AI 要約": "[簡潔な要約]",
