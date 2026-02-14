@@ -91,6 +91,7 @@
 !/.claude/skills/*/**
 !/.claude/*.md
 !/.claude/config.json
+!/.claude/scripts/*
 
 # claude code - 明示的に除外
 /.claude/marketplaces/

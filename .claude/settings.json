@@ -134,5 +134,18 @@
     "example-skills@anthropic-agent-skills": true
   },
   "language": "Japanese",
-  "autoUpdatesChannel": "latest"
+  "autoUpdatesChannel": "latest",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/notify.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
