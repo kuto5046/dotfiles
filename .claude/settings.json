@@ -122,6 +122,19 @@
     ],
     "defaultMode": "acceptEdits"
   },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/notify.sh"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "bun x ccusage statusline",
@@ -135,17 +148,5 @@
   },
   "language": "Japanese",
   "autoUpdatesChannel": "latest",
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/notify.sh"
-          }
-        ]
-      }
-    ]
-  }
+  "model": "opus"
 }
