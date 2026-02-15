@@ -83,7 +83,6 @@
 !/.github/workflows/check.yaml
 
 # claude code
-!/.claude/
 !/.claude/commands/
 !/.claude/commands/*.md
 !/.claude/skills/
@@ -94,12 +93,12 @@
 !/.claude/*.md
 !/.claude/config.json
 !/.claude/scripts/*
-
-# claude code - 明示的に除外
+# 明示的に除外
 /.claude/marketplaces/
-/.claude/cache/
-/.claude/plugins/marketplaces/
-/.claude/plugins/cache/
+
+# codex
+!/.codex/
+
 
 # 個別で除く
 package.json
