@@ -87,6 +87,8 @@
 !/.claude/commands/
 !/.claude/commands/*.md
 !/.claude/skills/
+!/.claude/skills/pyproject.toml
+!/.claude/skills/uv.lock
 !/.claude/skills/*/
 !/.claude/skills/*/**
 !/.claude/*.md
