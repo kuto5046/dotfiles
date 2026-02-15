@@ -94,10 +94,11 @@
 !/.claude/config.json
 !/.claude/scripts/*
 # 明示的に除外
-/.claude/marketplaces/
+/.claude/plugins/marketplaces/
 
 # codex
 !/.codex/
+/.codex/vendor_imports/skills/
 
 
 # 個別で除く
