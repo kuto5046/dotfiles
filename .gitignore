@@ -83,19 +83,22 @@
 !/.github/workflows/check.yaml
 
 # claude code
-!/.claude/
 !/.claude/commands/
 !/.claude/commands/*.md
 !/.claude/skills/
+!/.claude/skills/pyproject.toml
+!/.claude/skills/uv.lock
 !/.claude/skills/*/
 !/.claude/skills/*/**
 !/.claude/*.md
-
-# claude code - 明示的に除外
+!/.claude/config.json
+!/.claude/scripts/*
+# 明示的に除外
 /.claude/marketplaces/
-/.claude/cache/
-/.claude/plugins/marketplaces/
-/.claude/plugins/cache/
+
+# codex
+!/.codex/
+
 
 # 個別で除く
 package.json

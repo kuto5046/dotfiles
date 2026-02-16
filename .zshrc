@@ -113,7 +113,7 @@ if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc' ]; then . '/
 # opencode
 export PATH=~/.opencode/bin:$PATH
 
-export AQUA_GLOBAL_CONFIG="/Users/kyohei.uto.002/.config/aquaproj-aqua/aqua.yaml"
+export AQUA_GLOBAL_CONFIG="$HOME/.config/aquaproj-aqua/aqua.yaml"
 
 export PATH="$(aqua root-dir)/bin:$PATH"
 
