@@ -120,3 +120,9 @@ export PATH="$(aqua root-dir)/bin:$PATH"
 export NPM_CONFIG_PREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/npm-global"
 
 export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
+
+# Start ssh-agent automatically
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)" > /dev/null
+    ssh-add ~/.ssh/id_ed25519 2> /dev/null
+fi

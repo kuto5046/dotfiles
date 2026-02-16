@@ -5,8 +5,10 @@ direnv = "latest"
 fzf = "latest"
 gh = "latest"
 ghq = "latest"
+lazygit = "latest"
 neovim = "latest"
 node = "latest"
+tmux = "latest"
 uv = "latest"
 
 [settings]
