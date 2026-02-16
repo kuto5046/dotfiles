@@ -10,7 +10,7 @@ font-size = 13
 font-thicken = true
 
 # 背景透過
-background-opacity = 0.9
+background-opacity = 0.95
 background-blur-radius = 10
 
 # 非アクティブペインを暗く
