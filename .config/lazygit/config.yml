@@ -37,3 +37,16 @@ gui:
       - "#c6d0f5"
     searchingActiveBorderColor:
       - "#e5c890"
+customCommands:
+  # ファイルパネルで e キー → Neovim の DiffviewOpen でファイルの差分を表示
+  - key: "e"
+    command: 'nvim -c "DiffviewOpen -- {{.SelectedFile.Name}}"'
+    context: "files"
+    description: "Open file diff in Neovim Diffview"
+    subprocess: true
+  # コミットファイルパネルで e キー → Neovim の DiffviewFileHistory でファイル履歴を表示
+  - key: "e"
+    command: 'nvim -c "DiffviewFileHistory -- {{.SelectedCommitFile.Name}}"'
+    context: "commitFiles"
+    description: "Open file history in Neovim Diffview"
+    subprocess: true
