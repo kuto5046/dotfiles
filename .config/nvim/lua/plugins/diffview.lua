@@ -2,6 +2,33 @@ return {
 	"sindrets/diffview.nvim",
 	event = "BufRead",
 	config = function()
+		-- Disable vimade in diffview
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = { "DiffviewFiles", "DiffviewFileHistory" },
+			callback = function()
+				vim.cmd("VimadeDisable")
+			end,
+		})
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "DiffviewViewClosed",
+			callback = function()
+				vim.cmd("VimadeEnable")
+			end,
+		})
+
+		-- Auto-preview: select entry on cursor move in file panel
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = { "DiffviewFiles", "DiffviewFileHistory" },
+			callback = function(ev)
+				vim.api.nvim_create_autocmd("CursorMoved", {
+					buffer = ev.buf,
+					callback = function()
+						require("diffview").emit("select_entry")
+					end,
+				})
+			end,
+		})
+
 		-- Keymaps
 		vim.keymap.set(
 			"n",
