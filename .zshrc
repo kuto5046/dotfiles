@@ -123,3 +123,9 @@ export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 
 # Cortex CLI completion (disable via /settings in cortex)
 [[ -s ~/.zsh/completions/cortex.zsh ]] && source ~/.zsh/completions/cortex.zsh
+
+# Start ssh-agent automatically
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)" > /dev/null
+    ssh-add ~/.ssh/id_ed25519 2> /dev/null
+fi

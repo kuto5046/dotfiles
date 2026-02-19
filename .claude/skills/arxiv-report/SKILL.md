@@ -1,6 +1,6 @@
 ---
 name: arxiv-report
-description: arxiv論文を詳細に分析し、日本語でレポートを生成する（並列処理で高速化）
+description: arxiv論文を詳細に分析し、日本語でレポートを生成する（並列処理で高速化、ベンチマーク比較付き）
 allowed-tools: Task, WebFetch, WebSearch, Read, Write, Bash
 model: sonnet
 disable-model-invocation: true
@@ -12,9 +12,10 @@ argument-hint: <arxiv-id or URL>
 arxiv論文のURLまたはIDを入力すると、以下を含む詳細な日本語レポートを生成します：
 
 1. **詳細な論文解説**（関連研究のarxiv URL付き、論文中の図表画像を含む）
-2. **落合フォーマット**でのまとめ（箇条書き形式）
-3. **GitHub実装の解析**（コード抜粋付き）
-4. **Notionへの自動投稿**（設定済みの場合）
+2. **ベンチマーク比較Leaderboard**（ChatGPT、Claude、Gemini等の商用モデルとの性能比較表）
+3. **落合フォーマット**でのまとめ（箇条書き形式）
+4. **GitHub実装の解析**（コード抜粋付き）
+5. **Notionへの自動投稿**（設定済みの場合）
 
 複数の独立したエージェントを並列実行して処理時間を短縮します。
 
@@ -35,7 +36,7 @@ arxiv論文のURLまたはIDを入力すると、以下を含む詳細な日本�
 
 ### 手順2: 並列エージェントの起動
 
-**重要**: 以下の3つのエージェントを**同時に**Taskツールで並列起動してください（1つのメッセージで3つのTask呼び出し）：
+**重要**: 以下の4つのエージェントを**同時に**Taskツールで並列起動してください（1つのメッセージで4つのTask呼び出し）：
 
 #### エージェント1: 論文本体解析（フェーズ1担当）
 ```
@@ -62,6 +63,15 @@ Taskツールパラメータ:
 - run_in_background: true
 - description: "GitHub実装調査"
 - prompt: [下記のプロンプト3を使用]
+```
+
+#### エージェント4: ベンチマーク調査（フェーズ4担当）
+```
+Taskツールパラメータ:
+- subagent_type: "general-purpose"
+- run_in_background: true
+- description: "ベンチマーク調査"
+- prompt: [下記のプロンプト4を使用]
 ```
 
 ---
@@ -191,6 +201,94 @@ Writeツールで `arxiv_[arxiv_id]_phase3.json` に結果を保存：
 
 ---
 
+### プロンプト4: ベンチマーク調査エージェント
+
+```
+arxiv論文 [arxiv_id] のベンチマーク評価を調査し、Leaderboard形式でまとめてください。
+
+## 実行内容
+
+1. **ベンチマーク情報の抽出**:
+   - WebFetchで `https://arxiv.org/pdf/[arxiv_id].pdf` から実験結果セクションを解析
+   - 使用されているベンチマーク名を特定（例: MMLU, HumanEval, MATH, GSM8K, MT-Bench等）
+   - 論文中の評価指標とスコアを記録
+   - **論文での手法の名称を必ず記録**（例: "Proposed Method", "Our Model", 具体的なモデル名等）
+
+2. **商用モデルの優先調査**:
+   各ベンチマークについて、以下の順序で調査（WebSearchを使用）:
+
+   **優先度1 - 商用クローズドモデル（必須）**:
+   - GPT-4, GPT-4 Turbo, GPT-4o, GPT-3.5 (OpenAI)
+   - Claude 3 Opus, Claude 3.5 Sonnet, Claude 3 Haiku (Anthropic)
+   - Gemini Ultra, Gemini Pro, Gemini Flash (Google)
+   - 検索クエリ例: `"[benchmark_name] GPT-4 score"`, `"[benchmark_name] Claude 3.5 Sonnet performance"`
+
+   **優先度2 - 主要オープンモデル**:
+   - Llama 3, Llama 2 (Meta)
+   - Mistral, Mixtral (Mistral AI)
+   - Qwen (Alibaba)
+   - 検索クエリ例: `"[benchmark_name] Llama 3 benchmark"`, `"[benchmark_name] leaderboard 2024"`
+
+   **優先度3 - 公式リーダーボード**:
+   - Papers with Code, Hugging Face Leaderboards
+   - 検索クエリ例: `"[benchmark_name] leaderboard papers with code"`, `"[benchmark_name] huggingface leaderboard"`
+
+3. **調査制限**:
+   - 各ベンチマークにつき最低3つの商用モデル、最大10モデルまで
+   - 検索は各ベンチマークにつき最大5回まで
+   - 見つからないベンチマークはスキップ
+
+4. **データ構造化**:
+   Writeツールで `arxiv_[arxiv_id]_phase4.json` に結果を保存:
+
+```json
+{
+  "benchmarks": [
+    {
+      "name": "MMLU",
+      "description": "Massive Multitask Language Understanding",
+      "paper_score": {
+        "model": "[論文での手法の名称]",
+        "score": 85.2,
+        "metric": "accuracy (%)"
+      },
+      "leaderboard": [
+        {
+          "rank": 1,
+          "model": "GPT-4",
+          "score": 86.4,
+          "metric": "accuracy (%)",
+          "source": "OpenAI Technical Report",
+          "date": "2023-03"
+        },
+        {
+          "rank": 2,
+          "model": "Claude 3 Opus",
+          "score": 86.8,
+          "metric": "accuracy (%)",
+          "source": "Anthropic Blog",
+          "date": "2024-03"
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+```
+
+5. **重要な注意事項**:
+   - **モデル名は必須**（論文での手法名、商用モデル名等を必ず記録）
+   - スコアは必ず数値で記録（パーセンテージは数値のみ、例: 85.2）
+   - 同じベンチマークで異なる設定（few-shot数など）がある場合は注記
+   - 情報源（論文やブログのURL）を必ず記録
+   - 見つからなかったベンチマークは空配列で保存
+
+完了後、結果JSONファイルのパスを出力してください。
+```
+
+---
+
 ### 手順3: 結果の統合とレポート生成
 
 すべてのバックグラウンドエージェントの完了を待ち、結果を統合：
@@ -199,6 +297,7 @@ Writeツールで `arxiv_[arxiv_id]_phase3.json` に結果を保存：
    - `arxiv_[arxiv_id]_phase1.json`
    - `arxiv_[arxiv_id]_phase2.json`
    - `arxiv_[arxiv_id]_phase3.json`
+   - `arxiv_[arxiv_id]_phase4.json`
 
 2. Writeツールで `arxiv_[arxiv_id]_report.md` を生成：
 
@@ -249,12 +348,38 @@ Writeツールで `arxiv_[arxiv_id]_phase3.json` に結果を保存：
 - 主要結果
 - ベースライン比較
 
-### 1.5 考察と限界
+### 1.5 ベンチマーク比較（Leaderboard）
+
+各ベンチマークについて、主要モデルとの性能比較を表形式で表示：
+
+#### [ベンチマーク名1]（例: MMLU）
+
+| Rank | Model | Score | Metric | Source | Date |
+|------|-------|-------|--------|--------|------|
+| 1 | GPT-4o | 88.7 | accuracy (%) | OpenAI Report | 2024-05 |
+| 2 | Claude 3.5 Sonnet | 88.3 | accuracy (%) | Anthropic Blog | 2024-06 |
+| 3 | **[論文の手法名]** | **85.2** | **accuracy (%)** | This paper | 2025-01 |
+| 4 | Gemini Pro | 84.1 | accuracy (%) | Google Report | 2024-03 |
+
+**論文中の手法**: [論文での手法名] - **85.2%**
+
+#### [ベンチマーク名2]（例: HumanEval）
+
+| Rank | Model | Score | Metric | Source | Date |
+|------|-------|-------|--------|--------|------|
+...
+
+**注**:
+- 太字は論文中の提案手法のスコア
+- 商用モデル（ChatGPT, Claude, Gemini）を優先的に掲載
+- スコアは各情報源から取得した最新値
+
+### 1.6 考察と限界
 - 強み
 - 弱み
 - 今後の課題
 
-### 1.6 関連研究
+### 1.7 関連研究
 1. **[タイトル](arxiv_url)** - [説明]
 2. ...
 [5本程度]
@@ -366,7 +491,8 @@ Writeツールで `arxiv_[arxiv_id]_phase3.json` に結果を保存：
    - arxiv_[arxiv_id]_images/ (図表画像)
 🔗 **関連論文**: X本調査
 💻 **GitHub**: [見つかった/見つからなかった]
-📊 **Notion**: [投稿済みURL / 手動インポート必要]
+📊 **ベンチマーク**: Y個のベンチマークで比較表生成（商用モデル含む）
+📈 **Notion**: [投稿済みURL / 手動インポート必要]
 ```
 
 ---

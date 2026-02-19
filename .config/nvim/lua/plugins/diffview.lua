@@ -1,6 +1,6 @@
 return {
 	"sindrets/diffview.nvim",
-	event = "BufRead",
+	lazy = false,
 	config = function()
 		-- Disable vimade in diffview
 		vim.api.nvim_create_autocmd("FileType", {
@@ -29,6 +29,13 @@ return {
 			end,
 		})
 
+		require("diffview").setup({
+			keymaps = {
+				view = { { "n", "q", "<cmd>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+				file_panel = { { "n", "q", "<cmd>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+				file_history_panel = { { "n", "q", "<cmd>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+			},
+		})
 		-- Keymaps
 		vim.keymap.set(
 			"n",
