@@ -1,0 +1,450 @@
+#!/bin/bash
+# terminal-preview: dotfileの設定をブラウザでプレビューするスクリプト
+# スマホやタブレットからローカルネットワーク経由でアクセス可能
+#
+# 使い方:
+#   terminal-preview          # ポート8080で起動
+#   terminal-preview 3000     # ポート3000で起動
+
+set -euo pipefail
+
+PORT="${1:-8080}"
+OUTPUT_DIR="${TMPDIR:-/tmp}/terminal-preview-$$"
+HTML_FILE="$OUTPUT_DIR/index.html"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+cleanup() {
+  rm -rf "$OUTPUT_DIR"
+}
+trap cleanup EXIT
+
+mkdir -p "$OUTPUT_DIR"
+
+# .wezterm.luaからcolor_schemeを取得
+color_scheme="nightfox"
+font_name="JetBrains Mono"
+font_size="13"
+if [[ -f "$DOTFILES_DIR/.wezterm.lua" ]]; then
+  scheme=$(grep 'color_scheme' "$DOTFILES_DIR/.wezterm.lua" 2>/dev/null | grep -oP '"[^"]*"' | tr -d '"' | head -1 || true)
+  [[ -n "${scheme:-}" ]] && color_scheme="$scheme"
+  font=$(grep -A1 'font_with_fallback' "$DOTFILES_DIR/.wezterm.lua" 2>/dev/null | grep -oP '"[^"]*"' | tr -d '"' | head -1 || true)
+  [[ -n "${font:-}" ]] && font_name="$font"
+  fsize=$(grep 'font_size' "$DOTFILES_DIR/.wezterm.lua" 2>/dev/null | grep -oP '[0-9]+' | head -1 || true)
+  [[ -n "${fsize:-}" ]] && font_size="$fsize"
+fi
+
+# .p10k.zshからプロンプトセグメントを取得
+left_segments="os_icon context dir vcs"
+right_segments="status time"
+if [[ -f "$DOTFILES_DIR/.p10k.zsh" ]]; then
+  left=$(grep -A20 'POWERLEVEL9K_LEFT_PROMPT_ELEMENTS' "$DOTFILES_DIR/.p10k.zsh" 2>/dev/null | \
+    grep -v '#' | grep -oP '\w+' | grep -v 'POWERLEVEL9K_LEFT_PROMPT_ELEMENTS\|newline\|typeset\|g' | \
+    head -5 | tr '\n' ' ' || true)
+  [[ -n "${left:-}" ]] && left_segments="$left"
+fi
+
+# ローカルIPを取得
+get_local_ip() {
+  # Linux
+  if command -v ip &>/dev/null; then
+    ip route get 1.1.1.1 2>/dev/null | grep -oP 'src \K\S+' | head -1 && return
+  fi
+  # macOS / BSD
+  if command -v ifconfig &>/dev/null; then
+    ifconfig 2>/dev/null | awk '/inet / && !/127\.0\.0\.1/ {print $2; exit}'
+    return
+  fi
+  echo "localhost"
+}
+
+LOCAL_IP=$(get_local_ip)
+[[ -z "$LOCAL_IP" ]] && LOCAL_IP="localhost"
+URL="http://${LOCAL_IP}:${PORT}"
+
+# git情報を取得
+git_branch=$(git -C "$DOTFILES_DIR" symbolic-ref --short HEAD 2>/dev/null || echo "main")
+git_hash=$(git -C "$DOTFILES_DIR" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+
+# tmux.confから設定を読む
+tmux_prefix="Ctrl+A"
+if [[ -f "$DOTFILES_DIR/.tmux.conf" ]]; then
+  prefix=$(grep 'set.*prefix' "$DOTFILES_DIR/.tmux.conf" 2>/dev/null | grep -v '#' | head -1 || true)
+  [[ -n "${prefix:-}" ]] && tmux_prefix=$(echo "$prefix" | grep -oP 'C-\w+' | sed 's/C-/Ctrl+/' | head -1 || echo "Ctrl+A")
+fi
+
+# HTMLを生成 (nightfox カラースキーム)
+cat > "$HTML_FILE" << HTMLEOF
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Terminal Preview — ${color_scheme}</title>
+  <style>
+    :root {
+      --bg:       #192330;
+      --bg2:      #212e3f;
+      --bg3:      #29394f;
+      --fg:       #cdcecf;
+      --fg-dim:   #738091;
+      --black:    #393b44;
+      --red:      #c94f6d;
+      --green:    #81b29a;
+      --yellow:   #dbc074;
+      --blue:     #719cd6;
+      --magenta:  #9d79d6;
+      --cyan:     #63cdcf;
+      --white:    #dfdfe0;
+      --br-black:   #575860;
+      --br-red:     #d16983;
+      --br-green:   #8ebaa4;
+      --br-yellow:  #e0c989;
+      --br-blue:    #86abdc;
+      --br-magenta: #baa1e2;
+      --br-cyan:    #7ad4d6;
+      --br-white:   #e4e4e5;
+      --font: '${font_name}', 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0e1419;
+      color: var(--fg);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 16px;
+      min-height: 100vh;
+    }
+
+    h2 {
+      color: var(--blue);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 24px 0 10px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--bg3);
+    }
+    h2:first-of-type { margin-top: 16px; }
+
+    /* ターミナルウィンドウ */
+    .terminal {
+      background: var(--bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      margin-bottom: 24px;
+    }
+    .term-titlebar {
+      background: var(--bg2);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--bg3);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-close  { background: var(--red); }
+    .dot-min    { background: var(--yellow); }
+    .dot-max    { background: var(--green); }
+    .term-title {
+      flex: 1;
+      text-align: center;
+      color: var(--fg-dim);
+      font-size: 12px;
+    }
+    .term-body {
+      padding: 14px 16px;
+      min-height: 220px;
+    }
+    .term-line { display: flex; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px; }
+
+    /* p10k プロンプト風 */
+    .p10k {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0;
+      margin-bottom: 2px;
+    }
+    .seg {
+      padding: 1px 6px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .seg-os       { color: var(--br-blue); }
+    .seg-user     { color: var(--green); }
+    .seg-dir      { color: var(--blue); font-weight: bold; }
+    .seg-git      { color: var(--yellow); }
+    .seg-arrow    { color: var(--green); margin-right: 8px; }
+    .seg-error    { color: var(--red); }
+    .right-prompt { margin-left: auto; color: var(--fg-dim); font-size: 12px; }
+
+    .cmd  { color: var(--br-white); }
+    .arg  { color: var(--cyan); }
+    .out  { color: var(--fg); opacity: 0.85; margin-left: 2px; }
+    .comment { color: var(--fg-dim); }
+
+    /* カラーパレット */
+    .palette { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-bottom: 16px; }
+    .swatch {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 4px;
+      position: relative;
+    }
+    .swatch-label {
+      font-size: 9px;
+      color: rgba(255,255,255,0.7);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      font-family: monospace;
+    }
+    .palette-section { margin-bottom: 8px; }
+    .palette-title { color: var(--fg-dim); font-size: 11px; margin-bottom: 6px; }
+
+    /* 設定サマリー */
+    .config-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .config-card {
+      background: var(--bg);
+      border: 1px solid var(--bg3);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .config-card .label { color: var(--fg-dim); font-size: 11px; margin-bottom: 4px; }
+    .config-card .value { color: var(--br-white); font-size: 13px; }
+    .config-card .value .highlight { color: var(--cyan); }
+
+    /* tmux プレビュー */
+    .tmux-bar {
+      background: var(--bg2);
+      display: flex;
+      gap: 2px;
+      padding: 3px 8px;
+      font-size: 12px;
+      border-top: 2px solid var(--blue);
+    }
+    .tmux-win {
+      padding: 2px 10px;
+      border-radius: 3px;
+      color: var(--fg-dim);
+    }
+    .tmux-win.active {
+      background: var(--bg3);
+      color: var(--br-white);
+    }
+    .tmux-status-right { margin-left: auto; color: var(--fg-dim); }
+
+    /* gitデルタ差分プレビュー */
+    .diff { font-size: 12px; line-height: 1.6; }
+    .diff .added   { color: var(--green); }
+    .diff .removed { color: var(--red); }
+    .diff .hunk    { color: var(--cyan); }
+    .diff .header  { color: var(--yellow); font-weight: bold; }
+
+    /* メタ情報 */
+    .meta {
+      text-align: center;
+      color: var(--fg-dim);
+      font-size: 11px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--bg3);
+    }
+    .meta .highlight { color: var(--blue); }
+
+    @media (max-width: 480px) {
+      body { padding: 10px; font-size: 13px; }
+      .palette { grid-template-columns: repeat(8, 1fr); gap: 4px; }
+      .config-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .term-body { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<h2>Terminal Preview</h2>
+
+<!-- ターミナルウィンドウ -->
+<div class="terminal">
+  <div class="term-titlebar">
+    <span class="dot dot-close"></span>
+    <span class="dot dot-min"></span>
+    <span class="dot dot-max"></span>
+    <span class="term-title">${font_name} ${font_size}pt — ${color_scheme}</span>
+  </div>
+  <div class="term-body">
+    <!-- p10k プロンプト行 1 -->
+    <div class="p10k">
+      <span class="seg seg-os"> </span>
+      <span class="seg seg-user">user@hostname</span>
+      <span class="seg" style="color:var(--fg-dim)">  </span>
+      <span class="seg seg-dir"> ~/dotfiles</span>
+      <span class="seg" style="color:var(--fg-dim)">  </span>
+      <span class="seg seg-git"> ${git_branch} </span>
+      <span class="right-prompt"> ${git_hash} </span>
+    </div>
+    <!-- プロンプト行 2 -->
+    <div class="term-line" style="margin-bottom:10px;">
+      <span class="seg-arrow">❯</span>
+      <span class="cmd">ls</span>
+      <span class="arg"> --color=auto</span>
+    </div>
+    <div class="term-line out" style="margin-bottom:10px;">
+      <span style="color:var(--blue)"> .bin/</span>&nbsp;
+      <span style="color:var(--blue)"> .claude/</span>&nbsp;
+      <span style="color:var(--blue)"> .config/</span>&nbsp;
+      <span style="color:var(--green)"> .gitconfig</span>&nbsp;
+      <span style="color:var(--green)"> .p10k.zsh</span>&nbsp;
+      <span style="color:var(--green)"> .tmux.conf</span>&nbsp;
+      <span style="color:var(--green)"> .wezterm.lua</span>&nbsp;
+      <span style="color:var(--green)"> .zshrc</span>
+    </div>
+    <!-- 差分プレビュー -->
+    <div class="p10k">
+      <span class="seg seg-os"> </span>
+      <span class="seg seg-user">user@hostname</span>
+      <span class="seg" style="color:var(--fg-dim)">  </span>
+      <span class="seg seg-dir"> ~/dotfiles</span>
+      <span class="seg" style="color:var(--fg-dim)">  </span>
+      <span class="seg seg-git"> ${git_branch} *1 </span>
+    </div>
+    <div class="term-line" style="margin-bottom:8px;">
+      <span class="seg-arrow">❯</span>
+      <span class="cmd">git</span>
+      <span class="arg"> diff HEAD</span>
+    </div>
+    <div class="diff">
+      <div class="header">diff --git a/.wezterm.lua b/.wezterm.lua</div>
+      <div class="hunk">@@ -10,1 +10,1 @@</div>
+      <div class="removed">-config.color_scheme = "tokyonight"</div>
+      <div class="added">+config.color_scheme = "nightfox"</div>
+    </div>
+  </div>
+  <!-- tmux ステータスバー -->
+  <div class="tmux-bar">
+    <span class="tmux-win active">1: zsh *</span>
+    <span class="tmux-win">2: nvim</span>
+    <span class="tmux-win">3: lazygit</span>
+    <span class="tmux-status-right">${color_scheme}  %H:%M </span>
+  </div>
+</div>
+
+<h2>カラーパレット — ${color_scheme}</h2>
+
+<div class="palette-section">
+  <div class="palette-title">Normal (ANSI 0–7)</div>
+  <div class="palette">
+    <div class="swatch" style="background:#393b44"><span class="swatch-label">Black</span></div>
+    <div class="swatch" style="background:#c94f6d"><span class="swatch-label">Red</span></div>
+    <div class="swatch" style="background:#81b29a"><span class="swatch-label">Green</span></div>
+    <div class="swatch" style="background:#dbc074"><span class="swatch-label">Yellow</span></div>
+    <div class="swatch" style="background:#719cd6"><span class="swatch-label">Blue</span></div>
+    <div class="swatch" style="background:#9d79d6"><span class="swatch-label">Magenta</span></div>
+    <div class="swatch" style="background:#63cdcf"><span class="swatch-label">Cyan</span></div>
+    <div class="swatch" style="background:#dfdfe0"><span class="swatch-label">White</span></div>
+  </div>
+</div>
+
+<div class="palette-section">
+  <div class="palette-title">Bright (ANSI 8–15)</div>
+  <div class="palette">
+    <div class="swatch" style="background:#575860"><span class="swatch-label">Br.Black</span></div>
+    <div class="swatch" style="background:#d16983"><span class="swatch-label">Br.Red</span></div>
+    <div class="swatch" style="background:#8ebaa4"><span class="swatch-label">Br.Green</span></div>
+    <div class="swatch" style="background:#e0c989"><span class="swatch-label">Br.Yellow</span></div>
+    <div class="swatch" style="background:#86abdc"><span class="swatch-label">Br.Blue</span></div>
+    <div class="swatch" style="background:#baa1e2"><span class="swatch-label">Br.Magenta</span></div>
+    <div class="swatch" style="background:#7ad4d6"><span class="swatch-label">Br.Cyan</span></div>
+    <div class="swatch" style="background:#e4e4e5"><span class="swatch-label">Br.White</span></div>
+  </div>
+</div>
+
+<div class="palette-section">
+  <div class="palette-title">背景 / 前景</div>
+  <div class="palette" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="swatch" style="background:#192330; border:1px solid #29394f;"><span class="swatch-label">BG</span></div>
+    <div class="swatch" style="background:#212e3f; border:1px solid #29394f;"><span class="swatch-label">BG2</span></div>
+    <div class="swatch" style="background:#29394f; border:1px solid #575860;"><span class="swatch-label">BG3</span></div>
+    <div class="swatch" style="background:#cdcecf; border:1px solid #575860;"><span class="swatch-label">FG</span></div>
+  </div>
+</div>
+
+<h2>設定サマリー</h2>
+
+<div class="config-grid">
+  <div class="config-card">
+    <div class="label">ターミナル</div>
+    <div class="value"><span class="highlight">WezTerm</span></div>
+  </div>
+  <div class="config-card">
+    <div class="label">カラースキーム</div>
+    <div class="value"><span class="highlight">${color_scheme}</span></div>
+  </div>
+  <div class="config-card">
+    <div class="label">フォント</div>
+    <div class="value"><span class="highlight">${font_name}</span></div>
+  </div>
+  <div class="config-card">
+    <div class="label">フォントサイズ</div>
+    <div class="value"><span class="highlight">${font_size}pt</span></div>
+  </div>
+  <div class="config-card">
+    <div class="label">シェル</div>
+    <div class="value"><span class="highlight">Zsh + Powerlevel10k</span></div>
+  </div>
+  <div class="config-card">
+    <div class="label">マルチプレクサ</div>
+    <div class="value">tmux (<span class="highlight">${tmux_prefix}</span>)</div>
+  </div>
+  <div class="config-card">
+    <div class="label">dotfiles ブランチ</div>
+    <div class="value"><span class="highlight">${git_branch}</span></div>
+  </div>
+  <div class="config-card">
+    <div class="label">最終コミット</div>
+    <div class="value"><span class="highlight">${git_hash}</span></div>
+  </div>
+</div>
+
+<div class="meta">
+  <div>Generated by <span class="highlight">terminal-preview</span></div>
+  <div style="margin-top:4px;">Serving: <span class="highlight">${URL}</span></div>
+</div>
+
+</body>
+</html>
+HTMLEOF
+
+# 起動情報を表示
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo " Terminal Preview — ${color_scheme}"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo " URL: ${URL}"
+echo ""
+
+# QRコードを表示（qrencode がインストールされている場合）
+if command -v qrencode &>/dev/null; then
+  echo " スマホでスキャン:"
+  qrencode -t ANSIUTF8 -m 1 "$URL" 2>/dev/null || true
+  echo ""
+fi
+
+echo " Ctrl+C で停止"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# HTTPサーバーを起動
+python3 -m http.server "$PORT" --directory "$OUTPUT_DIR" 2>/dev/null
