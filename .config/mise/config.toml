@@ -5,13 +5,10 @@ direnv = "latest"
 fzf = "latest"
 gh = "latest"
 ghq = "latest"
-lazygit = "latest"
 neovim = "latest"
 node = "latest"
-tmux = "latest"
 uv = "latest"
 "npm:@openai/codex" = "latest"
-claude = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]
