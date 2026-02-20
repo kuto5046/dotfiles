@@ -1,5 +1,6 @@
 return {
 	"sindrets/diffview.nvim",
+	enabled = false,
 	lazy = false,
 	config = function()
 		-- Disable vimade in diffview
