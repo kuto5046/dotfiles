@@ -8,6 +8,9 @@ return {
 					backend = "tmux",
 					enabled = false,
 				},
+				win = {
+					layout = "float",
+				},
 			},
 		},
 		keys = {
