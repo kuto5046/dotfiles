@@ -10,6 +10,9 @@ return {
 				},
 				win = {
 					layout = "float",
+					float = {
+						border = "single",
+					},
 				},
 			},
 		},
