@@ -147,6 +147,5 @@
     "example-skills@anthropic-agent-skills": true
   },
   "language": "Japanese",
-  "autoUpdatesChannel": "latest",
-  "model": "opus"
+  "autoUpdatesChannel": "latest"
 }
