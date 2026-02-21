@@ -14,6 +14,7 @@ return {
 			enabled = true,
 			hidden = true, -- 隠しファイルを表示
 			ignored = true, -- gitignoreされたファイルも表示
+			exclude = { ".venv" },
 		},
 		indent = { enabled = true },
 		input = { enabled = true },
@@ -23,6 +24,7 @@ return {
 				explorer = {
 					hidden = true, -- 隠しファイルを表示
 					ignored = true, -- gitignoreされたファイルも表示
+					exclude = { ".venv" },
 				},
 			},
 			actions = {
