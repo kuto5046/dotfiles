@@ -35,3 +35,6 @@ shell-integration-features = ssh-terminfo,ssh-env
 
 # デスクトップ通知
 desktop-notifications = true
+
+# クリップボード読み取り警告を抑制
+clipboard-read = allow
