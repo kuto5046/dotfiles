@@ -49,33 +49,9 @@ return {
 		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
-		lazygit = {
-			configure = true,
-			win = {
-				style = "lazygit",
-				width = 0.99, -- ウィンドウ幅を画面の99%に設定
-				height = 0.99, -- ウィンドウ高さを画面の99%に設定
-				border = "none", -- シンプルなボーダー
-			},
-		},
+		lazygit = { enabled = false },
 	},
 	keys = {
-		{
-			"<leader>gg",
-			mode = "n",
-			noremap = true,
-			desc = "Git: Open Lazygit",
-			function()
-				_G.__snacks_last_lg = require("snacks").lazygit.open()
-				_G._SNACKS_LG_CLOSE = function()
-					local last_lg = _G.__snacks_last_lg
-					if last_lg and last_lg.close then
-						pcall(last_lg.close, last_lg)
-					end
-					_G.__snacks_last_lg = nil
-				end
-			end,
-		},
 		-- Top Pickers & Explorer
 		{
 			"<leader><space>",
