@@ -36,7 +36,7 @@ arxiv論文のURLまたはIDを入力すると、以下を含む詳細な日本�
 
 ### 手順2: 並列エージェントの起動
 
-**重要**: 以下の4つのエージェントを**同時に**Taskツールで並列起動してください（1つのメッセージで4つのTask呼び出し）：
+**重要**: 以下の5つのエージェントを**同時に**Taskツールで並列起動してください（1つのメッセージで5つのTask呼び出し）：
 
 #### エージェント1: 論文本体解析（フェーズ1担当）
 ```
@@ -74,6 +74,15 @@ Taskツールパラメータ:
 - prompt: [下記のプロンプト4を使用]
 ```
 
+#### エージェント5: 図表コンテキスト解析（フェーズ5担当）
+```
+Taskツールパラメータ:
+- subagent_type: "general-purpose"
+- run_in_background: true
+- description: "図表コンテキスト解析"
+- prompt: [下記のプロンプト5を使用]
+```
+
 ---
 
 ### プロンプト1: 論文本体解析エージェント
@@ -97,18 +106,9 @@ arxiv論文 [arxiv_id] の本体を解析してください。
    - 主要な図表を特定（5-7個程度、ページ番号を記録）
    - 引用文献リスト
 
-3. **図表画像の取得**（重要）：
-   - Bashツールで以下のコマンドを実行し、PDF内の画像を抽出：
-
-   ```bash
-   mkdir -p arxiv_[arxiv_id]_images
-   # PDFから画像を抽出（ImageMagick使用）
-   convert -density 150 "https://arxiv.org/pdf/[arxiv_id].pdf" -quality 90 "arxiv_[arxiv_id]_images/page_%03d.png"
-   ```
-
-   - または、主要な図表ページのスクリーンショットを取得
-   - 各画像ファイルを `arxiv_[arxiv_id]_images/figure_X.png` として保存
-   - 図表番号とファイル名のマッピングを記録
+3. 論文中の図表に関するメモ（※画像の実際の抽出はフェーズ5が担当）：
+   - 各セクションで主要な図表番号を記録（例: "Figure 3 shows the architecture..."）
+   - 図表の説明が本文にある場合はメモしておく
 
 4. Writeツールで `arxiv_[arxiv_id]_phase1.json` に結果を保存：
    ```json
@@ -122,10 +122,6 @@ arxiv論文 [arxiv_id] の本体を解析してください。
      "abstract": "...",
      "github_url": "..." or null,
      "sections": {...},
-     "figures": [
-       {"number": 1, "description": "...", "file": "arxiv_[arxiv_id]_images/figure_1.png"},
-       ...
-     ],
      "references": [...]
    }
    ```
@@ -289,6 +285,100 @@ arxiv論文 [arxiv_id] のベンチマーク評価を調査し、Leaderboard形�
 
 ---
 
+### プロンプト5: 図表コンテキスト解析エージェント
+
+```
+arxiv論文 [arxiv_id] の図表を抽出し、各図がどのセクションで言及されているかを解析してください。
+
+## 実行内容
+
+### ステップ1: 図表の画像と情報を抽出
+
+Bashツールで以下を実行してください：
+
+```bash
+# 出力ディレクトリを作成
+mkdir -p arxiv_[arxiv_id]_figures
+
+# extract_figures.py でTeXソースから図表を抽出（画像・キャプション・ラベル）
+uv run ~/.claude/skills/arxiv-figure-extractor/scripts/extract_figures.py \
+    [arxiv_id] arxiv_[arxiv_id]_figures
+```
+
+実行後、`arxiv_[arxiv_id]_figures/figures_summary.json` の内容をReadツールで確認してください。
+
+**TeXソースが利用不可でPDFフォールバックになった場合:**
+- 画像ファイルは生成されないが、キャプション情報は取得できる
+- フォールバック時は `--pdf-only` フラグ付きで再実行：
+  ```bash
+  uv run --with pymupdf ~/.claude/skills/arxiv-figure-extractor/scripts/extract_figures.py \
+      [arxiv_id] arxiv_[arxiv_id]_figures --pdf-only
+  ```
+
+### ステップ2: 各図のセクション参照コンテキストを解析
+
+Bashツールで以下を実行してください：
+
+```bash
+# analyze_figure_context.py でTeXから各図のセクション参照を解析
+uv run ~/.claude/skills/arxiv-figure-extractor/scripts/analyze_figure_context.py \
+    [arxiv_id] arxiv_[arxiv_id]_phase5_raw.json \
+    --figures-summary arxiv_[arxiv_id]_figures/figures_summary.json
+```
+
+Readツールで `arxiv_[arxiv_id]_phase5_raw.json` を読み込んでください。
+
+### ステップ3: 結果を統合してJSONに保存
+
+figures_summary.json と phase5_raw.json の情報を統合し、Writeツールで `arxiv_[arxiv_id]_phase5.json` に保存：
+
+```json
+{
+  "figures_dir": "arxiv_[arxiv_id]_figures",
+  "total_figures": 7,
+  "figures": [
+    {
+      "number": 1,
+      "label": "fig:overview",
+      "caption": "Overview of our proposed method. The model takes X as input...",
+      "image_files": ["arxiv_[arxiv_id]_figures/images/figure_01_overview.pdf"],
+      "image_available": true,
+      "section_mentions": [
+        {
+          "section_path": ["3. Proposed Method", "3.1 Architecture"],
+          "context": "As illustrated in Figure 1, our model consists of an encoder that processes the input sequence and a decoder that generates the output.",
+          "ref_count": 2
+        },
+        {
+          "section_path": ["4. Experiments"],
+          "context": "The architecture shown in Figure 1 is evaluated on three benchmarks.",
+          "ref_count": 1
+        }
+      ]
+    },
+    ...
+  ],
+  "tables": [
+    {
+      "number": 1,
+      "label": "tab:results",
+      "caption": "Comparison with state-of-the-art methods.",
+      "section_mentions": [...]
+    }
+  ]
+}
+```
+
+**注意事項:**
+- `image_available`: 画像ファイルが実際に保存されている場合は true
+- TeXソースが利用不可でPDFフォールバックの場合は `image_available: false`
+- `image_files` のパスは相対パスで記録
+
+完了後、結果JSONファイルのパスと抽出できた図表数を出力してください。
+```
+
+---
+
 ### 手順3: 結果の統合とレポート生成
 
 すべてのバックグラウンドエージェントの完了を待ち、結果を統合：
@@ -298,6 +388,7 @@ arxiv論文 [arxiv_id] のベンチマーク評価を調査し、Leaderboard形�
    - `arxiv_[arxiv_id]_phase2.json`
    - `arxiv_[arxiv_id]_phase3.json`
    - `arxiv_[arxiv_id]_phase4.json`
+   - `arxiv_[arxiv_id]_phase5.json`（図表コンテキスト情報）
 
 2. Writeツールで `arxiv_[arxiv_id]_report.md` を生成：
 
@@ -334,13 +425,42 @@ arxiv論文 [arxiv_id] のベンチマーク評価を調査し、Leaderboard形�
 
 #### 論文中の図表
 
-**Figure 1**: [説明]
-![Figure 1](arxiv_[arxiv_id]_images/figure_1.png)
+phase5.jsonの各figureに対して、以下の形式で出力してください（全ての図を含める）：
 
-**Figure 2**: [説明]
-![Figure 2](arxiv_[arxiv_id]_images/figure_2.png)
+---
 
-[すべての重要な図を含める - ローカル画像ファイルを参照]
+**Figure [number]**: [caption の日本語訳]
+
+> *原文キャプション*: [caption]
+
+![Figure [number]]([image_file_path])
+*(画像ファイルが利用不可の場合はこの行を省略)*
+
+**言及セクション:**
+- **[section_path を " > " で結合]** ([ref_count]回参照)
+  > [context の日本語訳または原文（長い場合は冒頭100文字程度）]
+
+---
+
+**例（Figure 1の場合）:**
+
+---
+
+**Figure 1**: 提案手法の概要図
+
+> *原文キャプション*: Overview of our proposed method. The model takes X as input and produces Y as output.
+
+![Figure 1](arxiv_2501.12345_figures/images/figure_01_overview.pdf)
+
+**言及セクション:**
+- **Proposed Method > Architecture** (2回参照)
+  > 図1に示すように、本モデルはエンコーダとデコーダから構成され...
+- **Experiments** (1回参照)
+  > 図1のアーキテクチャを3つのベンチマークで評価した...
+
+---
+
+[全ての図についてこの形式で記載]
 
 ### 1.4 実験結果
 - データセット
@@ -488,10 +608,11 @@ arxiv論文 [arxiv_id] のベンチマーク評価を調査し、Leaderboard形�
 📄 **論文**: [タイトル]
 📁 **ファイル**:
    - arxiv_[arxiv_id]_report.md
-   - arxiv_[arxiv_id]_images/ (図表画像)
+   - arxiv_[arxiv_id]_figures/ (図表画像・TeXソースから抽出)
 🔗 **関連論文**: X本調査
 💻 **GitHub**: [見つかった/見つからなかった]
 📊 **ベンチマーク**: Y個のベンチマークで比較表生成（商用モデル含む）
+🖼️ **図表**: Z枚の図を抽出（各図のセクション参照コンテキスト付き）
 📈 **Notion**: [投稿済みURL / 手動インポート必要]
 ```
 
