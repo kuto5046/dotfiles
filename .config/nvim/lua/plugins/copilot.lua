@@ -27,8 +27,9 @@ return {
 	{
 		-- suggestionされている時のみTabでacceptする
 		vim.keymap.set("i", "<Tab>", function()
-			if require("copilot.suggestion").is_visible() then
-				require("copilot.suggestion").accept()
+			local ok, suggestion = pcall(require, "copilot.suggestion")
+			if ok and suggestion.is_visible() then
+				suggestion.accept()
 			else
 				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
 			end
@@ -38,6 +39,7 @@ return {
 	},
 	{
 		"zbirenbaum/copilot-cmp",
+		enabled = false,
 		config = function()
 			require("copilot_cmp").setup({})
 		end,
