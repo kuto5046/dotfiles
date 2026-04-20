@@ -67,3 +67,5 @@
   hunk-header-style = file line-number purple
 [merge]
 	conflictStyle = zdiff3
+[url "https://github.com/LayerXcom/"]
+        insteadOf = ssh://git@github.com/LayerXcom/

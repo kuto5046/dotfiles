@@ -83,16 +83,16 @@
 !/.github/workflows/check.yaml
 
 # claude code
-!/.claude/commands/
-!/.claude/commands/*.md
-!/.claude/skills/
-!/.claude/skills/pyproject.toml
-!/.claude/skills/uv.lock
-!/.claude/skills/*/
-!/.claude/skills/*/**
-!/.claude/*.md
-!/.claude/config.json
-!/.claude/scripts/*
+# !/.claude/commands/
+# !/.claude/commands/*.md
+# !/.claude/skills/
+# !/.claude/skills/pyproject.toml
+# !/.claude/skills/uv.lock
+# !/.claude/skills/*/
+# !/.claude/skills/*/**
+# !/.claude/*.md
+# !/.claude/config.json
+# !/.claude/scripts/*
 # 明示的に除外
 /.claude/plugins/marketplaces/
 
