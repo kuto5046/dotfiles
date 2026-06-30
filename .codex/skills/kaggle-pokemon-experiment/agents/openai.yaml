@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kaggle Pokemon Experiment"
+  short_description: "Improve PTCG agents via local experiments"
+  default_prompt: "Use -pokemon-experiment to create a new experiment, tune it against local agents, and register improved submissions."
