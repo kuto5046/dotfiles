@@ -9,6 +9,7 @@ neovim = "latest"
 node = "latest"
 uv = "latest"
 "npm:@openai/codex" = "latest"
+claude-code = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]

@@ -102,8 +102,14 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 eval "$(direnv hook zsh)"
 
-# mise
+export AQUA_GLOBAL_CONFIG="$HOME/.config/aquaproj-aqua/aqua.yaml"
+
+export PATH="$(aqua root-dir)/bin:$PATH"
+
+# mise (aquaより後に設定することでmiseのツールを優先)
 eval "$(mise activate zsh)"
+# miseのaquaバックエンドがuvのパスを正しく解決できないため明示的に追加
+export PATH="$HOME/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc'; fi
@@ -112,10 +118,6 @@ if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 if [ -f '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kyohei.uto.002/google-cloud-sdk/completion.zsh.inc'; fi
 # opencode
 export PATH=~/.opencode/bin:$PATH
-
-export AQUA_GLOBAL_CONFIG="$HOME/.config/aquaproj-aqua/aqua.yaml"
-
-export PATH="$(aqua root-dir)/bin:$PATH"
 
 export NPM_CONFIG_PREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/npm-global"
 
@@ -129,3 +131,17 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
     eval "$(ssh-agent -s)" > /dev/null
     ssh-add ~/.ssh/id_ed25519 2> /dev/null
 fi
+
+# 開発環境設定
+# source ~/.zshrc.bakuraku
+
+export AQUA_GLOBAL_CONFIG="/Users/kyohei.uto.002/.config/aquaproj-aqua/aqua.yaml"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/kyohei.uto.002/.dart-cli-completion/zsh-config.zsh ]] && . /Users/kyohei.uto.002/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
+export PATH="$PATH":"$HOME/fvm/default/bin"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
