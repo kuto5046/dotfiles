@@ -1,17 +1,31 @@
 #!/bin/bash
 
-changeSession() {
-  local change
-  [[ -n "${TMUX:-""}" ]] && change="switch-client" || change="attach-session"
-  tmux $change -t "$1"
+findHerdrWorkspace() {
+  local name=$1
+
+  herdr workspace list 2>/dev/null |
+    jq -r --arg name "$name" '.result.workspaces[] | select(.label == $name) | .workspace_id' |
+    head -n 1
 }
 
-createSessionIfNeeded() {
+openHerdrWorkspace() {
   local name=$1
   local dir=$2
-  tmux list-sessions -F "#{session_name}" 2>/dev/null |
-  grep -q -E "^${name}$" ||
-  tmux new-session -d -c "${dir}" -s "${name}"
+  local workspace_id
+
+  workspace_id=$(findHerdrWorkspace "$name")
+  if [[ -n "$workspace_id" ]]; then
+    herdr workspace focus "$workspace_id"
+  else
+    herdr workspace create --cwd "$dir" --label "$name" --focus || {
+      cd "$dir" || return 1
+      exec herdr
+    }
+  fi
+
+  if [[ -z "${HERDR_ENV:-}" ]]; then
+    exec herdr
+  fi
 }
 
 selectRepo() {
@@ -28,11 +42,10 @@ main() {
     return 1
   fi
 
-  # リポジトリ名（最後の部分）をセッション名として使用
-  local session_name=$(basename "$repo_path")
+  # リポジトリ名（最後の部分）をワークスペース名として使用
+  local workspace_name=$(basename "$repo_path")
 
-  createSessionIfNeeded "$session_name" "$repo_path"
-  changeSession "$session_name"
+  openHerdrWorkspace "$workspace_name" "$repo_path"
 }
 
 main "$@"

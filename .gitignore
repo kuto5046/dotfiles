@@ -72,6 +72,8 @@
 !/.config/nvim/*
 !/.config/nvim/**
 !/.config/ghostty/config
+!/.config/herdr/
+!/.config/herdr/config.toml
 # !/.gitignore_global
 # !/.gitconfig_shared
 !package.json
