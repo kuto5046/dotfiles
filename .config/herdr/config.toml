@@ -1,7 +1,7 @@
 [keys]
 prefix = "ctrl+a"
-split_vertical = "prefix+h"
-split_horizontal = "prefix+v"
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
 
 [ui.toast]
 delivery = "system"
