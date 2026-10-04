@@ -2,6 +2,16 @@
 
 Every example uses `node "<skill-dir>/scripts/art.mjs"`; substitute the installed absolute skill directory. CLI errors return JSON with `--json` and a nonzero exit code.
 
+## Login and local logout
+
+```sh
+node "<skill-dir>/scripts/art.mjs" login --timeout 600 --json
+node "<skill-dir>/scripts/art.mjs" doctor --json
+node "<skill-dir>/scripts/art.mjs" logout --json
+```
+
+Only login launches cloudflared and waits for the user's browser authentication. Login URLs appear on stderr; final JSON appears on stdout. See [setup.md](setup.md) for prerequisites, storage, credential precedence and the scope of logout.
+
 ## Read and inspect
 
 ```sh

@@ -1,5 +1,26 @@
 # Connection setup
 
+## Interactive browser login (new PC / SSH host)
+
+If doctor already succeeds, no additional login is needed. A phone browser's Access login authorizes that browser; it does not configure the agent's execution environment.
+
+Install Node.js 22+ and [cloudflared](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/downloads/) on the machine where commands run. Then:
+
+```sh
+node "<skill-dir>/scripts/art.mjs" login --json
+node "<skill-dir>/scripts/art.mjs" doctor --json
+```
+
+Login captures cloudflared's JWT output and emits only the authentication URL on stderr. Show that URL to the user, who can open it on their phone. Keep the command running until completion (default timeout 600 seconds; `--timeout` accepts 1–1800). JSON stdout contains the outcome, expiry and agent identity, never the JWT. Browser login requires HTTPS and the deployed `POST /v1/agent-sessions` API plus migration 0002.
+
+After verified login, art issues a dedicated CLI session bound to the token fingerprint. The CLI sends both the Access token and `X-Art-Agent-Session`; the server verifies the binding and restricts these requests to agent operations. Invalid or expired CLI session IDs are rejected instead of falling back to human permissions. The token and session ID are saved per Control origin in `~/.config/art/sessions/` (directory 0700, files 0600 on Unix); `ART_SESSION_DIR` can choose another directory. Existing explicit JWT / Service Token credentials take priority over saved sessions. Login itself always performs browser authentication regardless of those explicit credentials.
+
+Ordinary commands never open a browser or silently refresh the token. Expiry or rejection requires `login` again. The duration follows the existing Access application/policy settings; this implementation does not change them to seven days.
+
+`logout --json` removes only art's saved session for the configured origin. It does not revoke the Access session, remove cloudflared's cache, or clear explicit credentials. cloudflared can reuse its own cached authentication on the next login.
+
+Browser authentication retains user credentials in cloudflared's cache, including organization authentication. The CLI session does not make the entire machine a sandboxed agent identity: the underlying user token can still authorize human requests without the CLI session header. Use a Service Token for unattended jobs and when the execution environment must never hold human credentials. Browser requests without the CLI session header retain human permissions, including when the Access token is shared.
+
 ## Configuration contract
 
 | Setting                   | Meaning                                                                       |

@@ -2,8 +2,168 @@
 
 // src/cli/main.ts
 import { parseArgs } from "node:util";
-import { readFile, writeFile, stat } from "node:fs/promises";
+import { readFile as readFile2, writeFile as writeFile2, stat } from "node:fs/promises";
+import { createHash as createHash2, randomUUID as randomUUID2 } from "node:crypto";
+
+// src/cli/browser-auth.ts
+import { spawn } from "node:child_process";
+import {
+  chmod,
+  mkdir,
+  readFile,
+  rename,
+  rm,
+  writeFile
+} from "node:fs/promises";
+import { homedir } from "node:os";
+import { dirname, join } from "node:path";
 import { createHash, randomUUID } from "node:crypto";
+var BrowserAuthError = class extends Error {
+  code;
+  constructor(code) {
+    super(code);
+    this.code = code;
+  }
+};
+function sessionPath(base) {
+  return join(
+    process.env.ART_SESSION_DIR || join(homedir(), ".config", "art", "sessions"),
+    createHash("sha256").update(base.origin).digest("hex") + ".json"
+  );
+}
+function tokenExpiry(token) {
+  try {
+    if (!/^[\w-]+\.[\w-]+\.[\w-]+$/.test(token)) throw new Error();
+    const payload = JSON.parse(
+      Buffer.from(token.split(".")[1], "base64url").toString()
+    );
+    if (!Number.isSafeInteger(payload.exp) || payload.exp <= Date.now() / 1e3)
+      throw new Error();
+    return payload.exp;
+  } catch {
+    throw new BrowserAuthError("browser_session_expired");
+  }
+}
+async function readSession(base) {
+  let session;
+  try {
+    session = JSON.parse(await readFile(sessionPath(base), "utf8"));
+  } catch (error) {
+    if (error.code === "ENOENT") return void 0;
+    throw new BrowserAuthError("invalid_browser_session");
+  }
+  if (!session || session.origin !== base.origin || typeof session.token !== "string" || typeof session.sessionId !== "string" || !/^[0-9a-f-]{36}$/.test(session.sessionId))
+    throw new BrowserAuthError("invalid_browser_session");
+  tokenExpiry(session.token);
+  return { token: session.token, sessionId: session.sessionId };
+}
+async function saveSession(base, token, sessionId) {
+  const path = sessionPath(base);
+  await mkdir(dirname(path), { recursive: true, mode: 448 });
+  await chmod(dirname(path), 448);
+  const temporary = path + "." + randomUUID();
+  try {
+    await writeFile(
+      temporary,
+      JSON.stringify({ origin: base.origin, token, sessionId }),
+      {
+        mode: 384,
+        flag: "wx"
+      }
+    );
+    await rename(temporary, path);
+  } finally {
+    await rm(temporary, { force: true });
+  }
+}
+async function deleteSession(base) {
+  await rm(sessionPath(base), { force: true });
+}
+async function browserLogin(base, timeoutSeconds) {
+  if (base.protocol !== "https:")
+    throw new BrowserAuthError("browser_login_requires_https");
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      "cloudflared",
+      ["access", "login", "--app", base.origin],
+      {
+        stdio: ["ignore", "pipe", "pipe"],
+        shell: false
+      }
+    );
+    let stdout = "", pending = "", failure;
+    const shown = /* @__PURE__ */ new Set();
+    function line(value) {
+      try {
+        const url = new URL(value.trim());
+        if (url.origin !== base.origin || url.pathname !== "/cdn-cgi/access/cli" || url.username || url.password || !url.searchParams.has("token"))
+          return;
+        if (!shown.has(url.href)) {
+          shown.add(url.href);
+          process.stderr.write(
+            "Open this URL on your phone to sign in:\n" + url.href + "\n"
+          );
+        }
+      } catch {
+      }
+    }
+    const timer = setTimeout(() => {
+      failure = "browser_login_timeout";
+      child.kill("SIGKILL");
+    }, timeoutSeconds * 1e3);
+    const cancel = () => {
+      failure = "browser_login_cancelled";
+      child.kill("SIGKILL");
+    };
+    process.once("SIGINT", cancel);
+    process.once("SIGTERM", cancel);
+    function cleanup() {
+      clearTimeout(timer);
+      process.removeListener("SIGINT", cancel);
+      process.removeListener("SIGTERM", cancel);
+    }
+    child.stdout.on("data", (data) => {
+      stdout += data.toString();
+      if (stdout.length > 65536) {
+        failure = "invalid_cloudflared_output";
+        child.kill("SIGKILL");
+      }
+    });
+    child.stderr.on("data", (data) => {
+      pending += data.toString();
+      const lines = pending.split(/\r?\n/);
+      pending = lines.pop();
+      for (const value of lines) line(value);
+      if (pending.length > 65536) {
+        failure = "invalid_cloudflared_output";
+        child.kill("SIGKILL");
+      }
+    });
+    child.once("error", (error) => {
+      cleanup();
+      reject(
+        new BrowserAuthError(
+          error.code === "ENOENT" ? "cloudflared_required" : "browser_login_failed"
+        )
+      );
+    });
+    child.once("close", (code) => {
+      cleanup();
+      line(pending);
+      if (failure || code !== 0)
+        return reject(new BrowserAuthError(failure || "browser_login_failed"));
+      const token = stdout.trim();
+      try {
+        tokenExpiry(token);
+        resolve(token);
+      } catch {
+        reject(new BrowserAuthError("invalid_cloudflared_output"));
+      }
+    });
+  });
+}
+
+// src/cli/main.ts
 var CliError = class extends Error {
   constructor(code, data) {
     super(String(data.error));
@@ -27,7 +187,8 @@ var strings = [
   "base-version",
   "message",
   "request-id",
-  "status"
+  "status",
+  "timeout"
 ];
 var options = Object.fromEntries([
   ...strings.map((name) => [
@@ -51,20 +212,52 @@ async function run() {
   const opt = (key) => values[key];
   if (values.help || positionals.length === 0) {
     console.log(
-      "art doctor [--json]\nart upload <file> (--slug <new> --title <title> | --artifact <id-or-slug> --expected-revision <n>)\nart list [--query <text>] [--tag <tag>] [--limit <n>] [--cursor <cursor>]\nart read|download|inspect|versions <id-or-slug> [--version current|<id>]\nart download <id-or-slug> --output <file> [--force]\nart comments list <id-or-slug> [--version <id>] [--status open|resolved|all]\nAuthentication: ART_BASE_URL, CF_ACCESS_CLIENT_ID, CF_ACCESS_CLIENT_SECRET (or ART_ACCESS_JWT)\n--json emits machine-readable JSON. Exit codes: 0 success, 1 input, 3 auth, 4 conflict, 5 connection, 6 content hash."
+      "art login [--timeout <seconds>] [--json]\nart logout [--json]\nart doctor [--json]\nart upload <file> (--slug <new> --title <title> | --artifact <id-or-slug> --expected-revision <n>)\nart list [--query <text>] [--tag <tag>] [--limit <n>] [--cursor <cursor>]\nart read|download|inspect|versions <id-or-slug> [--version current|<id>]\nart download <id-or-slug> --output <file> [--force]\nart comments list <id-or-slug> [--version <id>] [--status open|resolved|all]\nAuthentication: ART_BASE_URL, CF_ACCESS_CLIENT_ID, CF_ACCESS_CLIENT_SECRET (or ART_ACCESS_JWT)\n--json emits machine-readable JSON. Exit codes: 0 success, 1 input, 3 auth, 4 conflict, 5 connection, 6 content hash."
     );
     return;
   }
   const base = new URL(process.env.ART_BASE_URL ?? "http://127.0.0.1:8787");
   if (base.username || base.password || base.search || base.hash || base.pathname !== "/" || base.protocol !== "https:" && !(base.protocol === "http:" && ["127.0.0.1", "localhost", "[::1]"].includes(base.hostname)))
     fail("invalid_base_url");
+  const [command, argument, third] = positionals;
+  if (command === "logout") {
+    await deleteSession(base);
+    console.log(
+      JSON.stringify({
+        status: "ok",
+        baseUrl: base.origin,
+        message: "Saved art session removed; cloudflared cache and explicit credentials are unchanged."
+      })
+    );
+    return;
+  }
   const headers = {};
-  if (process.env.ART_ACCESS_JWT)
+  let authentication;
+  let loginToken;
+  if (command === "login") {
+    const timeout = Number(opt("timeout") ?? 600);
+    if (!Number.isInteger(timeout) || timeout < 1 || timeout > 1800)
+      fail("invalid_login_timeout");
+    loginToken = await browserLogin(base, timeout);
+    headers["cf-access-token"] = loginToken;
+    headers["Cf-Access-Jwt-Assertion"] = loginToken;
+    authentication = "browser";
+  } else if (process.env.ART_ACCESS_JWT) {
     headers["Cf-Access-Jwt-Assertion"] = process.env.ART_ACCESS_JWT;
-  else if (process.env.CF_ACCESS_CLIENT_ID && process.env.CF_ACCESS_CLIENT_SECRET) {
+    headers["cf-access-token"] = process.env.ART_ACCESS_JWT;
+    authentication = "jwt";
+  } else if (process.env.CF_ACCESS_CLIENT_ID && process.env.CF_ACCESS_CLIENT_SECRET) {
     headers["CF-Access-Client-Id"] = process.env.CF_ACCESS_CLIENT_ID;
     headers["CF-Access-Client-Secret"] = process.env.CF_ACCESS_CLIENT_SECRET;
-  } else fail("credentials_required", 3);
+    authentication = "service-token";
+  } else {
+    const session = await readSession(base);
+    if (!session) fail("credentials_required", 3);
+    headers["cf-access-token"] = session.token;
+    headers["Cf-Access-Jwt-Assertion"] = session.token;
+    headers["X-Art-Agent-Session"] = session.sessionId;
+    authentication = "browser";
+  }
   async function call(path, init = {}) {
     let response;
     try {
@@ -78,7 +271,10 @@ async function run() {
       fail("connection_failed", 5);
     }
     if (response.status >= 300 && response.status < 400)
-      fail("access_login_required", 3);
+      throw new CliError(3, {
+        error: "access_login_required",
+        action: "Run art login --json."
+      });
     if (!response.ok) {
       let data = { error: "request_failed" };
       try {
@@ -87,7 +283,11 @@ async function run() {
       }
       throw new CliError(
         [401, 403].includes(response.status) ? 3 : response.status === 409 ? 4 : response.status >= 500 ? 5 : 1,
-        { ...data, httpStatus: response.status }
+        {
+          ...data,
+          httpStatus: response.status,
+          ...authentication === "browser" && (response.status === 401 || data.error === "invalid_agent_session") ? { action: "Run art login --json." } : {}
+        }
       );
     }
     return response;
@@ -112,17 +312,30 @@ async function run() {
     if (data.artifacts.length !== 1) fail("artifact_not_found");
     return data.artifacts[0];
   }
-  const [command, argument, third] = positionals;
   let result;
-  if (command === "doctor") {
+  if (command === "login") {
+    const data = await api("/v1/agent-sessions", { method: "POST" });
+    if (data.principal?.kind !== "agent" || typeof data.sessionId !== "string" || !/^[0-9a-f-]{36}$/.test(data.sessionId))
+      fail("agent_session_required", 3);
+    await saveSession(base, loginToken, data.sessionId);
+    result = {
+      status: "ok",
+      baseUrl: base.origin,
+      authentication,
+      principal: data.principal,
+      expiresAt: new Date(tokenExpiry(loginToken) * 1e3).toISOString()
+    };
+  } else if (command === "doctor") {
     const data = await api("/v1/me");
     if (!data.principal || !["agent", "human"].includes(data.principal.kind) || typeof data.principal.id !== "string")
       fail("invalid_response", 5);
+    if (authentication === "browser" && data.principal.kind !== "agent")
+      fail("agent_session_required", 3);
     result = {
       status: "ok",
       baseUrl: base.origin,
       nodeVersion: process.versions.node,
-      authentication: process.env.ART_ACCESS_JWT ? "jwt" : "service-token",
+      authentication,
       principal: data.principal
     };
   } else if (command === "list") {
@@ -138,7 +351,7 @@ async function run() {
   } else if (command === "upload") {
     if (!argument) fail("file_required");
     if ((await stat(argument)).size > 10 * 1024 * 1024) fail("body_too_large");
-    const html = await readFile(argument);
+    const html = await readFile2(argument);
     if (opt("artifact") && opt("slug") || !opt("artifact") && !opt("slug"))
       fail("choose_new_slug_or_existing_artifact");
     let artifact, revision;
@@ -162,7 +375,7 @@ async function run() {
     const params = new URLSearchParams({ expectedRevision: revision });
     if (opt("base-version")) params.set("baseVersionId", opt("base-version"));
     if (opt("message")) params.set("message", opt("message"));
-    const requestId = opt("request-id") ?? randomUUID();
+    const requestId = opt("request-id") ?? randomUUID2();
     try {
       result = await api(`/v1/artifacts/${artifact.id}/versions?${params}`, {
         method: "POST",
@@ -212,12 +425,12 @@ async function run() {
       } catch {
         fail("connection_failed", 5);
       }
-      const hash = createHash("sha256").update(bytes).digest("hex");
+      const hash = createHash2("sha256").update(bytes).digest("hex");
       if (hash !== response.headers.get("X-Content-SHA256"))
         fail("content_hash_mismatch", 6);
       if (command === "download") {
         if (!opt("output")) fail("output_required");
-        await writeFile(opt("output"), bytes, {
+        await writeFile2(opt("output"), bytes, {
           flag: values.force ? "w" : "wx"
         });
         result = {
@@ -244,8 +457,12 @@ async function run() {
   console.log(JSON.stringify(result, null, asJson ? void 0 : 2));
 }
 run().catch((error) => {
-  const data = error instanceof CliError ? error.data : { error: "invalid_input_or_file" };
+  const data = error instanceof CliError ? error.data : error instanceof BrowserAuthError ? {
+    error: error.code,
+    action: "Run art login --json (install cloudflared first if missing)."
+  } : { error: "invalid_input_or_file" };
   if (asJson) console.log(JSON.stringify(data));
-  else console.error(String(data.error));
-  process.exitCode = error instanceof CliError ? error.code : 1;
+  else
+    console.error([String(data.error), data.action].filter(Boolean).join("\n"));
+  process.exitCode = error instanceof CliError ? error.code : error instanceof BrowserAuthError ? 3 : 1;
 });
