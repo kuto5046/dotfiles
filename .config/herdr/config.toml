@@ -1,10 +1,14 @@
+onboarding = false
 [keys]
 prefix = "ctrl+a"
+settings = "prefix+comma"
+workspace_picker = "prefix+s"
+goto = "prefix+g"
 split_vertical = "prefix+v"
 split_horizontal = "prefix+minus"
 
 [ui.toast]
-delivery = "system"
+delivery = "herdr"
 
 [ui]
 show_agent_labels_on_pane_borders = true
@@ -15,5 +19,5 @@ switch_ascii_input_source_in_prefix = true
 pane_history = true
 
 [theme]
-name = "catppuccin"
+name = "tokyo-night"
 auto_switch = false

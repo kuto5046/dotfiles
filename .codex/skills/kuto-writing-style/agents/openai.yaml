@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kuto Writing Style"
+  short_description: "kutoらしい文体で日本語技術記事を執筆・推敲する"
+  default_prompt: "Use $kuto-writing-style to turn these notes into a Japanese technical article in my established writing style."
