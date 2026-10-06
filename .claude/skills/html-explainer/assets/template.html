@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>【2〜4語の名前】</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+New:wght@700&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* 【レイアウトを1行で】例: 1カラムの読み物。決まったこと → 前提 → 本体（部ごと）→ 持ち越した論点 */
+:root{
+  --bg:#f4f5f3; --surface:#ffffff; --fg:#1c2220; --muted:#5a6560; --line:#d5dbd7; --accent:#2c4a86;
+  --ok:#2e7a4f; --idea:#2f6d9c; --hot:#b3306e; --later:#6b7480;
+  --z1:#2f6d9c; --z2:#6a4f9e; --z3:#9a6227; --z4:#4b5560;
+  --tint:8%;
+  --f-display:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131816; --surface:#1b211f; --fg:#e4e9e6; --muted:#9ba7a1; --line:#313a36; --accent:#8fb0ee;
+  --ok:#6cc495; --idea:#6ea8d6; --hot:#ee7fb3; --later:#a2adb6;
+  --z1:#6ea8d6; --z2:#a993d8; --z3:#d39b5e; --z4:#a2adb6;
+  --tint:14%; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131816; --surface:#1b211f; --fg:#e4e9e6; --muted:#9ba7a1; --line:#313a36; --accent:#8fb0ee;
+  --ok:#6cc495; --idea:#6ea8d6; --hot:#ee7fb3; --later:#a2adb6;
+  --z1:#6ea8d6; --z2:#a993d8; --z3:#d39b5e; --z4:#a2adb6;
+  --tint:14%; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.8;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:36px 96px}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;line-height:1.4;margin:0}
+h1{font-size:clamp(23px,3.2vw,30px)}
+h2{font-size:21px}
+h3{font-size:16.5px}
+p{margin:0;max-width:72ch}
+ul,ol{margin:0;padding-left:1.3em;max-width:76ch}
+li+li{margin-top:4px}
+a{color:var(--accent)}
+header{display:flex;flex-direction:column;gap:12px;padding-bottom:22px}
+section{display:flex;flex-direction:column;gap:16px;padding-block:30px;border-top:1px solid var(--line)}
+.sub{display:flex;flex-direction:column;gap:12px;padding-top:8px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.lead{color:var(--muted)}
+.note{font-size:13px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px}
+nav.toc{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+nav.toc a{text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+.toc-row{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;width:100%}
+.toc-k{font-family:var(--f-display);font-size:12.5px;color:var(--muted);min-width:9em}
+
+/* 状態の札 */
+.tag{display:inline-block;font-family:var(--f-display);font-size:11.5px;line-height:1;padding:4px 7px 3px;border-radius:3px;white-space:nowrap;vertical-align:1px;
+  color:var(--tc);background:color-mix(in srgb,var(--tc) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--tc) 45%,transparent)}
+.t-ok{--tc:var(--ok)} .t-idea{--tc:var(--idea)} .t-hot{--tc:var(--hot)} .t-later{--tc:var(--later)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted);align-items:center}
+
+/* 決まったこと */
+.decisions{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.dc{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.dc h4{font-size:14.5px}
+.dc p{font-size:13.5px;color:var(--muted)}
+h3.grp{font-size:14px;color:var(--muted);margin-top:4px}
+
+/* 部の区切り */
+.part{display:flex;flex-direction:column;gap:6px;margin-top:28px;padding:20px 22px;border-radius:6px;
+  background:color-mix(in srgb,var(--accent) var(--tint),var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.part-k{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;color:var(--accent)}
+.part-t{font-size:clamp(20px,2.6vw,24px)}
+.part-d{color:var(--muted);font-size:14px}
+.part+section{border-top:none}
+
+/* 付箋 */
+.stickies{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.st{background:color-mix(in srgb,var(--z3) var(--tint),var(--surface));border:1px solid color-mix(in srgb,var(--z3) 35%,transparent);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.st b{font-family:var(--f-display);font-size:13px;color:var(--z3)}
+.st span{font-size:13.5px}
+
+/* 表 */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.65;background:var(--surface);font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+thead th{font-family:var(--f-display);background:color-mix(in srgb,var(--accent) 8%,var(--surface));white-space:nowrap}
+tbody th{font-family:var(--f-display);font-weight:700}
+table.w{min-width:760px}
+td.c{white-space:nowrap}
+
+/* 図 */
+.fig{margin:0;display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;min-width:0}
+.fig-scroll{overflow-x:auto}
+figcaption{font-size:13px;color:var(--muted)}
+.figh{font-size:14px;color:var(--muted);padding:6px 2px 0}
+.d{display:block;width:100%;height:auto}
+.d .zn{fill:color-mix(in srgb,var(--zc) var(--tint),var(--surface));stroke:color-mix(in srgb,var(--zc) 45%,transparent)}
+.d .zl{fill:var(--zc);font-family:var(--f-display);font-weight:700;font-size:12.5px}
+.z1{--zc:var(--z1)} .z2{--zc:var(--z2)} .z3{--zc:var(--z3)} .z4{--zc:var(--z4)}
+.d .bx{fill:var(--surface);stroke:color-mix(in srgb,var(--fg) 30%,transparent)}
+.d .bx.dash{stroke-dasharray:5 4}
+.d .bx.hot{fill:color-mix(in srgb,var(--hot) 9%,var(--surface));stroke:color-mix(in srgb,var(--hot) 55%,transparent)}
+.d .bx.ok{fill:color-mix(in srgb,var(--ok) 9%,var(--surface));stroke:color-mix(in srgb,var(--ok) 55%,transparent)}
+.d .bx.lean{fill:color-mix(in srgb,var(--idea) 10%,var(--surface));stroke:color-mix(in srgb,var(--idea) 60%,transparent);stroke-width:1.5}
+.d .bx.mute{fill:var(--surface);stroke:color-mix(in srgb,var(--fg) 25%,transparent);stroke-dasharray:5 4}
+.d .bt{fill:var(--fg);font-family:var(--f-body);font-weight:700;font-size:12.5px}
+.d .bt.mute{fill:var(--muted)}
+.d .bs{fill:var(--muted);font-family:var(--f-body);font-size:11px}
+.d .ar{stroke:var(--muted);stroke-width:1.4;fill:none}
+.d .ar.dash{stroke-dasharray:4 4}
+.d .mk{fill:var(--muted)}
+.d .al{fill:var(--muted);font-family:var(--f-body);font-size:11px;paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+
+/* 手順 */
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;counter-reset:s;max-width:none}
+.steps li{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px 11px;display:flex;flex-direction:column;gap:3px;counter-increment:s;min-width:0}
+.steps li::before{content:counter(s);font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.steps li b{font-size:13.5px}
+.steps li span{font-size:12.8px;color:var(--muted);line-height:1.65}
+.steps li.u{border-color:color-mix(in srgb,var(--z1) 55%,transparent)}
+.steps li.u::before{content:counter(s) " ユーザー";color:var(--z1)}
+.steps li.a::before{content:counter(s) " エージェント";color:var(--z2)}
+
+/* 補足の箇条・対比の箱 */
+.points{display:flex;flex-direction:column;gap:8px;padding:0;list-style:none;max-width:80ch}
+.points li{margin:0;padding-left:14px;border-left:3px solid var(--line)}
+.points li.hot{border-left-color:color-mix(in srgb,var(--hot) 60%,transparent)}
+.points li.ok{border-left-color:color-mix(in srgb,var(--ok) 60%,transparent)}
+.points li.idea{border-left-color:color-mix(in srgb,var(--idea) 60%,transparent)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.box h4{font-size:14.5px}
+.box p,.box li{font-size:13.5px}
+
+@media (max-width:560px){.wrap{padding-inline:16px}}
+</style>
+</head><body>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">【所属 · 題材 · 種類 · YYYY-MM-DD】</div>
+  <h1>【ページの見出し】</h1>
+  <p class="lead">【何を話し、何を決めたかを2〜3文で】</p>
+  <div class="links">
+    <a href="【出典のURL】">【出典の名前】</a>
+  </div>
+  <div class="legend">
+    <span><span class="tag t-ok">合意</span> その場で合意した</span>
+    <span><span class="tag t-idea">案</span> 方向性は出たが詰めていない</span>
+    <span><span class="tag t-hot">未決</span> 意見が割れた・判断を保留した</span>
+    <span><span class="tag t-later">次回</span> 時間切れで扱えなかった</span>
+  </div>
+  <nav class="toc">
+    <div class="toc-row"><span class="toc-k">全体</span><a href="#decided">決まったこと</a></div>
+    <div class="toc-row"><span class="toc-k">第1部 【部の名前】</span><a href="#flow">【節の名前】</a><a href="#compare">【節の名前】</a></div>
+    <div class="toc-row"><span class="toc-k">第2部 【部の名前】</span><a href="#premise">【節の名前】</a><a href="#steps">【節の名前】</a><a href="#open">持ち越した論点</a></div>
+  </nav>
+</header>
+
+<section id="decided">
+  <h2>決まったこと</h2>
+  <h3 class="grp">第1部 【部の名前】</h3>
+  <div class="decisions">
+    <div class="dc"><h4><span class="tag t-ok">合意</span> 【決まったことを1行で】</h4><p>【理由や範囲を1〜2文で】</p></div>
+  </div>
+  <h3 class="grp">第2部 【部の名前】</h3>
+  <div class="decisions">
+    <div class="dc"><h4><span class="tag t-ok">合意</span> 【決まったことを1行で】</h4><p>【理由や範囲を1〜2文で】</p></div>
+  </div>
+</section>
+
+<div class="part" id="part1">
+  <div class="part-k">第1部</div>
+  <h2 class="part-t">【部の名前】</h2>
+  <p class="part-d">【この部で扱う範囲を1文で】</p>
+</div>
+
+<section id="flow">
+  <h2>【流れの名前】</h2>
+  <p>【流れの要点を1〜2文で】</p>
+  <figure class="fig">
+    <h3 class="figh">【段の名前（2段に分けるとき）】</h3>
+    <div class="fig-scroll"><svg class="d" viewBox="0 0 1000 320" style="min-width:820px" role="img" aria-label="【図の主張を1〜2文で】">
+      <defs><marker id="c1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+      <rect class="zn z1" x="4" y="8" width="992" height="124" rx="6"/><text class="zl z1" x="12" y="28">【登場人物A】</text>
+      <rect class="zn z2" x="4" y="140" width="992" height="172" rx="6"/><text class="zl z2" x="12" y="160">【登場人物B】</text>
+
+      <rect class="bx" x="84" y="30" width="140" height="80" rx="4"/><text class="bt" x="94" y="52">【Aの行動】</text><text class="bs" x="94" y="72">【補足】</text>
+      <rect class="bx" x="84" y="160" width="140" height="72" rx="4"/><text class="bt" x="94" y="184">【判定】</text>
+      <line class="ar" x1="154" y1="110" x2="154" y2="159" marker-end="url(#c1)"/>
+
+      <rect class="bx mute" x="250" y="236" width="140" height="64" rx="4"/><text class="bt mute" x="260" y="258">【見送った案】</text><text class="bs" x="260" y="276">【補足】</text>
+      <line class="ar" x1="224" y1="184" x2="415" y2="184" marker-end="url(#c1)"/><text class="al" x="320" y="178" text-anchor="middle">【条件1】</text>
+      <path class="ar dash" d="M224,214 H237 V268 H249" marker-end="url(#c1)"/><text class="al" x="232" y="250" text-anchor="end">【条件2】</text>
+
+      <rect class="bx lean" x="416" y="160" width="140" height="72" rx="4"/><text class="bt" x="426" y="184">【Bの処理】</text><text class="bs" x="426" y="204">【補足】</text>
+      <rect class="bx" x="582" y="30" width="140" height="80" rx="4"/><text class="bt" x="592" y="52">【Aが確認】</text><text class="bt" x="592" y="70">【または修正指示】</text>
+      <path class="ar" d="M556,196 H569 V70 H581" marker-end="url(#c1)"/>
+      <path class="ar" d="M652,110 V262 H486 V233" marker-end="url(#c1)"/><text class="al" x="569" y="266" text-anchor="middle">修正指示</text>
+
+      <rect class="bx ok" x="748" y="50" width="140" height="40" rx="20"/><text class="bt" x="818" y="75" text-anchor="middle">【到達点】</text>
+      <line class="ar" x1="722" y1="70" x2="747" y2="70" marker-end="url(#c1)"/><text class="al" x="734" y="62" text-anchor="middle">OK</text>
+    </svg></div>
+    <figcaption>図1 【図の主張】。【色・破線の意味】</figcaption>
+  </figure>
+</section>
+
+<section id="compare">
+  <h2>【比べた案の名前】</h2>
+  <p>【比べた理由と結論を2〜3文で】</p>
+  <div class="two">
+    <div class="box">
+      <h4>案1　【案の名前】 <span class="tag t-later">見送り寄り</span></h4>
+      <ul><li>【理由】</li></ul>
+    </div>
+    <div class="box">
+      <h4>案2　【案の名前】 <span class="tag t-ok">有力</span></h4>
+      <ul><li>【理由】</li></ul>
+    </div>
+  </div>
+  <ul class="points">
+    <li class="idea">【補足】</li>
+  </ul>
+</section>
+
+<div class="part" id="part2">
+  <div class="part-k">第2部</div>
+  <h2 class="part-t">【部の名前】</h2>
+  <p class="part-d">【この部で扱う範囲を1文で】</p>
+</div>
+
+<section id="premise">
+  <h2>【前提・目的の節】</h2>
+  <div class="stickies">
+    <div class="st"><b>【付箋の見出し】</b><span>【付箋の中身】</span></div>
+  </div>
+  <div class="tbl"><table class="w">
+    <thead><tr><th>【項目】</th><th>状態</th><th>【補足】</th></tr></thead>
+    <tbody>
+      <tr><th>【項目名】</th><td class="c"><span class="tag t-ok">合意</span></td><td>【内容】</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="steps">
+  <h2>【手順の名前】</h2>
+  <ol class="steps">
+    <li class="u"><b>【ユーザーの行動】</b><span>【補足】</span></li>
+    <li class="a"><b>【エージェントの行動】</b><span>【補足】</span></li>
+  </ol>
+</section>
+
+<section id="open">
+  <h2>持ち越した論点</h2>
+  <div class="tbl"><table class="w">
+    <thead><tr><th>論点</th><th>状態</th><th>今の考え</th></tr></thead>
+    <tbody>
+      <tr><th>【論点】</th><td class="c"><span class="tag t-hot">未決</span></td><td>【今の考え】</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+
+</body></html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Explainer"
+  short_description: "Summarize meetings, designs, or code in one HTML page with diagrams"
+  default_prompt: "Use $html-explainer to summarize this into a single HTML page with diagrams."
