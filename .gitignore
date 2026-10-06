@@ -100,6 +100,11 @@
 
 # codex
 !/.codex/
+!/.codex/skills/frontend-design/
+!/.codex/skills/frontend-design/**
+!/.codex/skills/kuto-writing-style/
+!/.codex/skills/kuto-writing-style/**
+!/.codex/skills/art/**
 /.codex/vendor_imports/skills/
 
 

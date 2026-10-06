@@ -1,0 +1,4 @@
+interface:
+  display_name: "art"
+  short_description: "Set up art and upload, retrieve, or revise HTML artifacts"
+  default_prompt: "Use $art to check my connection and carry out the requested artifact operation."
