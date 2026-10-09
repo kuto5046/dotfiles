@@ -16,6 +16,7 @@ class Collector(HTMLParser):
         self.ids = []
         self.hrefs = []
         self.has_title = False
+        self.pending_math = 0
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -25,6 +26,8 @@ class Collector(HTMLParser):
             self.hrefs.append(a["href"][1:])
         if tag == "title":
             self.has_title = True
+        if tag == "script" and a.get("type", "").lower().startswith("math/tex"):
+            self.pending_math += 1
 
 
 def main(path):
@@ -44,6 +47,8 @@ def main(path):
         problems.append(f"プレースホルダが残っている: {len(left)} 件（例: {left[0]}）")
     if not c.has_title:
         problems.append("<title> が無い")
+    if c.pending_math:
+        problems.append(f"未組版の数式が残っている: {c.pending_math} 件（render_math.mjs で完成版を生成する）")
 
     for p in problems:
         print("NG", p)
