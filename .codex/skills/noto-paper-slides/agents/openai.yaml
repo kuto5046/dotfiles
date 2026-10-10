@@ -1,0 +1,6 @@
+interface:
+  display_name: "Noto Paper Slides"
+  short_description: "本文を画像生成する洗練されたNoto形式の論文スライド"
+  default_prompt: "Use $noto-paper-slides to turn this paper into a calm Japanese research presentation with editable slide chrome and image-generated content regions."
+policy:
+  allow_implicit_invocation: true
