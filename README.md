@@ -15,8 +15,7 @@ npm run skills:install  # グローバル導入・ローカル変更の再導入
 npm run skills:list
 ```
 
-共通 skill は `~/.agents/skills/` と Claude Code 側のリンクで共有します。
-Claude 固有の skill は Claude 側だけに配置します。
+個人用の8個の skill は `~/.agents/skills/` と Claude Code 側のリンクで共有します。
 詳しい編集・追加手順は専用リポジトリの README を参照してください。
 専用リポジトリ: [kuto5046/skills](https://github.com/kuto5046/skills)（非公開）。
 新しい PC では、この dotfiles の隣に専用リポジトリを clone してから上記を実行します。
