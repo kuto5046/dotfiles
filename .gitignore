@@ -100,17 +100,13 @@
 
 # codex
 !/.codex/
-!/.codex/skills/frontend-design/
-!/.codex/skills/frontend-design/**
-!/.codex/skills/kuto-writing-style/
-!/.codex/skills/kuto-writing-style/**
-!/.codex/skills/noto-paper-slides/
-!/.codex/skills/noto-paper-slides/**
-!/.codex/skills/art/**
 /.codex/vendor_imports/skills/
-
 
 # 個別で除く
 package.json
 packer_compiled.lua
 lazy-lock.json
+
+# Personal skills are maintained in the separate skills repository.
+/.claude/skills/**
+/.codex/skills/**
